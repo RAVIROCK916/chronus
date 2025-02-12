@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### ChatGPT
 
-## Getting Started
+https://chatgpt.com/c/6790733d-f3e8-8000-b1d0-333a098f89aa
 
-First, run the development server:
+# Frontend
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Pages
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Overview
+- Dashboard
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Backend
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Routes
 
-## Learn More
+- POST /api/auth/login - Login
+- POST /api/auth/register - Register
+- POST /api/auth/logout - Logout
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- GET /api/user/getAll - Get all users
+- GET /api/user/get/:id - Get user by id
+- POST /api/user/create - Create user
+- PATCH /api/user/update/:id - Update user by id
+- DELETE /api/user/delete/:id - Delete user by idPOST
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+- GET /api/task/getAll - Get all tasks
+- GET /api/task/get/:id - Get task by id
+- POST /api/task/create - Create task
+- PATCH /api/task/update/:id - Update task by id
+- DELETE /api/task/delete/:id - Delete task by id
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- GET /api/project/getAll - Get all projects
+- GET /api/project/get/:id - Get project by id
+- POST /api/project/create - Create project
+- PATCH /api/project/update/:id - Update project by id
+- DELETE /api/project/delete/:id - Delete project by id
+
+---
+
+# Tech Stack
+
+### Frontend
+
+- [Next.js](https://nextjs.org/)
+- [React](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Axios](https://github.com/axios/axios)
+
+### Backend
+
+- [Bun](https://bun.sh/)
+- [GraphQL](https://graphql.org/)
+- [Apollo Server](https://www.apollographql.com/)
+
+### Database
+
+- [PostgreSQL](https://www.postgresql.org/)
+- [Drizzle ORM](https://www.drizzle.team/)

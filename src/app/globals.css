@@ -7,7 +7,7 @@
     --foreground: 240 10% 3.9%;
     --light-gray: 0, 0%, 96%;
     --text-gray: 231, 5%, 48%;
-    --background-gray: rgb(230, 230, 230, 0.4);
+    --background-gray: 0 5% 95%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
@@ -35,6 +35,9 @@
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
+    --light-gray: 240 10% 3.9%;
+    --text-gray: 0 0% 88%;
+    --background-gray: 0 0% 8%;
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;

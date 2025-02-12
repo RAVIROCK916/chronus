@@ -10,6 +10,7 @@ export const resolvers = {
   },
   Mutation: {
     createUser,
+    loginUser,
     updateNameOfUser,
   },
 };
@@ -37,6 +38,26 @@ async function createUser(
     .returning();
   console.log({ user });
   return user[0];
+}
+
+async function loginUser(
+  _: any,
+  { email, password }: { email: string; password: string },
+) {
+  const user = await db
+    .select()
+    .from(userTable)
+    .where(eq(userTable.email, email));
+  console.log({ user });
+  if (user[0]) {
+    const password_hash = user[0].password_hash;
+    const isPasswordCorrect = await bcrypt.compare(password, password_hash);
+    if (isPasswordCorrect) {
+      return user[0];
+    }
+  } else {
+    return null;
+  }
 }
 
 async function updateNameOfUser(
