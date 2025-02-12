@@ -51,7 +51,7 @@ https://chatgpt.com/c/6790733d-f3e8-8000-b1d0-333a098f89aa
 - [React](https://reactjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
-- [Axios](https://github.com/axios/axios)
+- [React Redux](https://react-redux.js.org/)
 
 ### Backend
 

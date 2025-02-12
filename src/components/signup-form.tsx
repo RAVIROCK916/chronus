@@ -18,8 +18,8 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
 import { Eye, EyeSlash } from "@phosphor-icons/react";
-import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
+import LoaderButton from "./loader-button";
 
 const formSchema = z
   .object({
@@ -150,14 +150,7 @@ const SignupForm = () => {
               )}
             />
             {loading ? (
-              <Button disabled className="w-full">
-                <LoaderCircle
-                  className="-ms-1 me-2 animate-spin"
-                  size={16}
-                  strokeWidth={2}
-                  aria-hidden="true"
-                />
-              </Button>
+              <LoaderButton />
             ) : (
               <Button type="submit" className="w-full">
                 Sign up

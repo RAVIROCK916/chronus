@@ -17,6 +17,8 @@ import { Input } from "./ui/input";
 
 import { Eye, EyeSlash } from "@phosphor-icons/react";
 import { gql, useMutation } from "@apollo/client";
+import { useRouter } from "next/navigation";
+import LoaderButton from "./loader-button";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -25,7 +27,7 @@ const formSchema = z.object({
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [loginUser] = useMutation(gql`
+  const [loginUser, { loading }] = useMutation(gql`
     mutation LoginUser($email: String!, $password: String!) {
       loginUser(email: $email, password: $password) {
         id
@@ -36,6 +38,8 @@ const LoginForm = () => {
       }
     }
   `);
+
+  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -48,12 +52,15 @@ const LoginForm = () => {
 
   async function handleSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    loginUser({
+    const response = await loginUser({
       variables: {
         email: values.email,
         password: values.password,
       },
     });
+    if (response.data.loginUser) {
+      router.push("/dashboard");
+    }
   }
 
   return (
@@ -116,9 +123,13 @@ const LoginForm = () => {
               )}
             />
 
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
+            {loading ? (
+              <LoaderButton />
+            ) : (
+              <Button type="submit" className="w-full">
+                Login
+              </Button>
+            )}
           </form>
         </Form>
       </div>
