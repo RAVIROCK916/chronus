@@ -30,3 +30,5 @@ export const sidebarItems = [
     icon: Settings,
   },
 ];
+
+export const IMAGE_PLACEHOLDER_URL = "https://github.com/shadcn.png";

@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 import "../fonts.css";
 
-import { ThemeProvider } from "@/components/theme-provider";
-import ApolloWrapper from "@/components/apollo-wrapper";
+import { Providers } from "@/components/providers";
 
 export const metadata: Metadata = {
   title: "Chronus",
@@ -16,14 +15,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ApolloWrapper>
-      <html lang="en" suppressHydrationWarning={true}>
-        <body className="dark bg-background text-foreground">
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-            {children}
-          </ThemeProvider>
-        </body>
-      </html>
-    </ApolloWrapper>
+    <html lang="en" suppressHydrationWarning={true}>
+      <body className="dark bg-background text-foreground">
+        <Providers>{children}</Providers>
+      </body>
+    </html>
   );
 }

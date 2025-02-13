@@ -19,6 +19,7 @@ import { Eye, EyeSlash } from "@phosphor-icons/react";
 import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import LoaderButton from "./loader-button";
+import { setProfile } from "@/state/features/profile/profileSlice";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -59,6 +60,7 @@ const LoginForm = () => {
       },
     });
     if (response.data.loginUser) {
+      setProfile(response.data.loginUser);
       router.push("/dashboard");
     }
   }
