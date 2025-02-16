@@ -14,25 +14,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 import { Eye, EyeSlash } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
-import LoaderButton from "./loader-button";
-
-const formSchema = z
-  .object({
-    email: z.string().email("Invalid email address"),
-    password: z.string().min(4, "Password must be at least 8 characters"),
-    confirmPassword: z
-      .string()
-      .min(4, "Password must be at least 8 characters"),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
+import LoaderButton from "../shared/loader-button";
+import { toast } from "sonner";
+import { setProfile } from "@/state/features/profile/profileSlice";
+import { createSession } from "@/lib/session";
+import { useDispatch } from "react-redux";
+import { SignupFormSchema } from "@/lib/definitions";
 
 const SignupForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -47,9 +39,10 @@ const SignupForm = () => {
   `);
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(SignupFormSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -57,19 +50,29 @@ const SignupForm = () => {
     },
   });
 
-  async function handleSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    createUser({
+  async function handleSubmit(values: z.infer<typeof SignupFormSchema>) {
+    await createUser({
       variables: {
         email: values.email,
         password: values.password,
       },
     })
-      .then((res) => {
+      .then(async (res) => {
+        const signedUpUser = res.data.createUser;
+
+        // set user profile in state and redirect to onboarding
+        dispatch(setProfile(signedUpUser));
+        toast.success("User created successfully");
+
+        await createSession(signedUpUser.id);
         router.push("/onboarding");
       })
-      .catch((err) => console.log(err));
-    // console.log(res);
+      .catch((err) => {
+        toast.error("Something went wrong.", {
+          description: "Please try again",
+        });
+        console.log("error", err);
+      });
   }
 
   return (

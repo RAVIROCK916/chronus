@@ -12,19 +12,18 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 import { Eye, EyeSlash } from "@phosphor-icons/react";
 import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
-import LoaderButton from "./loader-button";
+import LoaderButton from "../shared/loader-button";
 import { setProfile } from "@/state/features/profile/profileSlice";
-
-const formSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-});
+import { toast } from "sonner";
+import { createSession } from "@/lib/session";
+import { useDispatch } from "react-redux";
+import { LoginFormSchema } from "@/lib/definitions";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -41,9 +40,10 @@ const LoginForm = () => {
   `);
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(LoginFormSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -51,18 +51,33 @@ const LoginForm = () => {
     },
   });
 
-  async function handleSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function handleSubmit(values: z.infer<typeof LoginFormSchema>) {
+    // send login request to server
     const response = await loginUser({
       variables: {
         email: values.email,
         password: values.password,
       },
     });
-    if (response.data.loginUser) {
-      setProfile(response.data.loginUser);
-      router.push("/dashboard");
+
+    const user = response.data.loginUser;
+
+    // if no user is returned, show error message and return
+    if (!response.data.loginUser) {
+      toast.error("Invalid email or password", {
+        description: "Please try again",
+      });
+      return;
     }
+
+    const loggedInUser = response.data.loginUser;
+
+    // set user profile in state and redirect to dashboard
+    dispatch(setProfile(loggedInUser));
+    toast.success("Login successful");
+
+    await createSession(loggedInUser.id);
+    router.push("/dashboard");
   }
 
   return (

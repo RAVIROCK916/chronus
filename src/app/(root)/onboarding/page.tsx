@@ -27,12 +27,10 @@ const OnboardingPage = () => {
       }
     }
   `);
-  console.log({ data });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const id = data.users[0].id;
-    console.log(id, name);
     updateNameOfUser({
       variables: {
         id,

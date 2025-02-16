@@ -1,7 +1,7 @@
 "use client";
 
-import Logo from "./logo";
-import AddButton from "./add-button";
+import Logo from "../shared/logo";
+import AddButton from "../shared/add-button";
 import { sidebarItems } from "@/constants";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -13,7 +13,7 @@ const Sidebar = () => {
     <div className="h-full w-72 space-y-4 p-4">
       <Logo />
       <div className="space-y-6">
-        <AddButton className="font-normal" />
+        <AddButton />
         <div className="space-y-1">
           {sidebarItems.map((item) => {
             const isActive = location === item.href;
@@ -21,7 +21,7 @@ const Sidebar = () => {
               <div
                 key={item.id}
                 className={cn(
-                  "rounded-md px-3 py-2.5 hover:bg-opacity-20",
+                  "rounded-md px-4 py-2.5 hover:bg-opacity-20",
                   isActive && "bg-backgroundGray",
                 )}
               >

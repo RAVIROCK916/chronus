@@ -1,6 +1,6 @@
 import Link from "next/link";
-import SignupForm from "@/components/signup-form";
-import Logo from "@/components/logo";
+import SignupForm from "@/components/main/signup-form";
+import Logo from "@/components/shared/logo";
 
 export default function SignupPage() {
   return (
