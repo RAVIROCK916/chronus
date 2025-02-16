@@ -1,24 +1,13 @@
-import type { Metadata } from "next";
-import "../globals.css";
-import "../fonts.css";
+import Sidebar from "@/components/main/side-bar";
+import Header from "@/components/main/header";
 
-import { Providers } from "@/components/providers";
-
-export const metadata: Metadata = {
-  title: "Chronus",
-  description: "A personal task management app",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
-      <body className="dark bg-background text-foreground">
-        <Providers>{children}</Providers>
-      </body>
-    </html>
+    <div className="flex h-screen w-screen pl-4 pt-4">
+      <Sidebar />
+      <Header />
+      <main className="">{children}</main>
+    </div>
   );
-}
+};
+export default RootLayout;
