@@ -4,14 +4,13 @@ import { createSlice } from "@reduxjs/toolkit";
 export const profileSlice = createSlice({
   name: "profile",
   initialState: {
+    profile: null,
     name: null,
     email: null,
     avatar: IMAGE_PLACEHOLDER_URL,
   },
   reducers: {
-    setProfile: (state, action) => {
-      state = action.payload;
-    },
+    setProfile: (state, action) => action.payload,
     setName: (state, action) => {
       state.name = action.payload;
     },
