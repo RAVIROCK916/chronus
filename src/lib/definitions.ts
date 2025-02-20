@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { Project } from "@/types";
 
 export const LoginFormSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -18,18 +19,23 @@ export const SignupFormSchema = z
     path: ["confirmPassword"],
   });
 
-export const CreateProjectFormSchema = z
-  .object({
-    name: z.string().min(1, "Project name is required"),
-    description: z.string().optional(),
-  })
-  .refine(
-    (data) => {
-      if (data.description) return data.description.length >= 3;
-      return true;
-    },
-    {
-      message: "Description must be at least 3 characters",
-      path: ["description"],
-    },
-  );
+export const createProjectFormSchema = (projects: Project[]) =>
+  z
+    .object({
+      name: z.string().trim().min(1, "Project name is required"),
+      description: z.string().optional(),
+    })
+    .refine((data) => !projects.find((project) => project.name === data.name), {
+      message: "Project name already exists",
+      path: ["name"],
+    })
+    .refine(
+      (data) => {
+        if (data.description) return data.description.length >= 3;
+        return true;
+      },
+      {
+        message: "Description must be at least 3 characters",
+        path: ["description"],
+      },
+    );

@@ -1,22 +1,26 @@
+import { useState } from "react";
+
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
 
+import { gql, useMutation } from "@apollo/client";
+
+import { Project } from "@/types";
+import { createProjectFormSchema } from "@/lib/definitions";
+
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
-import { useState } from "react";
 import {
   Form,
   FormField,
@@ -26,11 +30,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { gql, useMutation } from "@apollo/client";
-import { CreateProjectFormSchema } from "@/lib/definitions";
 import LoaderButton from "../shared/loader-button";
 
-const CreateProjectDialog = () => {
+type CreateProjectDialogProps = {
+  projects: Project[];
+  handleAddProject: (project: any) => void;
+};
+
+const CreateProjectDialog = ({
+  projects,
+  handleAddProject,
+}: CreateProjectDialogProps) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [createProject, { loading }] = useMutation(gql`
     mutation CreateProject($name: String!, $description: String) {
       createProject(name: $name, description: $description) {
@@ -43,14 +54,17 @@ const CreateProjectDialog = () => {
   `);
 
   const form = useForm({
-    resolver: zodResolver(CreateProjectFormSchema),
+    resolver: zodResolver(createProjectFormSchema(projects)),
     defaultValues: {
       name: "",
       description: "",
     },
   });
 
-  async function handleSubmit(values: z.infer<typeof CreateProjectFormSchema>) {
+  async function handleSubmit(
+    values: z.infer<ReturnType<typeof createProjectFormSchema>>,
+  ) {
+    setIsDialogOpen(false);
     // send login request to server
     const response = await createProject({
       variables: {
@@ -61,7 +75,9 @@ const CreateProjectDialog = () => {
 
     const project = response.data.createProject;
 
-    // if no user is returned, show error message and return
+    handleAddProject(project);
+
+    // if project is not created properly, show error message and return
     if (!response.data.createProject) {
       toast.error("Invalid project name or description", {
         description: "Please try again",
@@ -73,11 +89,11 @@ const CreateProjectDialog = () => {
   }
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">Create Project</Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle className="font-medium tracking-wide">
             Create a new project
@@ -122,11 +138,7 @@ const CreateProjectDialog = () => {
               {loading ? (
                 <LoaderButton />
               ) : (
-                <Button
-                  type="submit"
-                  className="flex-1 font-medium"
-                  disabled={form.getValues().name === ""}
-                >
+                <Button type="submit" className="flex-1 font-medium">
                   Create
                 </Button>
               )}

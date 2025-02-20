@@ -4,6 +4,7 @@ import { and, eq } from "drizzle-orm";
 import bcrypt from "bcrypt";
 import { decryptSession } from "@/lib/session";
 import { JWTPayload } from "jose";
+import { contextType } from "@/types/graphql";
 
 export const resolvers = {
   Query: {
@@ -18,6 +19,8 @@ export const resolvers = {
     updateNameOfUser,
     verifySession,
     createProject,
+    deleteProject,
+    addTask,
   },
 };
 
@@ -111,9 +114,11 @@ async function verifySession(_: any, { sessionId }: { sessionId: string }) {
   }
 }
 
+/* Projects */
+
 async function createProject(
   _: any,
-  { name, description }: { userId: string; name: string; description: string },
+  { name, description }: { name: string; description: string },
   context: any,
 ) {
   const project = await db
@@ -124,21 +129,32 @@ async function createProject(
   return project[0];
 }
 
-// async function createTask(
-//   _: any,
-//   { name, description }: { name: string; description: string },
-// ) {
-//   const user = await db
-//     .select()
-//     .from(userTable)
-//     .where(eq(userTable.id, sessionTable.user_id));
-//   if (!user[0]) {
-//     throw new Error("User not found");
-//   }
-//   const userId = user[0].id;
-//   const task = await db
-//     .insert(taskTable)
-//     .values({ name, description, user_id: userId })
-//     .returning();
-//   return task[0];
-// }
+async function deleteProject(_: any, { id }: { id: string }) {
+  const project = await db
+    .delete(projectTable)
+    .where(eq(projectTable.id, id))
+    .returning();
+  return project[0];
+}
+
+/* Tasks */
+
+async function addTask(
+  _: any,
+  {
+    projectId,
+    name,
+    description,
+  }: { projectId: string; name: string; description: string },
+  context: contextType,
+) {
+  const userId = context.userId;
+  if (!userId) {
+    throw new Error("You are not authorized to create a task");
+  }
+  const task = await db
+    .insert(taskTable)
+    .values({ name, description, user_id: userId, project_id: projectId })
+    .returning();
+  return task[0];
+}

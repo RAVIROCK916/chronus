@@ -46,5 +46,7 @@ export const typeDefs = gql`
     updateNameOfUser(id: ID!, name: String!): User
     verifySession(sessionId: String!): Boolean
     createProject(name: String!, description: String): Project
+    deleteProject(id: ID!): Project
+    addTask(projectId: ID!, name: String!): Task
   }
 `;
