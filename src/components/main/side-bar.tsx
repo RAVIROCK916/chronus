@@ -10,10 +10,9 @@ import Link from "next/link";
 const Sidebar = () => {
   const location = usePathname();
   return (
-    <div className="h-full w-72 space-y-4 p-4">
+    <div className="h-full min-w-64 space-y-4 p-4">
       <Logo />
       <div className="space-y-6">
-        <AddButton />
         <div className="space-y-1">
           {sidebarItems.map((item) => {
             const isActive = location === item.href;

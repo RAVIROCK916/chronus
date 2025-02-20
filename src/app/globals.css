@@ -33,11 +33,11 @@
     --radius: 0.5rem;
   }
   .dark {
-    --background: 240 10% 3.9%;
+    --background: 0 0% 2%;
     --foreground: 0 0% 98%;
     --light-gray: 240 10% 3.9%;
-    --text-gray: 0 0% 88%;
-    --background-gray: 0 0% 8%;
+    --text-gray: 0 0% 50%;
+    --background-gray: 0 0% 4%;
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
@@ -67,14 +67,6 @@
     @apply border-border;
   }
   body {
-    @apply bg-background font-helveticaneue text-foreground;
-  }
-}
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background font-normal tracking-wide text-foreground dark:font-light;
+    @apply bg-background text-foreground;
   }
 }

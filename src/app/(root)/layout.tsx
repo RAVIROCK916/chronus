@@ -6,7 +6,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
     <div className="flex h-screen w-screen pl-4 pt-4">
       <Sidebar />
       <Header />
-      <main className="">{children}</main>
+      <main className="pl-8 pt-4">{children}</main>
     </div>
   );
 };
