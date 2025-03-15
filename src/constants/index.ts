@@ -2,11 +2,13 @@ import { FolderClosed, Home, LayoutIcon, Settings } from "lucide-react";
 
 export const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
+export const publicRoutes = ["/login", "/signup", "/"];
+
 export const sidebarItems = [
   {
     id: 1,
     name: "Overview",
-    href: "/",
+    href: "/overview",
     icon: Home,
   },
   {

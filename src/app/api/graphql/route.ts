@@ -6,17 +6,29 @@ import { resolvers } from "./schema/resolvers";
 import { NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import { decryptSession } from "@/lib/session";
+import { JWTPayload } from "jose";
 
 const server = new ApolloServer({ typeDefs, resolvers });
+
+interface SessionPayload extends JWTPayload {
+  userId?: string;
+  sessionId?: string;
+}
 
 const handler = startServerAndCreateNextHandler(server, {
   context: async (req: NextRequest) => {
     const token = cookies().get("sessionId")?.value || "";
     // if there is no token, return an empty object
-    if (!token) return {};
+    if (!token)
+      return {
+        userId: "",
+        sessionId: "",
+      };
 
-    const decryptedToken = await decryptSession(token);
-    return { userId: decryptedToken?.userId };
+    const decryptedToken = (await decryptSession(
+      token,
+    )) as SessionPayload | null;
+    return { userId: decryptedToken?.userId || "" };
   },
 });
 

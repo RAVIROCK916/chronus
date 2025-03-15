@@ -3,11 +3,45 @@
 @tailwind utilities;
 @layer base {
   :root {
+    /* ======= Base Colors ======= */
+    --color-black: 0 0% 0%;
+    --color-white: 0 0% 100%;
+    --color-background: 0 0% 100%;
+    --color-foreground: 0 0% 0%;
+
+    /* ======= Text Shades ======= */
+    --text-primary: 0 0% 5%;
+    --text-secondary: 0 0% 20%;
+    --text-tertiary: 0 0% 40%;
+    --text-muted: 0 0% 65%;
+
+    /* ======= Background Shades ======= */
+    --background-primary: 0 0% 100%;
+    --background-secondary: 0 0% 96%;
+    --background-tertiary: 0 0% 90%;
+    --background-muted: 0 0% 85%;
+
+    /* Neutral */
+    --neutral-50: 0 0% 98%;
+    --neutral-100: 0 0% 96.1%;
+    --neutral-200: 0 0% 89.8%;
+    --neutral-300: 0 0% 83.1%;
+    --neutral-400: 0 0% 63.9%;
+    --neutral-500: 0 0% 45.1%;
+    --neutral-600: 0 0% 32.2%;
+    --neutral-700: 0 0% 25.1%;
+    --neutral-800: 0 0% 14.9%;
+    --neutral-900: 0 0% 9%;
+    --neutral-950: 0 0% 3.9%;
+
+    /* Priority colors */
+    --color-priority-low: 196 69% 87%;
+    --color-priority-medium: 43 67% 91%;
+    --color-priority-high: 0 82% 89%;
+
+    /* Main colors */
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
-    --light-gray: 0, 0%, 96%;
-    --text-gray: 231, 5%, 48%;
-    --background-gray: 0 5% 95%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
@@ -33,11 +67,33 @@
     --radius: 0.5rem;
   }
   .dark {
-    --background: 0 0% 2%;
+    /* ======= Base Colors ======= */
+    --color-black: 0 0% 0%;
+    --color-white: 0 0% 100%;
+    --color-background: 0 0% 3.9%;
+    --color-foreground: 0 0% 98%;
+
+    /* ======= Text Shades ======= */
+    --text-primary: 0 0% 98%;
+    --text-secondary: 0 0% 85%;
+    --text-tertiary: 0 0% 65%;
+    --text-muted: 0 0% 45%;
+
+    /* ======= Background Shades ======= */
+    --background-primary: 0 0% 1.9%;
+    --background-secondary: 0 0% 4.5%;
+    --background-tertiary: 0 0% 10%;
+    --background-muted: 0 0% 25.1%;
+    --background-hover: 0 0% 3.5%;
+
+    /* ======= Priority colors ======= */
+    --color-priority-low: 196 69% 87%;
+    --color-priority-medium: 43 67% 91%;
+    --color-priority-high: 0 82% 89%;
+
+    /* ======= Main Colors ======= */
+    --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
-    --light-gray: 240 10% 3.9%;
-    --text-gray: 0 0% 50%;
-    --background-gray: 0 0% 4%;
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
@@ -54,6 +110,7 @@
     --destructive-foreground: 0 0% 98%;
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
+    --shadow-color: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
@@ -62,11 +119,9 @@
     --chart-5: 340 75% 55%;
   }
 }
+
 @layer base {
-  * {
-    @apply border-border;
-  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background-primary text-foreground;
   }
 }

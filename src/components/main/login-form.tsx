@@ -52,32 +52,37 @@ const LoginForm = () => {
   });
 
   async function handleSubmit(values: z.infer<typeof LoginFormSchema>) {
-    // send login request to server
-    const response = await loginUser({
-      variables: {
-        email: values.email,
-        password: values.password,
-      },
-    });
-
-    const user = response.data.loginUser;
-
-    // if no user is returned, show error message and return
-    if (!response.data.loginUser) {
-      toast.error("Invalid email or password", {
-        description: "Please try again",
+    try {
+      // send login request to server
+      const response = await loginUser({
+        variables: {
+          email: values.email,
+          password: values.password,
+        },
       });
-      return;
+
+      const loggedInUser = response.data.loginUser;
+
+      // if no user is returned, show error message and return
+      if (!loggedInUser) {
+        toast.error("Invalid email or password", {
+          description: "Please try again",
+        });
+        return;
+      }
+
+      // set user profile in state and redirect to dashboard
+      dispatch(setProfile(loggedInUser));
+      toast.success("Login successful");
+
+      await createSession(loggedInUser.id);
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error("Login failed", {
+        description: "Please try again later",
+      });
     }
-
-    const loggedInUser = response.data.loginUser;
-
-    // set user profile in state and redirect to dashboard
-    dispatch(setProfile(loggedInUser));
-    toast.success("Login successful");
-
-    await createSession(loggedInUser.id);
-    router.push("/dashboard");
   }
 
   return (

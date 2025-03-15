@@ -20,7 +20,7 @@ export const typeDefs = gql`
     id: ID!
     user_id: ID!
     name: String!
-    description: String!
+    description: String
     created_at: String!
   }
 
@@ -28,8 +28,10 @@ export const typeDefs = gql`
     id: ID!
     project_id: ID!
     user_id: ID!
-    name: String!
+    title: String!
     description: String!
+    status: String!
+    priority: String!
     created_at: String!
   }
 
@@ -37,16 +39,16 @@ export const typeDefs = gql`
     hello: String
     users: [User]
     projects: [Project]
-    tasks: [Task]
+    tasks(projectId: ID!): [Task]
   }
 
   type Mutation {
     createUser(email: String!, password: String!): User
     loginUser(email: String!, password: String!): User
     updateNameOfUser(id: ID!, name: String!): User
-    verifySession(sessionId: String!): Boolean
+    verifySession: Boolean
     createProject(name: String!, description: String): Project
     deleteProject(id: ID!): Project
-    addTask(projectId: ID!, name: String!): Task
+    addTask(projectId: ID!, title: String!): Task
   }
 `;

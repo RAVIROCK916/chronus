@@ -8,12 +8,14 @@ import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import "./fonts.css";
 
+import AuthCheck from "@/components/shared/auth-check";
+
 export const metadata: Metadata = {
   title: "Chronus",
   description: "A personal task management app",
 };
 
-export default function Layout({
+export default async function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -24,7 +26,7 @@ export default function Layout({
       className={GeistSans.className}
       suppressHydrationWarning={true}
     >
-      <body className="dark bg-background text-foreground">
+      <body>
         <Providers>{children}</Providers>
         <Toaster position="top-right" />
       </body>

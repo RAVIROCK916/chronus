@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react";
+import { useState, useEffect, useContext, useMemo } from "react";
 
 import TasksColumn from "./tasks-column";
 import TaskCard from "./task-card";
-import { Column as ColumnType, Task as TaskType } from "@/types";
+
+import { Column as ColumnType, TaskStatus, Task as TaskType } from "@/types";
 
 import {
   DndContext,
@@ -10,8 +11,16 @@ import {
   DragOverlay,
   DragStartEvent,
   DragOverEvent,
+  useSensors,
+  useSensor,
+  PointerSensor,
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
+import gql from "graphql-tag";
+import { useQuery } from "@apollo/client";
+import { ProjectContext } from "@/app/(root)/projects/[name]/[projectId]/page";
+import { useSelector } from "react-redux";
+import { RootState } from "@/state/store";
 
 const COLUMNS: ColumnType[] = [
   { id: "TODO", title: "To Do" },
@@ -19,36 +28,73 @@ const COLUMNS: ColumnType[] = [
   { id: "DONE", title: "Done" },
 ];
 
-const INITIAL_TASKS: TaskType[] = [
-  {
-    id: "1",
-    title: "Research Project",
-    description: "Gather requirements and create initial documentation",
-    status: "TODO",
-  },
-  {
-    id: "2",
-    title: "Design System",
-    description: "Create component library and design tokens",
-    status: "TODO",
-  },
-  {
-    id: "3",
-    title: "API Integration",
-    description: "Implement REST API endpoints",
-    status: "IN_PROGRESS",
-  },
-  {
-    id: "4",
-    title: "Testing",
-    description: "Write unit tests for core functionality",
-    status: "DONE",
-  },
-];
+function useProject() {
+  const projectContext = useContext(ProjectContext);
+  if (!projectContext) {
+    throw new Error("useProject must be used within a ProjectContext");
+  }
+
+  return projectContext;
+}
 
 export default function KanbanBoard() {
-  const [tasks, setTasks] = useState<TaskType[]>(INITIAL_TASKS);
+  const { project } = useProject();
+  const { data } = useQuery(
+    gql`
+      query GetTasks($projectId: ID!) {
+        tasks(projectId: $projectId) {
+          id
+          title
+          description
+          status
+          priority
+        }
+      }
+    `,
+    {
+      variables: { projectId: project.id },
+    },
+  );
+
+  console.log("data", data);
+
+  const [tasks, setTasks] = useState<TaskType[]>(data?.tasks || []);
   const [activeTask, setActiveTask] = useState<TaskType | null>(null);
+
+  const user = useSelector((state: RootState) => state.profile);
+  console.log("user", user);
+
+  useEffect(() => {
+    if (data?.tasks) {
+      setTasks(data.tasks);
+    }
+  }, [data]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+  );
+
+  function createTask(status: TaskStatus, title: string, description?: string) {
+    const task = {
+      id: crypto.randomUUID(),
+      title,
+      description,
+      status,
+      priority: "LOW",
+      project_id: project.id,
+      user_id: user.id,
+      created_at: new Date().toISOString(),
+    };
+    setTasks((prevTasks) => [...prevTasks, task]);
+  }
+
+  function deleteTask(id: string) {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+  }
 
   function handleDragStart(event: DragStartEvent) {
     const { active } = event;
@@ -101,22 +147,33 @@ export default function KanbanBoard() {
     <div className="space-y-4">
       <h1>Kanban Board</h1>
       <DndContext
-        onDragStart={handleDragStart}
+        sensors={sensors}
+        onDragStart={handleDragStart} // Track active dragging task
         onDragOver={handleDragOver} // Real-time reorder on hover
-        onDragEnd={handleDragEnd}
+        onDragEnd={handleDragEnd} // Clear active task after drop
       >
         <div className="flex gap-8">
-          {COLUMNS.map((column) => (
-            <TasksColumn
-              key={column.id}
-              column={column}
-              tasks={tasks.filter((task) => task.status === column.id)}
-            />
-          ))}
+          {COLUMNS.map((column) => {
+            const columnTasks = useMemo(
+              () => tasks.filter((task) => task.status === column.id),
+              [tasks, column.id],
+            );
+            return (
+              <TasksColumn
+                key={column.id}
+                column={column}
+                tasks={columnTasks}
+                createTask={createTask}
+                deleteTask={deleteTask}
+              />
+            );
+          })}
         </div>
         {/* Visual overlay that matches the drop position */}
         <DragOverlay>
-          {activeTask ? <TaskCard task={activeTask} /> : null}
+          {activeTask ? (
+            <TaskCard task={activeTask} deleteTask={deleteTask} />
+          ) : null}
         </DragOverlay>
       </DndContext>
     </div>

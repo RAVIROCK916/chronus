@@ -8,7 +8,7 @@ export const LoginFormSchema = z.object({
 
 export const SignupFormSchema = z
   .object({
-    email: z.string().email("Invalid email address"),
+    email: z.string().trim().email("Invalid email address"),
     password: z.string().min(4, "Password must be at least 8 characters"),
     confirmPassword: z
       .string()
@@ -23,7 +23,7 @@ export const createProjectFormSchema = (projects: Project[]) =>
   z
     .object({
       name: z.string().trim().min(1, "Project name is required"),
-      description: z.string().optional(),
+      description: z.string().trim().optional(),
     })
     .refine((data) => !projects.find((project) => project.name === data.name), {
       message: "Project name already exists",
@@ -39,3 +39,8 @@ export const createProjectFormSchema = (projects: Project[]) =>
         path: ["description"],
       },
     );
+
+export const createTaskFormSchema = z.object({
+  title: z.string().trim().min(1, "Task title is required"),
+  description: z.string().trim().optional(),
+});

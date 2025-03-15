@@ -23,12 +23,34 @@ const config: Config = {
         helveticaneue: ["Helvetica Neue", "sans-serif"],
         nimbussansl: ["Nimbus Sans L"],
       },
+      fontSize: {
+        xxs: "0.625rem",
+      },
       colors: {
-        background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        lightGray: "hsl(var(--light-gray))",
-        textGray: "hsl(var(--text-gray))",
-        backgroundGray: "hsl(var(--background-gray))",
+        color: {
+          background: "hsl(var(--color-background))",
+          foreground: "hsl(var(--color-foreground))",
+        },
+        text: {
+          primary: "hsl(var(--text-primary))",
+          secondary: "hsl(var(--text-secondary))",
+          tertiary: "hsl(var(--text-tertiary))",
+          muted: "hsl(var(--text-muted))",
+        },
+        background: {
+          DEFAULT: "hsl(var(--background))",
+          primary: "hsl(var(--background-primary))",
+          secondary: "hsl(var(--background-secondary))",
+          tertiary: "hsl(var(--background-tertiary))",
+          muted: "hsl(var(--background-muted))",
+          hover: "hsl(var(--background-hover))",
+        },
+        priority: {
+          low: "hsl(var(--color-priority-low))",
+          medium: "hsl(var(--color-priority-medium))",
+          high: "hsl(var(--color-priority-high))",
+        },
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",

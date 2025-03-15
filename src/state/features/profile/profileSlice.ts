@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const profileSlice = createSlice({
   name: "profile",
   initialState: {
-    profile: null,
+    id: null,
     name: null,
     email: null,
     avatar: IMAGE_PLACEHOLDER_URL,

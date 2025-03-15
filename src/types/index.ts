@@ -2,16 +2,22 @@ export type Project = {
   id: string;
   name: string;
   description: string;
+  user_id: string;
   created_at: string;
 };
 
 export type TaskStatus = "TODO" | "IN_PROGRESS" | "DONE";
+export type TaskPriority = "LOW" | "MEDIUM" | "HIGH";
 
 export type Task = {
   id: string;
-  status: TaskStatus;
   title: string;
-  description: string;
+  description: string | undefined;
+  status: TaskStatus;
+  priority: TaskPriority;
+  project_id: string;
+  user_id: string;
+  created_at: string;
 };
 
 export type Column = {

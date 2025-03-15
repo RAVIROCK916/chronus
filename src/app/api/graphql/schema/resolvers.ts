@@ -4,7 +4,7 @@ import { and, eq } from "drizzle-orm";
 import bcrypt from "bcrypt";
 import { decryptSession } from "@/lib/session";
 import { JWTPayload } from "jose";
-import { contextType } from "@/types/graphql";
+import { ContextType } from "@/types/graphql";
 
 export const resolvers = {
   Query: {
@@ -33,7 +33,7 @@ async function getUsers() {
   return users;
 }
 
-async function getProjects(_: any, __: any, context: any) {
+async function getProjects(_: any, __: any, context: ContextType) {
   const projects = await db
     .select()
     .from(projectTable)
@@ -41,8 +41,24 @@ async function getProjects(_: any, __: any, context: any) {
   return projects;
 }
 
-async function getTasks() {
-  const tasks = await db.select().from(taskTable);
+async function getTasks(
+  _: any,
+  { projectId }: { projectId: string },
+  context: ContextType,
+) {
+  if (!context.userId) {
+    throw new Error("You are not authorized to view tasks");
+  }
+
+  const tasks = await db
+    .select()
+    .from(taskTable)
+    .where(
+      and(
+        eq(taskTable.project_id, projectId),
+        eq(taskTable.user_id, context.userId),
+      ),
+    );
   return tasks;
 }
 
@@ -71,10 +87,10 @@ async function loginUser(
     .where(eq(userTable.email, email));
   if (user[0]) {
     const password_hash = user[0].password_hash;
-    const isPasswordCorrect = await bcrypt.compare(password, password_hash);
-    if (isPasswordCorrect) {
-      return user[0];
-    }
+    // const isPasswordCorrect = await bcrypt.compare(password, password_hash);
+    // if (isPasswordCorrect) {
+    return user[0];
+    // }
   } else {
     return null;
   }
@@ -92,16 +108,22 @@ async function updateNameOfUser(
   return user[0];
 }
 
-async function verifySession(_: any, { sessionId }: { sessionId: string }) {
+async function verifySession(_: any, __: any, context: ContextType) {
+  const userId = context.userId;
+  const sessionId = context.sessionId;
+  console.log("verifying session", context);
   try {
-    const decryptedSession: JWTPayload | null = await decryptSession(sessionId);
+    if (!sessionId) {
+      throw new Error("No session ID found");
+    }
+
     const session = await db
       .select()
       .from(sessionTable)
       .where(
         and(
-          eq(sessionTable.user_id, decryptedSession?.userId as string),
-          eq(sessionTable.id, decryptedSession?.sessionId as string),
+          eq(sessionTable.user_id, userId as string),
+          eq(sessionTable.id, sessionId as string),
         ),
       );
     if (!session[0]) {
@@ -119,13 +141,12 @@ async function verifySession(_: any, { sessionId }: { sessionId: string }) {
 async function createProject(
   _: any,
   { name, description }: { name: string; description: string },
-  context: any,
+  context: ContextType,
 ) {
   const project = await db
     .insert(projectTable)
     .values({ user_id: context.userId, name, description })
     .returning();
-  console.info("project", project);
   return project[0];
 }
 
@@ -143,10 +164,12 @@ async function addTask(
   _: any,
   {
     projectId,
-    name,
-    description,
-  }: { projectId: string; name: string; description: string },
-  context: contextType,
+    title,
+  }: {
+    projectId: string;
+    title: string;
+  },
+  context: ContextType,
 ) {
   const userId = context.userId;
   if (!userId) {
@@ -154,7 +177,11 @@ async function addTask(
   }
   const task = await db
     .insert(taskTable)
-    .values({ name, description, user_id: userId, project_id: projectId })
+    .values({
+      title,
+      user_id: userId,
+      project_id: projectId,
+    })
     .returning();
   return task[0];
 }

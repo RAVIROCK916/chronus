@@ -15,20 +15,21 @@ const Sidebar = () => {
       <div className="space-y-6">
         <div className="space-y-1">
           {sidebarItems.map((item) => {
-            const isActive = location === item.href;
+            const isActive = location.startsWith(item.href);
             return (
               <div
                 key={item.id}
                 className={cn(
                   "rounded-md px-4 py-2.5 hover:bg-opacity-20",
-                  isActive && "bg-backgroundGray",
+                  isActive && "hover:bg-text-secondary bg-foreground",
                 )}
               >
                 <Link
                   href={item.href}
                   className={cn(
-                    "flex items-center gap-x-3 text-sm text-textGray",
-                    isActive && "text-primary",
+                    "text-text-tertiary hover:text-text-secondary flex items-center gap-x-3 text-sm",
+                    isActive &&
+                      "hover:text-background-secondary text-background",
                   )}
                 >
                   <item.icon

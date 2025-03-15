@@ -6,7 +6,7 @@ import {
   ContextMenuShortcut,
   ContextMenuTrigger,
 } from "../ui/context-menu";
-import { PencilSimple, Trash } from "@phosphor-icons/react";
+import { Folder, PencilSimple, Trash } from "@phosphor-icons/react";
 import DeleteProjectDialog from "./delete-project-dialog";
 import { useRouter } from "next/navigation";
 
@@ -25,11 +25,18 @@ export default function ProjectCard({
     <ContextMenu>
       <ContextMenuTrigger className="data-[state=open]:bg-accent" asChild>
         <div
-          className="mb-4 w-80 cursor-pointer space-y-1 rounded-lg border border-input p-4 transition-all hover:bg-backgroundGray"
-          onClick={() => router.push(`/projects/${project.name}`)}
+          className="hover:border-text-tertiary mb-4 min-h-20 w-80 cursor-pointer space-y-1 rounded-lg border border-input p-4 shadow-md transition-all hover:shadow-sm"
+          onClick={() => router.push(`/projects/${project.name}/${project.id}`)}
         >
-          <h2 className="text-xl">{project.name}</h2>
-          <p className="text-sm text-gray-400">{project.description}</p>
+          <div className="flex gap-2 text-secondary-foreground">
+            <Folder size={24} />
+            <div>
+              <h4 className="line-clamp-1 text-lg">{project.name}</h4>
+              <p className="line-clamp-2 text-xs text-muted-foreground">
+                {project.description}
+              </p>
+            </div>
+          </div>
         </div>
       </ContextMenuTrigger>
       <ContextMenuContent className="w-64">

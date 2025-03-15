@@ -8,37 +8,42 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { cn } from "@/lib/utils";
+import { Icon } from "@phosphor-icons/react";
 
 import { usePathname } from "next/navigation";
 import React from "react";
 
-export default function BreadCrumb() {
-  const paths = usePathname()
-    .split("/")
-    .filter(Boolean)
-    .map((path) => decodeURIComponent(path));
+type BreadCrumbProps = {
+  paths: {
+    name: string;
+    url: string;
+    icon?: Icon;
+  }[];
+};
 
+export default function BreadCrumb({ paths }: BreadCrumbProps) {
   return (
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem key="home">
-          <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          <BreadcrumbLink href="/dashboard">Home</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         {paths.map((path, index) => {
-          if (index === paths.length - 1) {
-            return (
-              <BreadcrumbItem key={path}>
-                <BreadcrumbPage>{path}</BreadcrumbPage>
-              </BreadcrumbItem>
-            );
-          }
+          const isLast = index === paths.length - 1;
           return (
-            <React.Fragment key={path}>
-              <BreadcrumbItem>
-                <BreadcrumbLink href={`/${path}`}>{path}</BreadcrumbLink>
+            <React.Fragment key={path.name}>
+              <BreadcrumbItem className={cn(isLast && "text-foreground")}>
+                <BreadcrumbLink
+                  href={!isLast ? path.url : undefined}
+                  className="flex gap-x-2"
+                >
+                  {path.icon && <path.icon size={16} />}
+                  {path.name}
+                </BreadcrumbLink>
               </BreadcrumbItem>
-              <BreadcrumbSeparator />
+              {!isLast && <BreadcrumbSeparator />}
             </React.Fragment>
           );
         })}

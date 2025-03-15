@@ -50,7 +50,7 @@ export default function ProjectsPage() {
   return (
     <div className="space-y-4">
       <h1 className="text-4xl font-medium">Projects</h1>
-      <BreadCrumb />
+      {/* <BreadCrumb /> */}
       <CreateProjectDialog
         projects={projects}
         handleAddProject={handleAddProject}
