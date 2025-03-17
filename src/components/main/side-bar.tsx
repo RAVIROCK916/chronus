@@ -2,7 +2,7 @@
 
 import Logo from "../shared/logo";
 import AddButton from "../shared/add-button";
-import { sidebarItems } from "@/constants";
+import { sidebarItems } from "@/constants/data";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -10,7 +10,7 @@ import Link from "next/link";
 const Sidebar = () => {
   const location = usePathname();
   return (
-    <div className="h-full min-w-64 space-y-4 p-4">
+    <div className="sticky top-0 h-full min-w-64 space-y-4 p-4">
       <Logo />
       <div className="space-y-6">
         <div className="space-y-1">
@@ -21,15 +21,15 @@ const Sidebar = () => {
                 key={item.id}
                 className={cn(
                   "rounded-md px-4 py-2.5 hover:bg-opacity-20",
-                  isActive && "hover:bg-text-secondary bg-foreground",
+                  isActive && "bg-foreground hover:bg-text-secondary",
                 )}
               >
                 <Link
                   href={item.href}
                   className={cn(
-                    "text-text-tertiary hover:text-text-secondary flex items-center gap-x-3 text-sm",
+                    "flex items-center gap-x-3 text-sm text-text-tertiary hover:text-text-secondary",
                     isActive &&
-                      "hover:text-background-secondary text-background",
+                      "text-background hover:text-background-secondary",
                   )}
                 >
                   <item.icon

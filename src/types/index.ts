@@ -24,3 +24,11 @@ export type Column = {
   id: TaskStatus;
   title: string;
 };
+
+export type Event = {
+  id: string;
+  title: string;
+  start: string;
+  end: string;
+  allDay: boolean;
+};

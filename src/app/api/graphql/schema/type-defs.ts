@@ -24,6 +24,15 @@ export const typeDefs = gql`
     created_at: String!
   }
 
+  type Folder {
+    id: ID!
+    project_id: ID!
+    user_id: ID!
+    name: String!
+    description: String!
+    created_at: String!
+  }
+
   type Task {
     id: ID!
     project_id: ID!
@@ -39,6 +48,7 @@ export const typeDefs = gql`
     hello: String
     users: [User]
     projects: [Project]
+    folders(projectId: ID!): [Folder]
     tasks(projectId: ID!): [Task]
   }
 

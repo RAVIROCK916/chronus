@@ -8,6 +8,7 @@ import { Project } from "@/types";
 import BreadCrumb from "@/components/shared/breadcrumb";
 import UserProjects from "@/components/main/user-projects";
 import CreateProjectDialog from "@/components/main/create-project-dialog";
+import ProjectsTable from "@/components/main/projects-table";
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -31,7 +32,7 @@ export default function ProjectsPage() {
     setProjects(data?.projects || []);
   }, [data]);
 
-  const handleAddProject = (project: any) => {
+  const handleAddProject = (project: Project) => {
     startTransition(() =>
       setOptimisticProjects((prev: Project[]) => [...prev]),
     );
@@ -48,17 +49,18 @@ export default function ProjectsPage() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 p-4">
       <h1 className="text-4xl font-medium">Projects</h1>
       {/* <BreadCrumb /> */}
       <CreateProjectDialog
         projects={projects}
         handleAddProject={handleAddProject}
       />
-      <UserProjects
+      {/* <UserProjects
         projects={optimisticProjects}
         handleRemoveProject={handleRemoveProject}
-      />
+      /> */}
+      {projects.length > 0 && <ProjectsTable projects={projects} />}
     </div>
   );
 }
