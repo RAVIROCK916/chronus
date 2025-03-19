@@ -90,6 +90,17 @@ const config: Config = {
           "5": "hsl(var(--chart-5))",
         },
       },
+      keyframes: {
+        "flip-down": {
+          "0%": { transform: "rotateX(0deg)" },
+          "100%": { transform: "rotateX(90deg)" },
+        },
+        "flip-up": {
+          "0%": { transform: "rotateX(-90deg)" },
+          "50%": { transform: "rotateX(-30deg)" },
+          "100%": { transform: "rotateX(0deg)" },
+        },
+      },
       screens: {
         xxs: "320px",
         xs: "480px",

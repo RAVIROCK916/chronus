@@ -6,25 +6,26 @@ import { DotsSixVertical, Trash } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { Badge } from "../ui/badge";
+// import { useProject } from "./kanban-board";
 
 type TaskCardProps = {
   task: TaskType;
   deleteTask: (id: string) => void;
 };
 
-export function useProject() {
-  const context = useContext(ProjectContext);
-  if (!context) {
-    throw new Error("Project not found");
+function useProject() {
+  const projectContext = useContext(ProjectContext);
+  if (!projectContext) {
+    throw new Error("useProject must be used within a ProjectContext");
   }
-  return context;
+
+  return projectContext;
 }
 
 export default function TaskCard({ task, deleteTask }: TaskCardProps) {
   const router = useRouter();
 
-  const context = useProject();
-  console.log(context);
+  const { project } = useProject();
 
   const {
     attributes,
@@ -64,9 +65,7 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
   const styles = getStyles(task.status);
 
   function goToTaskPage(e: React.MouseEvent<HTMLDivElement>) {
-    router.push(
-      `/projects/${context.project.name}/${context.project.id}/tasks/${task.id}`,
-    );
+    router.push(`/projects/${project.name}/${project.id}/tasks/${task.id}`);
   }
 
   function handleDeleteTask(e: React.MouseEvent<SVGSVGElement>) {
@@ -81,7 +80,7 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
         {...attributes}
         {...listeners}
         style={style}
-        className="h-32 cursor-grab space-y-1 border border-neutral-500 bg-background-hover p-3 px-4 opacity-50"
+        className="h-24 cursor-grab space-y-1 rounded-md border border-neutral-800 bg-background-secondary p-4 opacity-50"
       />
     );
   }
@@ -91,21 +90,18 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
       ref={setNodeRef}
       style={style}
       className={cn(
-        "group cursor-pointer space-y-2.5 rounded-md bg-background-secondary px-4 py-3 transition-all hover:opacity-90",
+        "group cursor-pointer space-y-2.5 rounded-md bg-background-secondary p-4 transition-all hover:opacity-90",
         styles,
       )}
       onClick={goToTaskPage}
     >
-      <div>
+      <div className="flex justify-between gap-2">
         <Badge
           variant={task.priority.toLowerCase() as "low" | "medium" | "high"}
           className="font-normal"
         >
           {task.priority}
         </Badge>
-      </div>
-      <div className="flex justify-between gap-2">
-        <h3 className="">{task.title}</h3>
         <div className="invisible mt-1 flex gap-2 group-hover:visible">
           <DotsSixVertical
             {...attributes}
@@ -119,6 +115,9 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
             className="cursor-pointer text-neutral-500 transition-all hover:text-neutral-200"
           />
         </div>
+      </div>
+      <div>
+        <h3 className="">{task.title}</h3>
       </div>
     </div>
   );

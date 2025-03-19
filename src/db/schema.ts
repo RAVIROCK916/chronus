@@ -31,19 +31,6 @@ export const projectTable = pgTable("projects", {
   created_at: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const folderTable = pgTable("folders", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  name: text("name").notNull(),
-  description: text("description"),
-  project_id: uuid("project_id")
-    .references(() => projectTable.id, { onDelete: "cascade" })
-    .notNull(),
-  user_id: uuid("user_id")
-    .references(() => userTable.id, { onDelete: "cascade" })
-    .notNull(),
-  created_at: timestamp("created_at").defaultNow().notNull(),
-});
-
 export const taskTable = pgTable("tasks", {
   id: uuid("id").primaryKey().defaultRandom(),
   title: text("title").notNull(),

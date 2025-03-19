@@ -22,14 +22,16 @@ export default function ProjectsTable({ projects }: ProjectsTableProps) {
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
+            <TableHead>No</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Description</TableHead>
             <TableHead>Created At</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {projects.map((project) => (
+          {projects.map((project, idx) => (
             <TableRow key={project.id}>
+              <TableCell>{idx + 1}</TableCell>
               <TableCell>
                 <Link
                   href={`/projects/${project.name}/${project.id}`}
@@ -40,8 +42,7 @@ export default function ProjectsTable({ projects }: ProjectsTableProps) {
               </TableCell>
               <TableCell>{project.description}</TableCell>
               <TableCell>
-                {project.created_at &&
-                  new Date(project.created_at).toDateString()}
+                {new Date(Number(project.created_at)).toLocaleDateString()}
               </TableCell>
             </TableRow>
           ))}

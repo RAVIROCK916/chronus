@@ -34,12 +34,12 @@ export default function TasksColumn({
   return (
     <div
       ref={setNodeRef}
-      className="w-96 space-y-2 rounded-md border border-border px-4 py-3"
+      className="w-96 space-y-2 self-start rounded-md border border-border px-4 py-3"
     >
-      <h2 className="text-md text-text-tertiary">{column.title}</h2>
+      <h2 className="text-text-tertiary">{column.title}</h2>
       <SortableContext items={tasks.map((task) => task.id)}>
         <div
-          className="min-h-40 space-y-3 transition-all duration-500 ease-in-out"
+          className="max-h-[500px] space-y-3 overflow-auto transition-all duration-500 ease-in-out"
           style={{
             transitionProperty: "height, padding",
           }}

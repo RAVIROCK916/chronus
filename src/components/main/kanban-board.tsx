@@ -28,7 +28,7 @@ const COLUMNS: ColumnType[] = [
   { id: "DONE", title: "Done" },
 ];
 
-function useProject() {
+export function useProject() {
   const projectContext = useContext(ProjectContext);
   if (!projectContext) {
     throw new Error("useProject must be used within a ProjectContext");
@@ -56,13 +56,10 @@ export default function KanbanBoard() {
     },
   );
 
-  console.log("data", data);
-
   const [tasks, setTasks] = useState<TaskType[]>(data?.tasks || []);
   const [activeTask, setActiveTask] = useState<TaskType | null>(null);
 
   const user = useSelector((state: RootState) => state.profile);
-  console.log("user", user);
 
   useEffect(() => {
     if (data?.tasks) {

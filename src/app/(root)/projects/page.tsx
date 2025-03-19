@@ -60,7 +60,7 @@ export default function ProjectsPage() {
         projects={optimisticProjects}
         handleRemoveProject={handleRemoveProject}
       /> */}
-      {projects.length > 0 && <ProjectsTable projects={projects} />}
+      {projects.length > 0 && <ProjectsTable projects={optimisticProjects} />}
     </div>
   );
 }

@@ -59,6 +59,11 @@ export const typeDefs = gql`
     verifySession: Boolean
     createProject(name: String!, description: String): Project
     deleteProject(id: ID!): Project
-    addTask(projectId: ID!, title: String!): Task
+    addTask(
+      title: String!
+      description: String
+      status: String
+      projectId: ID!
+    ): Task
   }
 `;

@@ -20,14 +20,14 @@ const Sidebar = () => {
               <div
                 key={item.id}
                 className={cn(
-                  "rounded-md px-4 py-2.5 hover:bg-opacity-20",
+                  "rounded-md transition-colors hover:bg-background-secondary",
                   isActive && "bg-foreground hover:bg-text-secondary",
                 )}
               >
                 <Link
                   href={item.href}
                   className={cn(
-                    "flex items-center gap-x-3 text-sm text-text-tertiary hover:text-text-secondary",
+                    "flex items-center gap-x-3 px-4 py-2.5 text-sm text-text-tertiary transition-colors hover:text-text-secondary",
                     isActive &&
                       "text-background hover:text-background-secondary",
                   )}

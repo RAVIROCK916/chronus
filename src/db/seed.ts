@@ -29,7 +29,7 @@ async function main() {
           .insert(projectTable)
           .values({
             id: randomUUID(),
-            name: `Project ${i + 1} for ${user.name}`,
+            name: `Project ${i + 1}`,
             description: `Description for project ${i + 1}`,
             user_id: user.id,
           })
@@ -47,7 +47,7 @@ async function main() {
 
           await db.insert(taskTable).values({
             id: randomUUID(),
-            title: `Task ${i + 1} for ${project.name}`,
+            title: `Task ${i + 1}`,
             description: `Description for task ${i + 1}`,
             status: statuses[Math.floor(Math.random() * statuses.length)],
             priority: priorities[Math.floor(Math.random() * priorities.length)],

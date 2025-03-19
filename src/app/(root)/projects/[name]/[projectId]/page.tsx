@@ -5,6 +5,7 @@ import BreadCrumb from "@/components/shared/breadcrumb";
 import ClientKanbanBoard from "@/components/main/client-kanban-board";
 import { Folder } from "lucide-react";
 import { createContext } from "react";
+import ProjectHeader from "@/components/main/project-header";
 
 type ProjectPageProps = {
   params: {
@@ -29,14 +30,14 @@ export default function ProjectPage({
 
   return (
     <ProjectContext.Provider value={{ project: { id: projectId, name } }}>
-      <div className="space-y-4">
+      <div className="space-y-4 py-6">
         <BreadCrumb paths={breadcrumbPaths} />
         <div>
           <h1 className="text-4xl">{name}</h1>
           {/* <p>Description: {project.description}</p> */}
           {/* <AddButton text="Add task" /> */}
         </div>
-        <ClientKanbanBoard />
+        <ProjectHeader />
       </div>
     </ProjectContext.Provider>
   );

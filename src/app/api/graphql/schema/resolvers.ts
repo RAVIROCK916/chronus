@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import { decryptSession } from "@/lib/session";
 import { JWTPayload } from "jose";
 import { ContextType } from "@/types/graphql";
+import { TaskStatus } from "@/types";
 
 export const resolvers = {
   Query: {
@@ -163,11 +164,15 @@ async function deleteProject(_: any, { id }: { id: string }) {
 async function addTask(
   _: any,
   {
-    projectId,
     title,
+    description,
+    status,
+    projectId,
   }: {
-    projectId: string;
     title: string;
+    description?: string;
+    status: TaskStatus;
+    projectId: string;
   },
   context: ContextType,
 ) {
@@ -179,6 +184,8 @@ async function addTask(
     .insert(taskTable)
     .values({
       title,
+      description,
+      status,
       user_id: userId,
       project_id: projectId,
     })
