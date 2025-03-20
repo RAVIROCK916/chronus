@@ -182,6 +182,44 @@
   }
 }
 
+@layer utilities {
+  .rotate-x-90 {
+    transform: rotateX(90deg);
+  }
+}
+
+/* Flip Card styles */
+.flip-card {
+  @apply relative inline-flex flex-col rounded-sm text-4xl shadow-[0_2px_3px_rgba(0,0,0,0.2)] transition-all duration-300;
+}
+
+.top,
+.bottom,
+.flip-card .top-flip,
+.flip-card .bottom-flip {
+  @apply h-[0.75em] w-[1.05em] overflow-hidden p-[0.25em] leading-none text-black;
+}
+
+.top,
+.flip-card .top-flip {
+  @apply flex justify-center rounded-t-sm border-b border-black/50 bg-neutral-200;
+}
+.bottom,
+.flip-card .bottom-flip {
+  @apply flex items-end justify-center rounded-b-sm bg-neutral-100;
+}
+
+.flip-card .top-flip {
+  @apply absolute w-full origin-bottom animate-[flip-top_250ms_ease-in];
+}
+.flip-card .bottom-flip {
+  @apply rotate-x-90 absolute bottom-0 w-full origin-top animate-[flip-bottom_250ms_ease-in_250ms];
+}
+
+.container-segment {
+  @apply flex h-full w-full items-center justify-center gap-2;
+}
+
 input:is(:-webkit-autofill, :autofill) {
   background-color: white !important;
 }

@@ -91,13 +91,11 @@ const config: Config = {
         },
       },
       keyframes: {
-        "flip-down": {
+        "flip-top": {
           "0%": { transform: "rotateX(0deg)" },
           "100%": { transform: "rotateX(90deg)" },
         },
-        "flip-up": {
-          "0%": { transform: "rotateX(-90deg)" },
-          "50%": { transform: "rotateX(-30deg)" },
+        "flip-bottom": {
           "100%": { transform: "rotateX(0deg)" },
         },
       },
