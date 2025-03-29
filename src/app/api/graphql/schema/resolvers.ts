@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import { decryptSession } from "@/lib/session";
 import { JWTPayload } from "jose";
 import { ContextType } from "@/types/graphql";
-import { TaskStatus } from "@/types";
+import { TaskPriority, TaskStatus } from "@/types";
 
 export const resolvers = {
   Query: {
@@ -13,6 +13,7 @@ export const resolvers = {
     users: getUsers,
     projects: getProjects,
     tasks: getTasks,
+    task: getTask,
   },
   Mutation: {
     createUser,
@@ -22,6 +23,7 @@ export const resolvers = {
     createProject,
     deleteProject,
     addTask,
+    updateTask,
   },
 };
 
@@ -61,6 +63,14 @@ async function getTasks(
       ),
     );
   return tasks;
+}
+
+async function getTask(_: any, { id }: { id: string }, context: ContextType) {
+  const task = await db
+    .select()
+    .from(taskTable)
+    .where(and(eq(taskTable.id, id), eq(taskTable.user_id, context.userId)));
+  return task[0];
 }
 
 /* Mutation */
@@ -189,6 +199,26 @@ async function addTask(
       user_id: userId,
       project_id: projectId,
     })
+    .returning();
+  return task[0];
+}
+
+async function updateTask(
+  _: any,
+  updatedTask: {
+    id: string;
+    title?: string;
+    description?: string;
+    status?: TaskStatus;
+    priority?: TaskPriority;
+    labels?: string[];
+  },
+) {
+  const { id, title, description, status, priority, labels } = updatedTask;
+  const task = await db
+    .update(taskTable)
+    .set({ title, description, status, priority, labels })
+    .where(eq(taskTable.id, id))
     .returning();
   return task[0];
 }

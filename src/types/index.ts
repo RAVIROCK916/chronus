@@ -15,6 +15,7 @@ export type Task = {
   description: string | undefined;
   status: TaskStatus;
   priority: TaskPriority;
+  labels: string[];
   project_id: string;
   user_id: string;
   created_at: string;

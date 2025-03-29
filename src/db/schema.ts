@@ -1,5 +1,12 @@
 import { relations } from "drizzle-orm";
-import { pgEnum, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import {
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+  boolean,
+} from "drizzle-orm/pg-core";
 
 export const taskStatusEnum = pgEnum("status", ["TODO", "IN_PROGRESS", "DONE"]);
 export const taskPriorityEnum = pgEnum("priority", ["LOW", "MEDIUM", "HIGH"]);
@@ -37,12 +44,23 @@ export const taskTable = pgTable("tasks", {
   description: text("description"),
   status: taskStatusEnum("status").default("TODO").notNull(),
   priority: taskPriorityEnum("priority").default("LOW").notNull(),
+  labels: text("labels").array().$type<string[]>(),
   project_id: uuid("project_id")
     .references(() => projectTable.id, { onDelete: "cascade" })
     .notNull(),
   user_id: uuid("user_id")
     .references(() => userTable.id, { onDelete: "cascade" })
     .notNull(),
+  created_at: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const notificationTable = pgTable("notifications", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  user_id: uuid("user_id")
+    .references(() => userTable.id, { onDelete: "cascade" })
+    .notNull(),
+  message: text("message").notNull(),
+  is_read: boolean("is_read").default(false).notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
 });
 

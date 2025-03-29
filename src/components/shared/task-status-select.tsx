@@ -1,40 +1,48 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { ChevronDownIcon } from "lucide-react";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { UPDATE_TASK_STATUS } from "@/lib/apollo/client/task";
+import { TaskStatus } from "@/types";
+import { useMutation } from "@apollo/client";
+import gql from "graphql-tag";
 import { useState } from "react";
 
-export default function TaskStatusSelect() {
-  const [status, setStatus] = useState("todo");
+type Props = {
+  id: string;
+  taskStatus: TaskStatus;
+};
+
+export default function TaskStatusSelect({ id, taskStatus }: Props) {
+  const [status, setStatus] = useState<string>(taskStatus);
+
+  const [updateTaskStatus] = useMutation(UPDATE_TASK_STATUS);
+
+  const handleValueChange = (value: string) => {
+    console.log("value", value);
+    setStatus(value);
+    updateTaskStatus({
+      variables: { id, status: value },
+    });
+  };
+
+  console.log("status", status);
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline">
-          Status
-          <ChevronDownIcon
-            className="-me-1 opacity-60"
-            size={16}
-            aria-hidden="true"
-          />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuRadioGroup value={status} onValueChange={setStatus}>
-          <DropdownMenuRadioItem value="todo">To Do</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="in-progress">
-            In Progress
-          </DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="done">Done</DropdownMenuRadioItem>
-        </DropdownMenuRadioGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Select defaultValue={status} onValueChange={handleValueChange}>
+      <SelectTrigger id={id}>
+        <SelectValue placeholder="Select status" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="TODO">To Do</SelectItem>
+        <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
+        <SelectItem value="DONE">Done</SelectItem>
+      </SelectContent>
+    </Select>
   );
 }

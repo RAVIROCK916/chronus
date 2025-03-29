@@ -1,3 +1,5 @@
+"use client";
+
 import { flipAllCards } from "@/utils/flip";
 import FlipCard from "./flip-card";
 
@@ -12,7 +14,7 @@ export default function CurrentTimer() {
     const timer = setInterval(() => {
       const newDate = new Date();
       const timeBetween = Math.floor((newDate.getTime() - currentDate) / 1000);
-      const hours = Math.floor(timeBetween / 3600) % 12;
+      const hours = Math.floor(timeBetween / 3600) % 24;
       if (hours >= 12) {
         setIsAM(false);
       }
@@ -26,14 +28,20 @@ export default function CurrentTimer() {
 
   return (
     <div className="flex gap-2">
-      <div className="inline-flex gap-6">
+      <div className="inline-flex items-center gap-3">
         <div className="container-segment">
           <FlipCard dataAttribute="data-hours-tens" />
           <FlipCard dataAttribute="data-hours-ones" />
         </div>
+        <div className="text-3xl font-bold">
+          <span>:</span>
+        </div>
         <div className="container-segment">
           <FlipCard dataAttribute="data-minutes-tens" />
           <FlipCard dataAttribute="data-minutes-ones" />
+        </div>
+        <div className="text-3xl font-bold">
+          <span>:</span>
         </div>
         <div className="container-segment">
           <FlipCard dataAttribute="data-seconds-tens" />

@@ -1,49 +1,71 @@
 // import { Calendar } from "@phosphor-icons/react";
+import { getRandomAvatar } from "@/utils/avatar";
 import {
   Bell,
   Calendar,
-  FolderClosed,
+  Folder,
   Home,
-  LayoutIcon,
   Settings,
+  LayoutIcon,
+  MessageSquare,
+  LayoutDashboard,
+  Sheet,
 } from "lucide-react";
 
-export const sidebarItems = [
-  {
-    id: 1,
-    name: "Overview",
-    href: "/overview",
-    icon: Home,
-  },
-  {
-    id: 2,
-    name: "Dashboard",
-    href: "/dashboard",
-    icon: LayoutIcon,
-  },
-  {
-    id: 3,
-    name: "Projects",
-    href: "/projects",
+import {
+  FaBell,
+  FaCalendar,
+  FaFolder,
+  FaGear,
+  FaHouse,
+  FaMessage,
+  FaTable,
+} from "react-icons/fa6";
 
-    icon: FolderClosed,
+export const sidebarItems = {
+  top: [
+    {
+      id: 1,
+      name: "Dashboard",
+      href: "/dashboard",
+      icon: Sheet,
+    },
+    {
+      id: 2,
+      name: "Projects",
+      href: "/projects",
+      icon: Folder,
+    },
+    {
+      id: 3,
+      name: "Calendar",
+      href: "/calendar",
+      icon: Calendar,
+    },
+    {
+      id: 4,
+      name: "Notifications",
+      href: "/notifications",
+      icon: Bell,
+    },
+  ],
+  bottom: [
+    {
+      id: 1,
+      name: "Settings",
+      href: "/settings",
+      icon: Settings,
+    },
+    {
+      id: 2,
+      name: "Feedback",
+      href: "/feedback",
+      icon: MessageSquare,
+    },
+  ],
+  user: {
+    name: "John Doe",
+    email: "john.doe@example.com",
+    avatar: getRandomAvatar(),
   },
-  {
-    id: 4,
-    name: "Calendar",
-    href: "/calendar",
-    icon: Calendar,
-  },
-  {
-    id: 5,
-    name: "Notifications",
-    href: "/notifications",
-    icon: Bell,
-  },
-  {
-    id: 6,
-    name: "Settings",
-    href: "/settings",
-    icon: Settings,
-  },
-];
+};

@@ -1,4 +1,3 @@
-import { ProjectContext } from "@/app/(root)/projects/[name]/[projectId]/page";
 import { cn } from "@/lib/utils";
 import { TaskStatus, Task as TaskType } from "@/types";
 import { useSortable } from "@dnd-kit/sortable";
@@ -6,6 +5,7 @@ import { DotsSixVertical, Trash } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { Badge } from "../ui/badge";
+import { ProjectContext } from "@/app/(root)/(main)/projects/[name]/[projectId]/page";
 // import { useProject } from "./kanban-board";
 
 type TaskCardProps = {
@@ -13,10 +13,10 @@ type TaskCardProps = {
   deleteTask: (id: string) => void;
 };
 
-function useProject() {
+function useProjectContext() {
   const projectContext = useContext(ProjectContext);
   if (!projectContext) {
-    throw new Error("useProject must be used within a ProjectContext");
+    throw new Error("useProjectContext must be used within a ProjectContext");
   }
 
   return projectContext;
@@ -25,7 +25,7 @@ function useProject() {
 export default function TaskCard({ task, deleteTask }: TaskCardProps) {
   const router = useRouter();
 
-  const { project } = useProject();
+  const { project } = useProjectContext();
 
   const {
     attributes,
@@ -48,21 +48,6 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
         transition: transition,
       }
     : {};
-
-  const getStyles = (status: TaskStatus) => {
-    switch (status) {
-      case "TODO":
-        return "";
-      case "IN_PROGRESS":
-        return "";
-      case "DONE":
-        return "";
-      default:
-        return "";
-    }
-  };
-
-  const styles = getStyles(task.status);
 
   function goToTaskPage(e: React.MouseEvent<HTMLDivElement>) {
     router.push(`/projects/${project.name}/${project.id}/tasks/${task.id}`);
@@ -91,14 +76,13 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
       style={style}
       className={cn(
         "group cursor-pointer space-y-2.5 rounded-md bg-background-secondary p-4 transition-all hover:opacity-90",
-        styles,
       )}
       onClick={goToTaskPage}
     >
       <div className="flex justify-between gap-2">
         <Badge
           variant={task.priority.toLowerCase() as "low" | "medium" | "high"}
-          className="font-normal"
+          className="px-1.5 py-px text-[11px] font-normal"
         >
           {task.priority}
         </Badge>

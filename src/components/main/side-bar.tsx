@@ -6,42 +6,104 @@ import { sidebarItems } from "@/constants/data";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { Command, LucideIcon, PanelLeft, Settings } from "lucide-react";
+import { IconType } from "react-icons/lib";
+import { FaGear } from "react-icons/fa6";
+import { NavUser } from "../shared/nav-user";
+import { useState } from "react";
+
+type SidebarItemProps = {
+  name: string;
+  href: string;
+  Icon: IconType;
+};
+
+const SidebarItem = ({ name, href, Icon }: SidebarItemProps) => {
+  const location = usePathname();
+  const isActive = location.startsWith(href);
+  return (
+    <div
+      className={cn(
+        "rounded-md transition-colors hover:bg-background-tertiary",
+        isActive && "bg-text-primary hover:bg-text-primary/90",
+      )}
+    >
+      <Link
+        href={href}
+        className={cn(
+          "flex items-center gap-x-2.5 px-3 py-2 text-sm text-primary transition-colors",
+          isActive && "text-background-secondary",
+        )}
+      >
+        <Icon size={18} className="stroke-2" aria-hidden="true" />
+        <span>{name}</span>
+      </Link>
+    </div>
+  );
+};
 
 const Sidebar = () => {
   const location = usePathname();
+  const [isExpanded, setIsExpanded] = useState(true);
   return (
-    <div className="sticky top-0 h-full min-w-64 space-y-4 p-4">
-      <Logo />
-      <div className="space-y-6">
-        <div className="space-y-1">
-          {sidebarItems.map((item) => {
-            const isActive = location.startsWith(item.href);
-            return (
-              <div
-                key={item.id}
-                className={cn(
-                  "rounded-md transition-colors hover:bg-background-secondary",
-                  isActive && "bg-foreground hover:bg-text-secondary",
-                )}
-              >
-                <Link
-                  href={item.href}
-                  className={cn(
-                    "flex items-center gap-x-3 px-4 py-2.5 text-sm text-text-tertiary transition-colors hover:text-text-secondary",
-                    isActive &&
-                      "text-background hover:text-background-secondary",
-                  )}
-                >
-                  <item.icon
-                    size={18}
-                    className="stroke-2"
-                    aria-hidden="true"
-                  />
-                  <span>{item.name}</span>
-                </Link>
+    <div
+      className={cn(
+        "sticky top-0 h-screen min-w-64 space-y-4 border-r bg-[#080808] p-4 pt-6 transition-transform duration-500",
+        isExpanded ? "translate-x-0" : "-translate-x-full",
+      )}
+    >
+      <div className="flex h-full flex-col justify-between gap-y-4">
+        <div className="space-y-8">
+          {/* <Logo /> */}
+          <div>
+            <div className="relative flex items-center justify-between">
+              <div className="flex gap-x-2">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                  <Command className="size-4" />
+                </div>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-semibold">Acme Inc</span>
+                  <span className="truncate text-xs">Enterprise</span>
+                </div>
               </div>
-            );
-          })}
+              <div
+                className={cn(
+                  "cursor-pointer rounded-lg p-2 transition-all duration-500 hover:bg-neutral-900",
+                  !isExpanded && "translate-x-[200%] rotate-180",
+                )}
+                onClick={() => setIsExpanded(!isExpanded)}
+              >
+                <PanelLeft className="size-4" />
+              </div>
+            </div>
+          </div>
+          {/* Sidebar items */}
+          <div className="space-y-6">
+            <div className="space-y-1.5">
+              {sidebarItems.top.map((item) => (
+                <SidebarItem
+                  key={item.name}
+                  name={item.name}
+                  href={item.href}
+                  Icon={item.icon}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            {sidebarItems.bottom.map((item) => (
+              <SidebarItem
+                key={item.name}
+                name={item.name}
+                href={item.href}
+                Icon={item.icon}
+              />
+            ))}
+          </div>
+          <NavUser user={sidebarItems.user} />
         </div>
       </div>
     </div>

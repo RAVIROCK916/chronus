@@ -1,6 +1,12 @@
 import { randomUUID } from "crypto";
 import db from "./index";
-import { projectTable, sessionTable, taskTable, userTable } from "./schema";
+import {
+  notificationTable,
+  projectTable,
+  sessionTable,
+  taskTable,
+  userTable,
+} from "./schema";
 
 async function main() {
   console.log("Seeding...");
@@ -51,12 +57,25 @@ async function main() {
             description: `Description for task ${i + 1}`,
             status: statuses[Math.floor(Math.random() * statuses.length)],
             priority: priorities[Math.floor(Math.random() * priorities.length)],
+            labels: ["bug", "feature", "enhancement"],
             project_id: project.id,
             user_id: user.id,
           });
         }),
       );
     }
+
+    // Create notifications for each user
+    await Promise.all(
+      Array.from({ length: 2 }, async (_, i) => {
+        await db.insert(notificationTable).values({
+          id: randomUUID(),
+          message: "lorem ipsum dolor sit amet consectetur adipiscing elit",
+          is_read: [true, false][Math.floor(Math.random() * 2)],
+          user_id: user.id,
+        });
+      }),
+    );
 
     // Create sessions for each user
     // await Promise.all(

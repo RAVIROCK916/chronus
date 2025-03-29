@@ -13,29 +13,33 @@ import ClientKanbanBoard from "./client-kanban-board";
 
 export default function ProjectHeader() {
   return (
-    <Tabs defaultValue="tab-1">
+    <Tabs defaultValue="Board">
       <TabsList className="mb-3 h-auto w-full justify-start gap-2 rounded-none border-b bg-transparent px-0 py-1 text-foreground">
         <TabsTrigger
           value="tab-1"
           className="relative after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 hover:bg-background-secondary hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:after:bg-primary data-[state=active]:hover:bg-background-secondary"
         >
-          <HouseIcon
-            className="-ms-0.5 me-1.5 opacity-60"
-            size={16}
-            aria-hidden="true"
-          />
-          Overview
+          <a href="#overview" className="flex items-center">
+            <HouseIcon
+              className="-ms-0.5 me-1.5 opacity-60"
+              size={16}
+              aria-hidden="true"
+            />
+            Overview
+          </a>
         </TabsTrigger>
         <TabsTrigger
           value="Board"
           className="relative after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 hover:bg-background-secondary hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:after:bg-primary data-[state=active]:hover:bg-background-secondary"
         >
-          <AlignStartHorizontal
-            className="-ms-0.5 me-2.5 opacity-60"
-            size={16}
-            aria-hidden="true"
-          />
-          Board
+          <a href="#board" className="flex items-center">
+            <AlignStartHorizontal
+              className="-ms-0.5 me-2.5 opacity-60"
+              size={16}
+              aria-hidden="true"
+            />
+            Board
+          </a>
         </TabsTrigger>
         <TabsTrigger
           value="tab-3"

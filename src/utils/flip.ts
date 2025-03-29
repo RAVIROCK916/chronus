@@ -40,8 +40,11 @@ export function flip(flipCard: Element, newNumber: number) {
 export function flipAllCards(time: number) {
   const seconds = time % 60;
   const minutes = Math.floor(time / 60) % 60;
-  const hours = Math.floor(time / 3600) % 12;
+  let hours = Math.floor(time / 3600) % 24;
 
+  if (hours > 12) {
+    hours -= 12;
+  }
   flip(document.querySelector("[data-hours-tens]")!, Math.floor(hours / 10));
   flip(document.querySelector("[data-hours-ones]")!, hours % 10);
   flip(

@@ -19,6 +19,10 @@ export const SignupFormSchema = z
     path: ["confirmPassword"],
   });
 
+export const onboardingFormSchema = z.object({
+  name: z.string().trim().min(1, "Name is required"),
+});
+
 export const createProjectFormSchema = (projects: Project[]) =>
   z
     .object({

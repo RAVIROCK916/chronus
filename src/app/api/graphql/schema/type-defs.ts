@@ -41,6 +41,7 @@ export const typeDefs = gql`
     description: String!
     status: String!
     priority: String!
+    labels: [String]
     created_at: String!
   }
 
@@ -48,8 +49,8 @@ export const typeDefs = gql`
     hello: String
     users: [User]
     projects: [Project]
-    folders(projectId: ID!): [Folder]
     tasks(projectId: ID!): [Task]
+    task(id: ID!): Task
   }
 
   type Mutation {
@@ -64,6 +65,14 @@ export const typeDefs = gql`
       description: String
       status: String
       projectId: ID!
+    ): Task
+    updateTask(
+      id: ID!
+      title: String
+      description: String
+      status: String
+      priority: String
+      labels: [String]
     ): Task
   }
 `;

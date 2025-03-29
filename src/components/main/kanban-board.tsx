@@ -17,10 +17,10 @@ import {
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import gql from "graphql-tag";
-import { useQuery } from "@apollo/client";
-import { ProjectContext } from "@/app/(root)/projects/[name]/[projectId]/page";
+import { useMutation, useQuery } from "@apollo/client";
 import { useSelector } from "react-redux";
 import { RootState } from "@/state/store";
+import { ProjectContext } from "@/app/(root)/(main)/projects/[name]/[projectId]/page";
 
 const COLUMNS: ColumnType[] = [
   { id: "TODO", title: "To Do" },
@@ -28,17 +28,17 @@ const COLUMNS: ColumnType[] = [
   { id: "DONE", title: "Done" },
 ];
 
-export function useProject() {
+export function useProjectContext() {
   const projectContext = useContext(ProjectContext);
   if (!projectContext) {
-    throw new Error("useProject must be used within a ProjectContext");
+    throw new Error("useProjectContext must be used within a ProjectContext");
   }
 
   return projectContext;
 }
 
 export default function KanbanBoard() {
-  const { project } = useProject();
+  const { project } = useProjectContext();
   const { data } = useQuery(
     gql`
       query GetTasks($projectId: ID!) {
@@ -75,6 +75,15 @@ export default function KanbanBoard() {
     }),
   );
 
+  const [updateTask] = useMutation(gql`
+    mutation UpdateTask($id: ID!, $status: String!) {
+      updateTask(id: $id, status: $status) {
+        id
+        status
+      }
+    }
+  `);
+
   function createTask(status: TaskStatus, title: string, description?: string) {
     const task = {
       id: crypto.randomUUID(),
@@ -86,7 +95,7 @@ export default function KanbanBoard() {
       user_id: user.id,
       created_at: new Date().toISOString(),
     };
-    setTasks((prevTasks) => [...prevTasks, task]);
+    setTasks((prevTasks) => [...prevTasks, task] as TaskType[]);
   }
 
   function deleteTask(id: string) {
@@ -138,6 +147,17 @@ export default function KanbanBoard() {
 
   function handleDragEnd(event: DragEndEvent) {
     setActiveTask(null); // Clear active task after drop
+    const currentTaskStatus = activeTask?.status;
+    const newTaskStatus = event.over?.data.current?.task.status;
+    if (currentTaskStatus !== newTaskStatus) {
+      console.log("Task is already in the correct column.");
+      updateTask({
+        variables: {
+          id: activeTask?.id,
+          status: newTaskStatus,
+        },
+      });
+    }
   }
 
   return (

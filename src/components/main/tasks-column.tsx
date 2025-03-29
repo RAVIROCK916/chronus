@@ -28,7 +28,7 @@ export default function TasksColumn({
 
   const { setNodeRef } = useDroppable({
     id: column.id,
-    data: { type: "COLUMN" },
+    data: { type: "COLUMN", id: column.id },
   });
 
   return (

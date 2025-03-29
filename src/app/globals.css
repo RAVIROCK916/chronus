@@ -35,9 +35,9 @@
     --neutral-950: 0 0% 3.9%;
 
     /* Priority colors */
-    --color-priority-low: 196 69% 87%;
-    --color-priority-medium: 43 67% 91%;
-    --color-priority-high: 0 82% 89%;
+    --color-priority-low: 214 95% 93%;
+    --color-priority-medium: 55 97% 88%;
+    --color-priority-high: 0 93% 94%;
 
     /* Main colors */
     --background: 0 0% 100%;
@@ -65,6 +65,14 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
     /* ======= Base Colors ======= */
@@ -74,43 +82,43 @@
     --color-foreground: 0 0% 98%;
 
     /* ======= Text Shades ======= */
-    --text-primary: 0 0% 98%;
-    --text-secondary: 0 0% 85%;
+    --text-primary: 0 0% 96.08%;
+    --text-secondary: 0 0% 89.8%;
     --text-tertiary: 0 0% 65%;
     --text-muted: 0 0% 45%;
 
     /* ======= Background Shades ======= */
     --background-primary: 0 0% 1.9%;
     --background-secondary: 0 0% 4.5%;
-    --background-tertiary: 0 0% 10%;
+    --background-tertiary: 0 0% 7%;
     --background-muted: 0 0% 25.1%;
     --background-hover: 0 0% 3.5%;
 
     /* ======= Priority colors ======= */
-    --color-priority-low: 196 69% 87%;
-    --color-priority-medium: 43 67% 91%;
-    --color-priority-high: 0 82% 89%;
+    --color-priority-low: 214 95% 93%;
+    --color-priority-medium: 55 97% 88%;
+    --color-priority-high: 0 93% 94%;
 
     /* ======= Calendar Colors ======= */
     --sx-color-background: 0 0% 0%;
 
     /* ======= Main Colors ======= */
     --background: 0 0% 0%;
-    --foreground: 0 0% 98%;
+    --foreground: 0 0% 96.08%;
     --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card-foreground: 0 0% 96.08%;
     --popover: 0 0% 0%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
+    --popover-foreground: 0 0% 96.08%;
+    --primary: 0 0% 96.08%;
     --primary-foreground: 240 5.9% 10%;
     --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary-foreground: 0 0% 96.08%;
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
     --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent-foreground: 0 0% 96.08%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 0 0% 96.08%;
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --shadow-color: 240 3.7% 15.9%;
@@ -120,6 +128,14 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --sidebar-background: var(--background);
+    --sidebar-foreground: var(--foreground);
+    --sidebar-primary: var(--background-primary);
+    --sidebar-primary-foreground: var(--text-primary);
+    --sidebar-accent: var(--background-tertiary);
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -127,14 +143,14 @@
 
 .sx-react-calendar-wrapper > .is-dark {
   /* colors */
-  --sx-color-primary: #fafafa;
+  --sx-color-primary: hsl(var(--foreground));
   --sx-color-on-primary: #010101;
-  --sx-color-primary-container: #fafafa;
+  --sx-color-primary-container: hsl(var(--foreground));
   --sx-color-on-primary-container: #000000;
   --sx-color-secondary: #a897c2;
   --sx-color-on-secondary: #332d41;
   --sx-color-secondary-container: #4a4458;
-  --sx-color-on-secondary-container: #e8def8;
+  --sx-color-on-secondary-container: hsl(var(--text-secondary));
   --sx-color-tertiary: #efb8c8;
   --sx-color-on-tertiary: #492532;
   --sx-color-tertiary-container: #633b48;
@@ -311,4 +327,13 @@ input:is(:-webkit-autofill, :autofill) {
 }
 .sx__event-modal-default {
   border: 1px solid var(--sx-color-surface-bright);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
