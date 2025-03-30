@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import { decryptSession } from "@/lib/session";
 import { JWTPayload } from "jose";
 import { ContextType } from "@/types/graphql";
-import { TaskPriority, TaskStatus } from "@/types";
+import { Task, TaskPriority, TaskStatus } from "@/types";
 
 export const resolvers = {
   Query: {
@@ -24,6 +24,9 @@ export const resolvers = {
     deleteProject,
     addTask,
     updateTask,
+  },
+  Task: {
+    project: getProjectOfTask,
   },
 };
 
@@ -71,6 +74,14 @@ async function getTask(_: any, { id }: { id: string }, context: ContextType) {
     .from(taskTable)
     .where(and(eq(taskTable.id, id), eq(taskTable.user_id, context.userId)));
   return task[0];
+}
+
+async function getProjectOfTask(parent: Task) {
+  const project = await db
+    .select()
+    .from(projectTable)
+    .where(eq(projectTable.id, parent.project_id));
+  return project[0];
 }
 
 /* Mutation */

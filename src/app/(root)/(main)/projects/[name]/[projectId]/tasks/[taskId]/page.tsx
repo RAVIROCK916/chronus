@@ -1,14 +1,17 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
+import { GET_TASK } from "@/lib/apollo/client/task";
 import TaskDetails from "@/components/main/task-details";
 import TaskLabelInput from "@/components/shared/task-label-input";
 import TaskPrioritySelect from "@/components/shared/task-priority-select";
 import TaskStatusSelect from "@/components/shared/task-status-select";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import BreadCrumb from "@/components/shared/breadcrumb";
 import { Task as TaskType } from "@/types";
 import { gql, useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
 
 type TaskPageProps = {
   params: { projectId: string; taskId: string };
@@ -19,17 +22,17 @@ export default function TaskPage({ params }: TaskPageProps) {
 
   const [task, setTask] = useState<TaskType | null>(null);
 
-  const GET_TASK = gql`
-    query getTask($id: ID!) {
-      task(id: $id) {
-        id
-        title
-        description
-        status
-        priority
-      }
-    }
-  `;
+  const breadcrumbs = [
+    { name: "projects", url: "/projects" },
+    {
+      name: task?.project?.name || "Project",
+      url: `/projects/${task?.project?.name}/${projectId}`,
+    },
+    {
+      name: task?.title || "Task",
+      url: `/projects/${projectId}/tasks/${taskId}`,
+    },
+  ];
 
   const { data } = useQuery(GET_TASK, {
     variables: { id: taskId },
@@ -44,11 +47,11 @@ export default function TaskPage({ params }: TaskPageProps) {
   }, [data]);
 
   return (
-    <div className="space-y-4 pr-4">
-      <h2 className="text-4xl">Task</h2>
+    <div className="mx-auto max-w-screen-lg space-y-6 pr-4 pt-4">
+      <BreadCrumb paths={breadcrumbs} />
       {task && (
         <div className="flex gap-6">
-          <div className="min-w-[800px]">
+          <div className="min-w-[600px]">
             <TaskDetails task={task} />
           </div>
           <div className="w-60 min-w-64">

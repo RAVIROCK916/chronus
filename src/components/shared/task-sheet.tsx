@@ -1,0 +1,76 @@
+import {
+  Badge,
+  Input,
+  Separator,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui";
+import { Task } from "@/types";
+import { CiShoppingTag } from "react-icons/ci";
+import { FaRegCircleDot, FaTags } from "react-icons/fa6";
+import { MdPriorityHigh } from "react-icons/md";
+import { CgNotes } from "react-icons/cg";
+import { Clock } from "lucide-react";
+
+type TaskSheetProps = {
+  task: Task;
+};
+
+export default function TaskSheet({ task }: TaskSheetProps) {
+  return (
+    <SheetContent className="min-w-[500px] p-0">
+      <SheetHeader className="px-6 py-4">
+        <SheetTitle className="font-normal">Project Name</SheetTitle>
+      </SheetHeader>
+      <Separator />
+      <div className="space-y-4 px-6 py-4">
+        <h3 className="text-3xl">Task Name</h3>
+        <table className="[&_td]:pl-12 [&_th]:py-2 [&_th]:text-left [&_th]:font-normal [&_th]:text-text-muted [&_tr]:text-sm">
+          <tr>
+            <th className="flex items-center gap-2">
+              <FaRegCircleDot />
+              Status
+            </th>
+            <td>Status</td>
+          </tr>
+          <tr>
+            <th className="flex items-center gap-2">
+              <MdPriorityHigh />
+              Priority
+            </th>
+            <td>Priority</td>
+          </tr>
+          <tr>
+            <th className="flex items-center gap-2">
+              <Clock size={16} /> Due Date
+            </th>
+            <td>Due Date</td>
+          </tr>
+          <tr>
+            <th className="flex items-center gap-2">
+              <CiShoppingTag className="stroke-1" size={16} />
+              Tags
+            </th>
+            <td>
+              <div className="flex flex-wrap gap-2">
+                {task?.labels?.map((label) => (
+                  <Badge key={label} variant="secondary">
+                    {label}
+                  </Badge>
+                ))}
+              </div>
+            </td>
+          </tr>
+        </table>
+        <div className="space-y-2">
+          <div className="flex gap-2 text-text-muted">
+            <CgNotes />
+            <h3 className="text-sm">Description</h3>
+          </div>
+          <Input value={task.description} />
+        </div>
+      </div>
+    </SheetContent>
+  );
+}

@@ -42,6 +42,7 @@ export const typeDefs = gql`
     status: String!
     priority: String!
     labels: [String]
+    project: Project
     created_at: String!
   }
 

@@ -7,7 +7,18 @@ const UPDATE_TASK_REQUEST = `
 		status
 		priority
 		labels
+		project {
+		  name
+		}
 `;
+
+export const GET_TASK = gql`
+		query getTask($id: ID!) {
+					task(id: $id) {
+						${UPDATE_TASK_REQUEST}
+			}
+		}
+	`;
 
 export const UPDATE_TASK_STATUS = gql`
   mutation updateTaskStatus($id: ID!, $status: String) {

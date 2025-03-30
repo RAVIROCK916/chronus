@@ -8,6 +8,8 @@ https://chatgpt.com/c/6790733d-f3e8-8000-b1d0-333a098f89aa
 
 - Overview
 - Dashboard
+- Projects
+- Notifications
 
 # Backend
 
