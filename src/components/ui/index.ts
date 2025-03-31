@@ -40,6 +40,7 @@ import {
   SheetPortal,
   SheetOverlay,
 } from "./sheet";
+import { Textarea } from "./textarea";
 
 export {
   Avatar,
@@ -76,4 +77,5 @@ export {
   SheetTrigger,
   SheetPortal,
   SheetOverlay,
+  Textarea,
 };

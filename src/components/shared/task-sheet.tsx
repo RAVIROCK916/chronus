@@ -1,10 +1,12 @@
 import {
   Badge,
-  Input,
+  Button,
   Separator,
   SheetContent,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
+  Textarea,
 } from "@/components/ui";
 import { Task } from "@/types";
 import { CiShoppingTag } from "react-icons/ci";
@@ -21,7 +23,7 @@ export default function TaskSheet({ task }: TaskSheetProps) {
   return (
     <SheetContent className="min-w-[500px] p-0">
       <SheetHeader className="px-6 py-4">
-        <SheetTitle className="font-normal">Project Name</SheetTitle>
+        <SheetTitle className="text-sm font-normal">Project Name</SheetTitle>
       </SheetHeader>
       <Separator />
       <div className="space-y-4 px-6 py-4">
@@ -68,9 +70,15 @@ export default function TaskSheet({ task }: TaskSheetProps) {
             <CgNotes />
             <h3 className="text-sm">Description</h3>
           </div>
-          <Input value={task.description} />
+          <Textarea value={task.description} className="h-20" />
         </div>
       </div>
+      <SheetFooter className="px-6 py-4">
+        <Button variant="outline" size="sm">
+          Cancel
+        </Button>
+        <Button size="sm">Save</Button>
+      </SheetFooter>
     </SheetContent>
   );
 }

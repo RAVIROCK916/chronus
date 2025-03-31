@@ -2,6 +2,7 @@
 
 import Logo from "../shared/logo";
 import AddButton from "../shared/add-button";
+import { Separator } from "../ui";
 import { sidebarItems } from "@/constants/data";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -24,7 +25,7 @@ const SidebarItem = ({ name, href, Icon }: SidebarItemProps) => {
   return (
     <div
       className={cn(
-        "rounded-md transition-colors hover:bg-background-tertiary",
+        "rounded-md transition-colors hover:bg-background-secondary",
         isActive && "bg-text-primary hover:bg-text-primary/90",
       )}
     >
@@ -53,7 +54,7 @@ const Sidebar = () => {
       )}
     >
       <div className="flex h-full flex-col justify-between gap-y-4">
-        <div className="space-y-8">
+        <div className="space-y-4">
           {/* <Logo /> */}
           <div>
             <div className="relative flex items-center justify-between">
@@ -68,7 +69,7 @@ const Sidebar = () => {
               </div>
               <div
                 className={cn(
-                  "cursor-pointer rounded-lg p-2 transition-all duration-500 hover:bg-neutral-900",
+                  "cursor-pointer rounded-lg p-2 transition-all duration-500 hover:bg-background-secondary",
                   !isExpanded && "translate-x-[200%] rotate-180",
                 )}
                 onClick={() => setIsExpanded(!isExpanded)}
@@ -77,6 +78,7 @@ const Sidebar = () => {
               </div>
             </div>
           </div>
+          <Separator />
           {/* Sidebar items */}
           <div className="space-y-6">
             <div className="space-y-1.5">
@@ -103,6 +105,7 @@ const Sidebar = () => {
               />
             ))}
           </div>
+          <Separator />
           <NavUser user={sidebarItems.user} />
         </div>
       </div>
