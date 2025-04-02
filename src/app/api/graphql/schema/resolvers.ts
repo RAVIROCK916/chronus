@@ -1,5 +1,11 @@
 import db from "@/db";
-import { projectTable, sessionTable, taskTable, userTable } from "@/db/schema";
+import {
+  eventTable,
+  projectTable,
+  sessionTable,
+  taskTable,
+  userTable,
+} from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import bcrypt from "bcrypt";
 import { decryptSession } from "@/lib/session";
@@ -12,8 +18,10 @@ export const resolvers = {
     hello: () => "Hello world!",
     users: getUsers,
     projects: getProjects,
+    project: getProject,
     tasks: getTasks,
     task: getTask,
+    events: getEvents,
   },
   Mutation: {
     createUser,
@@ -24,6 +32,12 @@ export const resolvers = {
     deleteProject,
     addTask,
     updateTask,
+    createEvent,
+    updateEvent,
+    deleteEvent,
+  },
+  Project: {
+    tasks: getTasks,
   },
   Task: {
     project: getProjectOfTask,
@@ -45,6 +59,20 @@ async function getProjects(_: any, __: any, context: ContextType) {
     .from(projectTable)
     .where(eq(projectTable.user_id, context.userId));
   return projects;
+}
+
+async function getProject(
+  _: any,
+  { id }: { id: string },
+  context: ContextType,
+) {
+  const project = await db
+    .select()
+    .from(projectTable)
+    .where(
+      and(eq(projectTable.id, id), eq(projectTable.user_id, context.userId)),
+    );
+  return project[0];
 }
 
 async function getTasks(
@@ -82,6 +110,14 @@ async function getProjectOfTask(parent: Task) {
     .from(projectTable)
     .where(eq(projectTable.id, parent.project_id));
   return project[0];
+}
+
+async function getEvents(_: any, __: any, context: ContextType) {
+  const events = await db
+    .select()
+    .from(eventTable)
+    .where(eq(eventTable.user_id, context.userId));
+  return events;
 }
 
 /* Mutation */
@@ -232,4 +268,63 @@ async function updateTask(
     .where(eq(taskTable.id, id))
     .returning();
   return task[0];
+}
+
+async function createEvent(
+  _: any,
+  newEvent: {
+    title: string;
+    description?: string;
+    start: string;
+    end: string;
+    allDay: boolean;
+    color: string;
+    location?: string;
+  },
+  context: ContextType,
+) {
+  const event = await db
+    .insert(eventTable)
+    .values({
+      ...newEvent,
+      start: new Date(newEvent.start),
+      end: new Date(newEvent.end),
+      user_id: context.userId,
+    })
+    .returning();
+  return event[0];
+}
+
+async function updateEvent(
+  _: any,
+  updatedEvent: {
+    id: string;
+    title?: string;
+    description?: string;
+    start?: string;
+    end?: string;
+    allDay?: boolean;
+    color?: string;
+    location?: string;
+  },
+) {
+  const { id, start, end, ...rest } = updatedEvent;
+  const event = await db
+    .update(eventTable)
+    .set({
+      ...rest,
+      start: start ? new Date(start) : undefined,
+      end: end ? new Date(end) : undefined,
+    })
+    .where(eq(eventTable.id, id))
+    .returning();
+  return event[0];
+}
+
+async function deleteEvent(_: any, { id }: { id: string }) {
+  const event = await db
+    .delete(eventTable)
+    .where(eq(eventTable.id, id))
+    .returning();
+  return event[0];
 }

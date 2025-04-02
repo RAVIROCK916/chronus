@@ -32,45 +32,47 @@ export default function TasksColumn({
   });
 
   return (
-    <div
-      ref={setNodeRef}
-      className="w-96 space-y-2 self-start rounded-md border border-border px-4 py-3"
-    >
-      <h2 className="text-text-tertiary">{column.title}</h2>
-      <SortableContext items={tasks.map((task) => task.id)}>
-        <div
-          className="max-h-[500px] space-y-3 overflow-auto transition-all duration-500 ease-in-out"
-          style={{
-            transitionProperty: "height, padding",
-          }}
-        >
-          {tasks.map((task) => (
-            <TaskCard key={task.id} task={task} deleteTask={deleteTask} />
-          ))}
-        </div>
-      </SortableContext>
-      <div>
-        {isTaskInputOpen ? (
-          <TaskInputCard
-            ref={inputTaskRef}
-            status={column.id}
-            createTask={createTask}
-          />
-        ) : (
-          <Button
-            variant="ghost"
-            className="w-full gap-1 text-muted"
-            onClick={() => setIsTaskInputOpen(true)}
+    <div className="space-y-2">
+      <h4 className="text-sm text-text-muted">{column.title}</h4>
+      <div
+        ref={setNodeRef}
+        className="w-96 space-y-2 self-start rounded-md border border-border p-4"
+      >
+        <SortableContext items={tasks.map((task) => task.id)}>
+          <div
+            className="max-h-[500px] space-y-3 overflow-auto transition-all duration-500 ease-in-out"
+            style={{
+              transitionProperty: "height, padding",
+            }}
           >
-            <Plus
-              className="opacity-60 sm:-ms-1 sm:me-2"
-              size={16}
-              strokeWidth={2}
-              aria-hidden="true"
+            {tasks.map((task) => (
+              <TaskCard key={task.id} task={task} deleteTask={deleteTask} />
+            ))}
+          </div>
+        </SortableContext>
+        <div>
+          {isTaskInputOpen ? (
+            <TaskInputCard
+              ref={inputTaskRef}
+              status={column.id}
+              createTask={createTask}
             />
-            Add Task
-          </Button>
-        )}
+          ) : (
+            <Button
+              variant="ghost"
+              className="w-full gap-1 text-muted"
+              onClick={() => setIsTaskInputOpen(true)}
+            >
+              <Plus
+                className="opacity-60 sm:-ms-1 sm:me-2"
+                size={16}
+                strokeWidth={2}
+                aria-hidden="true"
+              />
+              Add Task
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );

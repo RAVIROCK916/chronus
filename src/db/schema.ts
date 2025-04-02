@@ -38,19 +38,6 @@ export const projectTable = pgTable("projects", {
   created_at: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const eventTable = pgTable("events", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  title: text("title").notNull(),
-  description: text("description"),
-  start_time: timestamp("start_time").notNull(),
-  end_time: timestamp("end_time").notNull(),
-  user_id: uuid("user_id")
-    .references(() => userTable.id, { onDelete: "cascade" })
-    .notNull(),
-  created_at: timestamp("created_at").defaultNow().notNull(),
-  updated_at: timestamp("updated_at").defaultNow().notNull(),
-});
-
 export const taskTable = pgTable("tasks", {
   id: uuid("id").primaryKey().defaultRandom(),
   title: text("title").notNull(),
@@ -65,6 +52,22 @@ export const taskTable = pgTable("tasks", {
     .references(() => userTable.id, { onDelete: "cascade" })
     .notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const eventTable = pgTable("events", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  title: text("title").notNull(),
+  description: text("description"),
+  start: timestamp("start_time").notNull(),
+  end: timestamp("end_time").notNull(),
+  allDay: boolean("all_day").default(false).notNull(),
+  color: text("color").default("sky"),
+  location: text("location"),
+  user_id: uuid("user_id")
+    .references(() => userTable.id, { onDelete: "cascade" })
+    .notNull(),
+  created_at: timestamp("created_at").defaultNow().notNull(),
+  updated_at: timestamp("updated_at").defaultNow().notNull(),
 });
 
 export const notificationTable = pgTable("notifications", {

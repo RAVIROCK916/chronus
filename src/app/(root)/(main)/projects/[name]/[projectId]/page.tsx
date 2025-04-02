@@ -1,11 +1,11 @@
 "use client";
 
-import AddButton from "@/components/shared/add-button";
 import BreadCrumb from "@/components/shared/breadcrumb";
-import ClientKanbanBoard from "@/components/main/client-kanban-board";
 import { Folder } from "lucide-react";
 import { createContext } from "react";
 import ProjectHeader from "@/components/main/project-header";
+import { useQuery } from "@apollo/client";
+import { GET_PROJECT } from "@/lib/apollo/client/project";
 
 type ProjectPageProps = {
   params: {
@@ -23,6 +23,10 @@ export default function ProjectPage({
 }: ProjectPageProps) {
   name = decodeURIComponent(name);
 
+  const { data } = useQuery(GET_PROJECT, {
+    variables: { projectId },
+  });
+
   const breadcrumbPaths = [
     { name: "Projects", url: "/projects", icon: Folder },
     { name: name, url: `/projects/${projectId}` },
@@ -30,11 +34,11 @@ export default function ProjectPage({
 
   return (
     <ProjectContext.Provider value={{ project: { id: projectId, name } }}>
-      <div className="space-y-4 py-6">
+      <div className="space-y-6 py-3">
         <BreadCrumb paths={breadcrumbPaths} />
-        <div>
+        <div className="space-y-2">
           <h1 className="text-4xl">{name}</h1>
-          {/* <p>Description: {project.description}</p> */}
+          <p className="text-text-muted">{data?.project?.description}</p>
           {/* <AddButton text="Add task" /> */}
         </div>
         <ProjectHeader />

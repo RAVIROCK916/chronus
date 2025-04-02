@@ -21,15 +21,7 @@ export const typeDefs = gql`
     user_id: ID!
     name: String!
     description: String
-    created_at: String!
-  }
-
-  type Folder {
-    id: ID!
-    project_id: ID!
-    user_id: ID!
-    name: String!
-    description: String!
+    tasks: [Task]!
     created_at: String!
   }
 
@@ -46,12 +38,28 @@ export const typeDefs = gql`
     created_at: String!
   }
 
+  type Event {
+    id: ID!
+    user_id: ID!
+    title: String!
+    description: String
+    start: String!
+    end: String!
+    allDay: Boolean!
+    color: String!
+    location: String
+    created_at: String!
+    updated_at: String!
+  }
+
   type Query {
     hello: String
     users: [User]
     projects: [Project]
+    project(id: ID!): Project
     tasks(projectId: ID!): [Task]
     task(id: ID!): Task
+    events: [Event]
   }
 
   type Mutation {
@@ -75,5 +83,25 @@ export const typeDefs = gql`
       priority: String
       labels: [String]
     ): Task
+    createEvent(
+      title: String!
+      description: String
+      start: String!
+      end: String!
+      allDay: Boolean!
+      color: String!
+      location: String
+    ): Event
+    updateEvent(
+      id: ID!
+      title: String
+      description: String
+      start: String
+      end: String
+      allDay: Boolean
+      color: String
+      location: String
+    ): Event
+    deleteEvent(id: ID!): Event
   }
 `;

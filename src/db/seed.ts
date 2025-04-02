@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto";
 import db from "./index";
 import {
+  eventTable,
   notificationTable,
   projectTable,
   sessionTable,
@@ -64,6 +65,25 @@ async function main() {
         }),
       );
     }
+
+    // Create events for each user
+    await Promise.all(
+      Array.from({ length: 3 }, async (_, i) => {
+        const start = new Date(Date.now() + (i + 1) * 24 * 60 * 60 * 1000);
+        const end = new Date(start.getTime() + 60 * 60 * 1000);
+        await db.insert(eventTable).values({
+          id: randomUUID(),
+          title: `Event ${i + 1}`,
+          description: `Description for event ${i + 1}`,
+          start,
+          end,
+          allDay: [true, false][Math.floor(Math.random() * 2)],
+          color: ["sky", "amber", "rose"][Math.floor(Math.random() * 3)],
+          location: ["Home", "Work", "School"][Math.floor(Math.random() * 3)],
+          user_id: user.id,
+        });
+      }),
+    );
 
     // Create notifications for each user
     await Promise.all(

@@ -162,7 +162,7 @@ export default function KanbanBoard() {
 
   return (
     <div className="space-y-4">
-      <h1>Kanban Board</h1>
+      {/* <h2 className="text-2xl">Kanban Board</h2> */}
       <DndContext
         sensors={sensors}
         onDragStart={handleDragStart} // Track active dragging task

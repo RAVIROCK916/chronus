@@ -49,7 +49,7 @@ const Sidebar = () => {
   return (
     <div
       className={cn(
-        "sticky top-0 h-screen min-w-64 space-y-4 border-r p-4 pt-6 transition-transform duration-500",
+        "sticky top-0 h-screen min-w-64 space-y-4 border-r p-3 pt-6 transition-transform duration-500",
         isExpanded ? "translate-x-0" : "-translate-x-full",
       )}
     >

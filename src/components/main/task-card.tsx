@@ -6,6 +6,10 @@ import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { Badge } from "../ui/badge";
 import { ProjectContext } from "@/app/(root)/(main)/projects/[name]/[projectId]/page";
+import { EditIcon } from "lucide-react";
+import { CiEdit } from "react-icons/ci";
+import { Sheet, SheetTrigger } from "@/components/ui";
+import TaskSheet from "../shared/task-sheet";
 // import { useProject } from "./kanban-board";
 
 type TaskCardProps = {
@@ -79,7 +83,7 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
       )}
       onClick={goToTaskPage}
     >
-      <div className="flex justify-between gap-2">
+      <div className="z-50 flex justify-between gap-2">
         <Badge
           variant={task.priority.toLowerCase() as "low" | "medium" | "high"}
           className="px-1.5 py-px text-[11px] font-normal"
@@ -87,6 +91,16 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
           {task.priority}
         </Badge>
         <div className="invisible mt-1 flex gap-2 group-hover:visible">
+          <Sheet>
+            <SheetTrigger onClick={(e) => e.stopPropagation()}>
+              <CiEdit
+                size="16"
+                // onClick={(e) => e.stopPropagation()}
+                className="text-neutral-500 outline-none transition-all hover:text-neutral-200"
+              />
+            </SheetTrigger>
+            <TaskSheet task={task} />
+          </Sheet>
           <DotsSixVertical
             {...attributes}
             {...listeners}

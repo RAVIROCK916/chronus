@@ -1,9 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addDays, setHours, setMinutes, subDays } from "date-fns";
 
 import { EventCalendar, type CalendarEvent } from "@/components";
+import { useMutation, useQuery } from "@apollo/client";
+import {
+  GET_EVENTS,
+  CREATE_EVENT,
+  UPDATE_EVENT,
+  DELETE_EVENT,
+} from "@/lib/apollo/client/event";
 
 // Sample events data with hardcoded times
 const sampleEvents: CalendarEvent[] = [
@@ -130,13 +137,36 @@ const sampleEvents: CalendarEvent[] = [
 ];
 
 export default function Calendar() {
-  const [events, setEvents] = useState<CalendarEvent[]>(sampleEvents);
+  const { data } = useQuery(GET_EVENTS);
+  const [createEvent] = useMutation(CREATE_EVENT);
+  const [updateEvent] = useMutation(UPDATE_EVENT);
+  const [deleteEvent] = useMutation(DELETE_EVENT);
+
+  const [events, setEvents] = useState<CalendarEvent[]>(data?.events || []);
+
+  useEffect(() => {
+    setEvents(() => {
+      if (data?.events) {
+        let newEvents = structuredClone(data.events);
+        newEvents.map((event: any) => {
+          event.start = new Date(Number(event.start));
+          event.end = new Date(Number(event.end));
+          return event;
+        });
+        console.log("inside data events", newEvents);
+        return newEvents;
+      }
+      return [];
+    });
+  }, [data]);
 
   const handleEventAdd = (event: CalendarEvent) => {
+    createEvent({ variables: event });
     setEvents([...events, event]);
   };
 
   const handleEventUpdate = (updatedEvent: CalendarEvent) => {
+    updateEvent({ variables: updatedEvent });
     setEvents(
       events.map((event) =>
         event.id === updatedEvent.id ? updatedEvent : event,
@@ -145,6 +175,7 @@ export default function Calendar() {
   };
 
   const handleEventDelete = (eventId: string) => {
+    deleteEvent({ variables: { id: eventId } });
     setEvents(events.filter((event) => event.id !== eventId));
   };
 
