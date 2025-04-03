@@ -18,11 +18,11 @@ export const typeDefs = gql`
 
   type Project {
     id: ID!
-    user_id: ID!
     name: String!
     description: String
-    tasks: [Task]!
     created_at: String!
+    user: User!
+    tasks: [Task]!
   }
 
   type Task {
@@ -34,8 +34,8 @@ export const typeDefs = gql`
     status: String!
     priority: String!
     labels: [String]
-    project: Project
     created_at: String!
+    project: Project
   }
 
   type Event {

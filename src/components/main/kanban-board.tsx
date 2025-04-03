@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useMemo } from "react";
+import { useState, useContext, useMemo } from "react";
 
 import TasksColumn from "./tasks-column";
 import TaskCard from "./task-card";
@@ -39,33 +39,11 @@ export function useProjectContext() {
 
 export default function KanbanBoard() {
   const { project } = useProjectContext();
-  const { data } = useQuery(
-    gql`
-      query GetTasks($projectId: ID!) {
-        tasks(projectId: $projectId) {
-          id
-          title
-          description
-          status
-          priority
-        }
-      }
-    `,
-    {
-      variables: { projectId: project.id },
-    },
-  );
 
-  const [tasks, setTasks] = useState<TaskType[]>(data?.tasks || []);
+  const [tasks, setTasks] = useState<TaskType[]>(project.tasks || []);
   const [activeTask, setActiveTask] = useState<TaskType | null>(null);
 
   const user = useSelector((state: RootState) => state.profile);
-
-  useEffect(() => {
-    if (data?.tasks) {
-      setTasks(data.tasks);
-    }
-  }, [data]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {

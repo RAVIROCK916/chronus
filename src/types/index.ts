@@ -1,9 +1,19 @@
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  created_at: string;
+  projects: Project[];
+  tasks: Task[];
+};
+
 export type Project = {
   id: string;
   name: string;
   description: string;
   user_id: string;
   created_at: string;
+  tasks: Task[];
 };
 
 export type TaskStatus = "TODO" | "IN_PROGRESS" | "DONE";
@@ -17,8 +27,7 @@ export type Task = {
   priority: TaskPriority;
   labels: string[];
   project: Project;
-  project_id: string;
-  user_id: string;
+  user: User;
   created_at: string;
 };
 

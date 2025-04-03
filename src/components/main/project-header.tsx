@@ -10,6 +10,7 @@ import {
   UsersRoundIcon,
 } from "lucide-react";
 import ClientKanbanBoard from "./client-kanban-board";
+import ProjectOverview from "./project-overview";
 
 export default function ProjectHeader() {
   return (
@@ -88,9 +89,7 @@ export default function ProjectHeader() {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="tab-1">
-        <p className="pt-1 text-center text-xs text-muted-foreground">
-          Content for Tab 1
-        </p>
+        <ProjectOverview />
       </TabsContent>
       <TabsContent value="Board">
         <ClientKanbanBoard />

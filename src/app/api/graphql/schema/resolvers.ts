@@ -11,7 +11,7 @@ import bcrypt from "bcrypt";
 import { decryptSession } from "@/lib/session";
 import { JWTPayload } from "jose";
 import { ContextType } from "@/types/graphql";
-import { Task, TaskPriority, TaskStatus } from "@/types";
+import { Project, Task, TaskPriority, TaskStatus } from "@/types";
 
 export const resolvers = {
   Query: {
@@ -37,6 +37,7 @@ export const resolvers = {
     deleteEvent,
   },
   Project: {
+    user: getUserOfProject,
     tasks: getTasks,
   },
   Task: {
@@ -51,6 +52,14 @@ export const resolvers = {
 async function getUsers() {
   const users = await db.select().from(userTable);
   return users;
+}
+
+async function getUserOfProject(parent: Project) {
+  const user = await db
+    .select()
+    .from(userTable)
+    .where(eq(userTable.id, parent.user_id));
+  return user[0];
 }
 
 async function getProjects(_: any, __: any, context: ContextType) {
@@ -76,7 +85,7 @@ async function getProject(
 }
 
 async function getTasks(
-  _: any,
+  parent: Project | undefined,
   { projectId }: { projectId: string },
   context: ContextType,
 ) {
@@ -84,14 +93,17 @@ async function getTasks(
     throw new Error("You are not authorized to view tasks");
   }
 
+  let id = projectId;
+
+  if (parent) {
+    id = parent.id;
+  }
+
   const tasks = await db
     .select()
     .from(taskTable)
     .where(
-      and(
-        eq(taskTable.project_id, projectId),
-        eq(taskTable.user_id, context.userId),
-      ),
+      and(eq(taskTable.project_id, id), eq(taskTable.user_id, context.userId)),
     );
   return tasks;
 }
@@ -108,7 +120,7 @@ async function getProjectOfTask(parent: Task) {
   const project = await db
     .select()
     .from(projectTable)
-    .where(eq(projectTable.id, parent.project_id));
+    .where(eq(projectTable.id, parent.project.id));
   return project[0];
 }
 

@@ -6,6 +6,7 @@ import { createContext } from "react";
 import ProjectHeader from "@/components/main/project-header";
 import { useQuery } from "@apollo/client";
 import { GET_PROJECT } from "@/lib/apollo/client/project";
+import { Project } from "@/types";
 
 type ProjectPageProps = {
   params: {
@@ -15,7 +16,7 @@ type ProjectPageProps = {
 };
 
 export const ProjectContext = createContext<{
-  project: { id: string; name: string };
+  project: Project;
 } | null>(null);
 
 export default function ProjectPage({
@@ -23,7 +24,7 @@ export default function ProjectPage({
 }: ProjectPageProps) {
   name = decodeURIComponent(name);
 
-  const { data } = useQuery(GET_PROJECT, {
+  const { data, loading } = useQuery<{ project: Project }>(GET_PROJECT, {
     variables: { projectId },
   });
 
@@ -32,8 +33,12 @@ export default function ProjectPage({
     { name: name, url: `/projects/${projectId}` },
   ];
 
+  if (loading || !data) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <ProjectContext.Provider value={{ project: { id: projectId, name } }}>
+    <ProjectContext.Provider value={{ project: data.project }}>
       <div className="space-y-6 py-3">
         <BreadCrumb paths={breadcrumbPaths} />
         <div className="space-y-2">

@@ -5,11 +5,17 @@ const PROJECT_REQUEST = `
 	name
 	description
 	created_at
+	user {
+		id
+		name
+		email
+	}
 	tasks {
 		id
 		title
 		description
 		status
+		priority
 		created_at
 	}
 `;
