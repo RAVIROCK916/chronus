@@ -46,5 +46,9 @@ export const createProjectFormSchema = (projects: Project[]) =>
 
 export const createTaskFormSchema = z.object({
   title: z.string().trim().min(1, "Task title is required"),
-  description: z.string().trim().optional(),
+  description: z.string().trim().max(500).optional(),
+  status: z.string().default("todo"),
+  priority: z.string().default("low"),
+  labels: z.string().array().optional(),
+  dueDate: z.date().nullable().optional(),
 });

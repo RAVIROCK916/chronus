@@ -17,6 +17,7 @@ import { z } from "zod";
 import { TaskStatus } from "@/types";
 import { gql, useMutation } from "@apollo/client";
 import { useProjectContext } from "./kanban-board";
+import { CREATE_TASK } from "@/lib/apollo/client/task";
 
 type TaskInputCardProps = {
   status: TaskStatus;
@@ -32,33 +33,15 @@ export default forwardRef<HTMLDivElement, TaskInputCardProps>(
       defaultValues: {
         title: "",
         description: "",
+        status,
+        priority: "low",
+        labels: [],
       },
     });
 
-    const ADD_TASK = gql`
-      mutation addTask(
-        $title: String!
-        $description: String
-        $status: String!
-        $projectId: ID!
-      ) {
-        addTask(
-          status: $status
-          title: $title
-          description: $description
-          projectId: $projectId
-        ) {
-          id
-          title
-          description
-          status
-        }
-      }
-    `;
+    const [addTask] = useMutation(CREATE_TASK);
 
-    const [addTask] = useMutation(ADD_TASK);
-
-    async function onSubmit(values: z.infer<typeof createTaskFormSchema>) {
+    function onSubmit(values: z.infer<typeof createTaskFormSchema>) {
       addTask({
         variables: {
           title: values.title,

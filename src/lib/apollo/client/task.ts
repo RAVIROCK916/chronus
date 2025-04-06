@@ -13,12 +13,28 @@ const TASK_REQUEST = `
 `;
 
 export const GET_TASK = gql`
-		query getTask($id: ID!) {
-					task(id: $id) {
-						${TASK_REQUEST}
-			}
+	query getTask($id: ID!) {
+				task(id: $id) {
+					${TASK_REQUEST}
 		}
-	`;
+	}
+`;
+
+export const CREATE_TASK = gql`
+	mutation createTask($title: String!, $description: String, $status: String, $priority: String, $dueDate: String, $labels: [String], $projectId: ID!) {
+		createTask(title: $title, description: $description, status: $status, priority: $priority, dueDate: $dueDate, labels: $labels, projectId: $projectId) {
+			${TASK_REQUEST}
+		}
+	}
+`;
+
+export const UPDATE_TASK = gql`
+	mutation updateTask($id: ID!, $title: String, $description: String, $status: String, $priority: String, $labels: [String]) {
+		updateTask(id: $id, title: $title, description: $description, status: $status, priority: $priority, labels: $labels) {
+			${TASK_REQUEST}
+		}
+	}
+`;
 
 export const UPDATE_TASK_STATUS = gql`
   mutation updateTaskStatus($id: ID!, $status: String) {
@@ -40,6 +56,14 @@ export const UPDATE_TASK_LABELS = gql`
   mutation updateTaskLabels($id: ID!, $labels: [String]) {
     updateTask(id: $id, labels: $labels) {
 			${TASK_REQUEST}
+    }
+  }
+`;
+
+export const DELETE_TASKS = gql`
+  mutation deleteTasks($taskIds: [ID!]!) {
+    deleteTasks(ids: $taskIds) {
+      id
     }
   }
 `;

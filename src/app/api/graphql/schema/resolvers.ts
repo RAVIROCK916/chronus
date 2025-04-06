@@ -6,7 +6,7 @@ import {
   taskTable,
   userTable,
 } from "@/db/schema";
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import bcrypt from "bcrypt";
 import { decryptSession } from "@/lib/session";
 import { JWTPayload } from "jose";
@@ -30,8 +30,9 @@ export const resolvers = {
     verifySession,
     createProject,
     deleteProject,
-    addTask,
+    createTask,
     updateTask,
+    deleteTasks,
     createEvent,
     updateEvent,
     deleteEvent,
@@ -54,7 +55,7 @@ async function getUsers() {
   return users;
 }
 
-async function getUserOfProject(parent: Project) {
+async function getUserOfProject(parent: typeof projectTable.$inferSelect) {
   const user = await db
     .select()
     .from(userTable)
@@ -85,7 +86,7 @@ async function getProject(
 }
 
 async function getTasks(
-  parent: Project | undefined,
+  parent: typeof projectTable.$inferSelect | undefined,
   { projectId }: { projectId: string },
   context: ContextType,
 ) {
@@ -116,11 +117,11 @@ async function getTask(_: any, { id }: { id: string }, context: ContextType) {
   return task[0];
 }
 
-async function getProjectOfTask(parent: Task) {
+async function getProjectOfTask(parent: typeof taskTable.$inferSelect) {
   const project = await db
     .select()
     .from(projectTable)
-    .where(eq(projectTable.id, parent.project.id));
+    .where(eq(projectTable.id, parent.project_id));
   return project[0];
 }
 
@@ -230,17 +231,15 @@ async function deleteProject(_: any, { id }: { id: string }) {
 
 /* Tasks */
 
-async function addTask(
+async function createTask(
   _: any,
-  {
-    title,
-    description,
-    status,
-    projectId,
-  }: {
+  task: {
     title: string;
     description?: string;
     status: TaskStatus;
+    priority: TaskPriority;
+    labels: string[];
+    dueDate?: string;
     projectId: string;
   },
   context: ContextType,
@@ -249,17 +248,16 @@ async function addTask(
   if (!userId) {
     throw new Error("You are not authorized to create a task");
   }
-  const task = await db
+  const newTask = await db
     .insert(taskTable)
     .values({
-      title,
-      description,
-      status,
+      ...task,
+      due_date: task.dueDate ? new Date(task.dueDate) : undefined,
       user_id: userId,
-      project_id: projectId,
+      project_id: task.projectId,
     })
     .returning();
-  return task[0];
+  return newTask[0];
 }
 
 async function updateTask(
@@ -280,6 +278,14 @@ async function updateTask(
     .where(eq(taskTable.id, id))
     .returning();
   return task[0];
+}
+
+async function deleteTasks(_: any, { ids }: { ids: string[] }) {
+  const tasks = await db
+    .delete(taskTable)
+    .where(inArray(taskTable.id, ids))
+    .returning();
+  return tasks;
 }
 
 async function createEvent(

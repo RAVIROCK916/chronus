@@ -34,6 +34,7 @@ export const typeDefs = gql`
     status: String!
     priority: String!
     labels: [String]
+    due_date: String
     created_at: String!
     project: Project
   }
@@ -69,10 +70,13 @@ export const typeDefs = gql`
     verifySession: Boolean
     createProject(name: String!, description: String): Project
     deleteProject(id: ID!): Project
-    addTask(
+    createTask(
       title: String!
       description: String
       status: String
+      priority: String
+      dueDate: String
+      labels: [String]
       projectId: ID!
     ): Task
     updateTask(
@@ -83,6 +87,7 @@ export const typeDefs = gql`
       priority: String
       labels: [String]
     ): Task
+    deleteTasks(ids: [ID!]!): [Task]
     createEvent(
       title: String!
       description: String

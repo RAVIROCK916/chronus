@@ -193,8 +193,18 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background-primary text-foreground;
+  }
+
+  input:-webkit-autofill,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px hsl(var(--text-secondary)) inset !important;
+    box-shadow: 0 0 0 1000px hsl(var(--text-secondary)) inset !important;
+    -webkit-text-fill-color: hsl(var(--background)) !important;
+    caret-color: hsl(var(--background)) !important;
   }
 }
 
@@ -234,10 +244,6 @@
 
 .container-segment {
   @apply flex h-full w-full items-center justify-center gap-2;
-}
-
-input:is(:-webkit-autofill, :autofill) {
-  background-color: white !important;
 }
 
 ::-webkit-scrollbar {

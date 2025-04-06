@@ -23,6 +23,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
   DialogDescription,
 } from "./dialog";
 import { Input } from "./input";
@@ -63,6 +64,7 @@ export {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
   DialogDescription,
   Input,
   Label,

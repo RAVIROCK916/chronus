@@ -1,7 +1,7 @@
 "use client";
 
 import { KeyboardEvent, useEffect, useId, useRef, useState } from "react";
-import { Tag, TagInput } from "emblor";
+import { TagInput } from "emblor";
 
 import { Label } from "@/components/ui/label";
 import { UPDATE_TASK_LABELS } from "@/lib/apollo/client/task";
@@ -23,43 +23,36 @@ const labels = [
 ];
 
 type TaskLabelInputProps = {
-  taskId: string;
-  taskLabels: string[];
+  labels: string[];
+  onChange: (labels: string[]) => void;
 };
 
 export default function TaskLabelInput({
-  taskId,
-  taskLabels,
+  labels,
+  onChange,
 }: TaskLabelInputProps) {
   const id = useId();
-  const [exampleLabels, setExampleLabels] = useState<Tag[]>(labels);
   const [activeTagIndex, setActiveTagIndex] = useState<number | null>(null);
-
-  const isFirstRender = useRef(true);
-
-  const [updateTaskLabels] = useMutation(UPDATE_TASK_LABELS);
-
-  useEffect(() => {
-    if (isFirstRender.current === true) {
-      isFirstRender.current = false;
-      return;
-    }
-    updateTaskLabels({
-      variables: {
-        id: taskId,
-        labels: exampleLabels.map((label) => label.text),
-      },
-    });
-  }, [exampleLabels]);
+  const [inputLabels, setInputLabels] = useState(
+    labels.map((label) => ({ id: Math.random().toString(), text: label })),
+  );
 
   return (
-    <div className="*:not-first:mt-2">
-      <Label htmlFor={id}>Labels</Label>
+    <div className="*:not-first:mt-2 space-y-2">
+      <Label htmlFor={id}>
+        Labels <span className="text-xs text-text-muted">(optional)</span>
+      </Label>
       <TagInput
         id={id}
-        tags={exampleLabels}
+        tags={inputLabels}
         setTags={(newLabels) => {
-          setExampleLabels(newLabels);
+          if (typeof newLabels === "function") {
+            const updatedLabels = newLabels(inputLabels);
+            onChange(updatedLabels.map((label) => label.text));
+          } else {
+            onChange(newLabels.map((label) => label.text));
+          }
+          setInputLabels(newLabels);
         }}
         placeholder="Add a label"
         styleClasses={{

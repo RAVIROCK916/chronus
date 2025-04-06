@@ -5,19 +5,23 @@ import {
   BoxIcon,
   ChartLine,
   HouseIcon,
+  List,
   PanelsTopLeftIcon,
   SettingsIcon,
   UsersRoundIcon,
 } from "lucide-react";
 import ClientKanbanBoard from "./client-kanban-board";
 import ProjectOverview from "./project-overview";
+import { useProjectContext } from "./kanban-board";
+import TasksTable from "./tasks-table";
 
 export default function ProjectHeader() {
+  const { project } = useProjectContext();
   return (
-    <Tabs defaultValue="Board">
+    <Tabs defaultValue="List">
       <TabsList className="mb-3 h-auto w-full justify-start gap-2 rounded-none border-b bg-transparent px-0 py-1 text-foreground">
         <TabsTrigger
-          value="tab-1"
+          value="Overview"
           className="relative after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 hover:bg-background-secondary hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:after:bg-primary data-[state=active]:hover:bg-background-secondary"
         >
           <a href="#overview" className="flex items-center">
@@ -40,6 +44,19 @@ export default function ProjectHeader() {
               aria-hidden="true"
             />
             Board
+          </a>
+        </TabsTrigger>
+        <TabsTrigger
+          value="List"
+          className="relative after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 hover:bg-background-secondary hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:after:bg-primary data-[state=active]:hover:bg-background-secondary"
+        >
+          <a href="#list" className="flex items-center">
+            <List
+              className="-ms-0.5 me-2.5 opacity-60"
+              size={16}
+              aria-hidden="true"
+            />
+            List
           </a>
         </TabsTrigger>
         <TabsTrigger
@@ -88,11 +105,14 @@ export default function ProjectHeader() {
           Settings
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="tab-1">
-        <ProjectOverview />
-      </TabsContent>
+      <TabsContent value="Overview">{/* <ProjectOverview /> */}</TabsContent>
       <TabsContent value="Board">
         <ClientKanbanBoard />
+      </TabsContent>
+      <TabsContent value="List">
+        <div className="pr-6">
+          <TasksTable tasks={project.tasks} />
+        </div>
       </TabsContent>
       <TabsContent value="tab-3">
         <p className="pt-1 text-center text-xs text-muted-foreground">

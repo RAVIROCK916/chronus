@@ -4,7 +4,7 @@ import { useProjectContext } from "./kanban-board";
 export default function ProjectOverview() {
   const { project } = useProjectContext();
   return (
-    <div>
+    <div className="pr-6">
       <TasksTable tasks={project.tasks} />
     </div>
   );

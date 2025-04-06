@@ -111,7 +111,7 @@ const CreateProjectDialog = ({
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="ex. Daily notes" {...field} />
+                    <Input placeholder="ex. Diary" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
