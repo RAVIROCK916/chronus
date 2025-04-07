@@ -11,7 +11,7 @@ export type Project = {
   id: string;
   name: string;
   description: string;
-	created_at: string;
+  created_at: string;
   user: User;
   tasks: Task[];
 };
@@ -22,10 +22,11 @@ export type TaskPriority = "LOW" | "MEDIUM" | "HIGH";
 export type Task = {
   id: string;
   title: string;
-  description: string | undefined;
+  description?: string;
   status: TaskStatus;
   priority: TaskPriority;
-  labels: string[];
+  labels?: string[];
+  dueDate?: string;
   project: Project;
   user: User;
   created_at: string;

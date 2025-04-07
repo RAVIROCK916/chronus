@@ -42,12 +42,13 @@ import DatePicker from "../shared/date-picker";
 import { useMutation } from "@apollo/client";
 import { CREATE_TASK } from "@/lib/apollo/client/task";
 import { useProjectContext } from "./kanban-board";
+import { Task } from "@/types";
 
 export default function CreateTaskDialog() {
   const id = useId();
   const [open, setOpen] = useState(false);
 
-  const { project } = useProjectContext();
+  const { project, addTask } = useProjectContext();
 
   const [createTask, { loading }] = useMutation(CREATE_TASK);
 
@@ -74,10 +75,13 @@ export default function CreateTaskDialog() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof createTaskFormSchema>) {
+  async function onSubmit(values: z.infer<typeof createTaskFormSchema>) {
     console.log("values", values);
 
-    createTask({ variables: { ...values, projectId: project.id } });
+    const createdTask = await createTask({
+      variables: { ...values, projectId: project.id },
+    });
+    addTask(createdTask.data.createTask as Task);
 
     setOpen(false);
   }

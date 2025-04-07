@@ -1,7 +1,6 @@
 "use client";
 
-import { useId, useMemo, useRef, useState } from "react";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -73,11 +72,6 @@ import {
   PaginationItem,
 } from "@/components/ui/pagination";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -95,9 +89,8 @@ import {
 import { Task } from "@/types";
 import { useMutation } from "@apollo/client";
 import { DELETE_TASKS } from "@/lib/apollo/client/task";
-import { RadioGroup } from "@radix-ui/react-radio-group";
-import { RadioGroupItem } from "../ui/radio-group";
 import CreateTaskDialog from "./create-task-dialog";
+import { useProjectContext } from "./kanban-board";
 
 // Custom filter function for multi-column searching
 const multiColumnFilterFn: FilterFn<Task> = (row, columnId, filterValue) => {
@@ -208,14 +201,14 @@ export default function TasksTable({ tasks }: TasksTableProps) {
   });
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const { deleteTasks: deleteTasksFromContext } = useProjectContext();
+
   const [sorting, setSorting] = useState<SortingState>([
     {
       id: "title",
       desc: false,
     },
   ]);
-
-  const [data, setData] = useState<Task[]>(tasks);
 
   const [deleteTasks] = useMutation(DELETE_TASKS);
 
@@ -227,15 +220,13 @@ export default function TasksTable({ tasks }: TasksTableProps) {
       variables: { taskIds: selectedIds },
     });
 
-    const updatedData = data.filter(
-      (item) => !selectedRows.some((row) => row.original.id === item.id),
-    );
-    setData(updatedData);
+    deleteTasksFromContext(selectedIds);
+
     table.resetRowSelection();
   };
 
   const table = useReactTable({
-    data,
+    data: tasks,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -349,74 +340,6 @@ export default function TasksTable({ tasks }: TasksTableProps) {
               ))}
             </SelectContent>
           </Select>
-          {/* <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline">
-                <FilterIcon
-                  className="-ms-1 opacity-60"
-                  size={16}
-                  aria-hidden="true"
-                />
-                Status
-                {selectedStatuses.length > 0 && (
-                  <span className="-me-1 inline-flex h-5 max-h-full items-center rounded border bg-background px-1 font-[inherit] text-[0.625rem] font-medium text-muted-foreground/70">
-                    {selectedStatuses.length}
-                  </span>
-                )}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto min-w-36 p-3" align="start">
-              <div className="space-y-3">
-                <div className="text-xs font-medium text-muted-foreground">
-                  Filters
-                </div>
-                <RadioGroup className="space-y-3">
-                  {uniqueStatusValues.map((value, i) => (
-                    <div key={value} className="flex items-center gap-2">
-                      <RadioGroupItem
-                        key={value}
-                        value={value}
-                        id={`${id}-${i}`}
-                      />
-                      <Label
-                        htmlFor={`${id}-${i}`}
-                        className="flex grow justify-between gap-2 font-normal"
-                      >
-                        <p className="flex items-center">
-                          {value.toLowerCase()}
-                        </p>
-                        <span className="ms-2 text-xs text-muted-foreground">
-                          {statusCounts.get(value)}
-                        </span>
-                      </Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-                <div className="space-y-3">
-                  {uniqueStatusValues.map((value, i) => (
-                    <div key={value} className="flex items-center gap-2">
-                      <Checkbox
-                        id={`${id}-${i}`}
-                        checked={selectedStatuses.includes(value)}
-                        onCheckedChange={(checked: boolean) =>
-                          handleStatusChange(checked, value)
-                        }
-                      />
-                      <Label
-                        htmlFor={`${id}-${i}`}
-                        className="flex grow justify-between gap-2 font-normal"
-                      >
-                        {value.toLowerCase()}{" "}
-                        <span className="ms-2 text-xs text-muted-foreground">
-                          {statusCounts.get(value)}
-                        </span>
-                      </Label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </PopoverContent>
-          </Popover> */}
           {/* Toggle columns visibility */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -719,60 +642,90 @@ export default function TasksTable({ tasks }: TasksTableProps) {
 }
 
 function RowActions({ row }: { row: Row<Task> }) {
+  const { deleteTask } = useProjectContext();
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <div className="flex justify-end">
-          <Button
-            size="icon"
-            variant="ghost"
-            className="shadow-none"
-            aria-label="Edit item"
+    <AlertDialog>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <div className="flex justify-end">
+            <Button
+              size="icon"
+              variant="ghost"
+              className="shadow-none"
+              aria-label="Edit item"
+            >
+              <EllipsisIcon size={16} aria-hidden="true" />
+            </Button>
+          </div>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
+              <span>Edit</span>
+              <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <span>Duplicate</span>
+              <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
+              <span>Archive</span>
+              <DropdownMenuShortcut>⌘A</DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>More</DropdownMenuSubTrigger>
+              <DropdownMenuPortal>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem>Move to project</DropdownMenuItem>
+                  <DropdownMenuItem>Move to folder</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>Advanced options</DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuPortal>
+            </DropdownMenuSub>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem>Share</DropdownMenuItem>
+            <DropdownMenuItem>Add to favorites</DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <AlertDialogTrigger asChild>
+            <DropdownMenuItem className="text-destructive focus:text-destructive">
+              <>
+                <span>Delete</span>
+                <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+              </>
+            </DropdownMenuItem>
+          </AlertDialogTrigger>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <AlertDialogContent>
+        <div className="flex flex-col gap-2 max-sm:items-center sm:flex-row sm:gap-4">
+          <div
+            className="flex size-9 shrink-0 items-center justify-center rounded-full border"
+            aria-hidden="true"
           >
-            <EllipsisIcon size={16} aria-hidden="true" />
-          </Button>
+            <CircleAlertIcon className="opacity-80" size={16} />
+          </div>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the
+              task
+            </AlertDialogDescription>
+          </AlertDialogHeader>
         </div>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <span>Edit</span>
-            <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <span>Duplicate</span>
-            <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <span>Archive</span>
-            <DropdownMenuShortcut>⌘A</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>More</DropdownMenuSubTrigger>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent>
-                <DropdownMenuItem>Move to project</DropdownMenuItem>
-                <DropdownMenuItem>Move to folder</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Advanced options</DropdownMenuItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>Share</DropdownMenuItem>
-          <DropdownMenuItem>Add to favorites</DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="text-destructive focus:text-destructive">
-          <span>Delete</span>
-          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={() => deleteTask(row.original.id)}>
+            Delete
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
