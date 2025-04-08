@@ -20,6 +20,10 @@ import { SubmitHandler, useForm, UseFormReturn } from "react-hook-form";
 import { onboardingFormSchema } from "@/lib/definitions";
 
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
+import { useRouter } from "next/navigation";
+import { UPDATE_USER } from "@/lib/apollo/client/user";
+import { useSelector } from "react-redux";
+import { RootState } from "@/state/store";
 
 type OnboardingFormProps = {
   form: UseFormReturn<z.infer<typeof onboardingFormSchema>>;
@@ -66,7 +70,8 @@ const OnboardingFormOne = ({ form }: OnboardingFormProps) => {
 const steps = [OnboardingFormOne];
 
 const OnboardingPage = () => {
-  const id = useId();
+  const { id } = useSelector((state: RootState) => state.profile);
+  const router = useRouter();
 
   const {
     currentStep,
@@ -84,23 +89,21 @@ const OnboardingPage = () => {
     },
   });
 
-  const { data } = useQuery(gql`
-    query user {
-      users {
-        id
-        name
-        email
-      }
-    }
-  `);
+  const [updateUser] = useMutation(UPDATE_USER);
 
   // Handle Form Submission
-  const onSubmit: SubmitHandler<z.infer<typeof onboardingFormSchema>> = (
+  const onSubmit: SubmitHandler<z.infer<typeof onboardingFormSchema>> = async (
     values,
   ) => {
     if (isLastStep) {
       console.log("Onboarding Complete", values);
-      alert("Onboarding Complete!");
+      await updateUser({
+        variables: {
+          id,
+          name: values.name,
+        },
+      });
+      router.push("/dashboard");
     } else {
       next();
     }
@@ -112,8 +115,8 @@ const OnboardingPage = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 p-10">
           <StepComponent form={form} />
           {/* Navigation Buttons */}
-          {/* <div className="mt-6 flex flex-row-reverse">
-            <Button type="submit">
+          <div className="mt-6 flex flex-row-reverse">
+            <Button type="submit" variant="outline">
               {isLastStep ? "Submit" : "Next"}
               {!isLastStep && <ArrowRight className="ml-2" size={16} />}
             </Button>
@@ -122,7 +125,7 @@ const OnboardingPage = () => {
                 <ArrowLeft className="mr-2" size={16} /> Back
               </Button>
             )}
-          </div> */}
+          </div>
         </form>
       </Form>
     </div>

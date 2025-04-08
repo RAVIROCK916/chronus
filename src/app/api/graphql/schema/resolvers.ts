@@ -12,10 +12,12 @@ import { decryptSession } from "@/lib/session";
 import { JWTPayload } from "jose";
 import { ContextType } from "@/types/graphql";
 import { Project, Task, TaskPriority, TaskStatus } from "@/types";
+import { redirect } from "next/navigation";
 
 export const resolvers = {
   Query: {
     hello: () => "Hello world!",
+    user: getCurrentUser,
     users: getUsers,
     projects: getProjects,
     project: getProject,
@@ -26,12 +28,14 @@ export const resolvers = {
   Mutation: {
     createUser,
     loginUser,
+    updateUser,
     updateNameOfUser,
     verifySession,
     createProject,
     deleteProject,
     createTask,
     updateTask,
+    deleteTask,
     deleteTasks,
     createEvent,
     updateEvent,
@@ -49,6 +53,17 @@ export const resolvers = {
 /* Resolvers */
 
 /* Query */
+
+async function getCurrentUser(_: any, __: any, context: ContextType) {
+  if (!context.userId) {
+    throw new Error("You are not authorized to get the current user");
+  }
+  const user = await db
+    .select()
+    .from(userTable)
+    .where(eq(userTable.id, context.userId));
+  return user[0];
+}
 
 async function getUsers() {
   const users = await db.select().from(userTable);
@@ -167,6 +182,30 @@ async function loginUser(
   }
 }
 
+async function updateUser(
+  _: any,
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    password_hash: string;
+    profile_picture: string;
+  },
+) {
+  const { id, name, email, password_hash, profile_picture } = user;
+  const updatedUser = await db
+    .update(userTable)
+    .set({
+      name,
+      email,
+      password_hash,
+      profile_picture,
+    })
+    .where(eq(userTable.id, id))
+    .returning();
+  return updatedUser[0];
+}
+
 async function updateNameOfUser(
   _: any,
   { id, name }: { id: string; name: string },
@@ -184,26 +223,31 @@ async function verifySession(_: any, __: any, context: ContextType) {
   const sessionId = context.sessionId;
   console.log("verifying session", context);
   try {
-    if (!sessionId) {
-      throw new Error("No session ID found");
-    }
-
     const session = await db
       .select()
       .from(sessionTable)
       .where(
-        and(
-          eq(sessionTable.user_id, userId as string),
-          eq(sessionTable.id, sessionId as string),
-        ),
+        and(eq(sessionTable.user_id, userId), eq(sessionTable.id, sessionId)),
       );
     if (!session[0]) {
-      throw new Error("Session not found");
+      console.log("Session not found");
+      return null;
     }
-    return true;
+
+    const user = await db
+      .select()
+      .from(userTable)
+      .where(eq(userTable.id, session[0].user_id));
+
+    if (!user[0]) {
+      console.log("User not found");
+      return null;
+    }
+
+    return user[0];
   } catch (error) {
     console.error("verifying session failed", error);
-    return false;
+    return null;
   }
 }
 
@@ -262,7 +306,7 @@ async function createTask(
 
 async function updateTask(
   _: any,
-  updatedTask: {
+  task: {
     id: string;
     title?: string;
     description?: string;
@@ -271,10 +315,18 @@ async function updateTask(
     labels?: string[];
   },
 ) {
-  const { id, title, description, status, priority, labels } = updatedTask;
-  const task = await db
+  const { id, title, description, status, priority, labels } = task;
+  const updatedTask = await db
     .update(taskTable)
     .set({ title, description, status, priority, labels })
+    .where(eq(taskTable.id, id))
+    .returning();
+  return updatedTask[0];
+}
+
+async function deleteTask(_: any, { id }: { id: string }) {
+  const task = await db
+    .delete(taskTable)
     .where(eq(taskTable.id, id))
     .returning();
   return task[0];

@@ -1,38 +1,32 @@
 import Link from "next/link";
 import SignupForm from "@/components/main/signup-form";
 import Logo from "@/components/shared/logo";
+import { GalleryVerticalEnd } from "lucide-react";
 
 export default function SignupPage() {
   return (
-    <div className="mx-auto flex h-dvh max-w-sm flex-col items-start pt-4 md:pt-20">
-      <div className="flex w-full items-center border-b border-border/80 py-8">
-        <Link href="/#home" className="flex items-center gap-x-2">
-          <Logo />
-          <h1 className="text-lg font-medium">Chronus</h1>
-        </Link>
+    <div className="grid min-h-svh lg:grid-cols-2">
+      <div className="flex flex-col gap-4 p-6 md:p-10">
+        <div className="flex justify-center gap-2 md:justify-start">
+          <a href="#" className="flex items-center gap-2 font-medium">
+            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
+              <GalleryVerticalEnd className="size-4" />
+            </div>
+            Acme Inc.
+          </a>
+        </div>
+        <div className="flex flex-1 items-center justify-center">
+          <div className="w-full max-w-xs">
+            <SignupForm />
+          </div>
+        </div>
       </div>
-
-      <SignupForm />
-
-      <div className="flex w-full flex-col items-start">
-        <p className="text-sm text-muted-foreground">
-          By signing up, you agree to our{" "}
-          <Link href="/terms" className="text-primary">
-            Terms of Service{" "}
-          </Link>
-          and{" "}
-          <Link href="/privacy" className="text-primary">
-            Privacy Policy
-          </Link>
-        </p>
-      </div>
-      <div className="mt-auto flex w-full items-start border-t border-border/80 py-6">
-        <p className="text-sm text-muted-foreground">
-          Already have an account?{" "}
-          <Link href="/login" className="text-primary">
-            Login
-          </Link>
-        </p>
+      <div className="relative hidden bg-muted lg:block">
+        <img
+          src="/placeholder.svg"
+          alt="Image"
+          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+        />
       </div>
     </div>
   );

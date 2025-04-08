@@ -51,9 +51,6 @@ export async function encryptSession(payload: any) {
 
 export async function decryptSession(token: string) {
   try {
-    const token = cookies().get("sessionId")?.value;
-    if (!token) return null;
-
     const { payload } = await jwtVerify(token, secret);
     return payload;
   } catch (error) {

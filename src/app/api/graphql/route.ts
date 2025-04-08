@@ -7,28 +7,43 @@ import { NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import { decryptSession } from "@/lib/session";
 import { JWTPayload } from "jose";
+import { redirect } from "next/navigation";
 
 const server = new ApolloServer({ typeDefs, resolvers });
 
 interface SessionPayload extends JWTPayload {
-  userId?: string;
-  sessionId?: string;
+  userId: string;
+  sessionId: string;
 }
 
 const handler = startServerAndCreateNextHandler(server, {
   context: async (req: NextRequest) => {
     const token = cookies().get("sessionId")?.value || "";
     // if there is no token, return an empty object
-    if (!token)
+    if (!token) {
+      redirect("/login");
       return {
         userId: "",
         sessionId: "",
       };
+    }
 
     const decryptedToken = (await decryptSession(
       token,
     )) as SessionPayload | null;
-    return { userId: decryptedToken?.userId || "" };
+
+    if (!decryptedToken) {
+      redirect("/login");
+      return {
+        userId: "",
+        sessionId: "",
+      };
+    }
+
+    return {
+      userId: decryptedToken.userId,
+      sessionId: decryptedToken.sessionId,
+    };
   },
 });
 

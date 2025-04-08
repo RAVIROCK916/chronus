@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import { gql } from "@apollo/client";
 
 export const typeDefs = gql`
   type User {
@@ -6,6 +6,7 @@ export const typeDefs = gql`
     name: String!
     email: String!
     password_hash: String!
+    profile_picture: String
     created_at: String!
   }
 
@@ -55,6 +56,7 @@ export const typeDefs = gql`
 
   type Query {
     hello: String
+    user: User
     users: [User]
     projects: [Project]
     project(id: ID!): Project
@@ -66,8 +68,16 @@ export const typeDefs = gql`
   type Mutation {
     createUser(email: String!, password: String!): User
     loginUser(email: String!, password: String!): User
+    updateUser(
+      id: ID!
+      name: String
+      email: String
+      password_hash: String
+      profile_picture: String
+    ): User
+    deleteUser(id: ID!): User
     updateNameOfUser(id: ID!, name: String!): User
-    verifySession: Boolean
+    verifySession: User
     createProject(name: String!, description: String): Project
     deleteProject(id: ID!): Project
     createTask(
@@ -87,6 +97,7 @@ export const typeDefs = gql`
       priority: String
       labels: [String]
     ): Task
+    deleteTask(id: ID!): Task
     deleteTasks(ids: [ID!]!): [Task]
     createEvent(
       title: String!
