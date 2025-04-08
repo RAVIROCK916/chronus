@@ -61,6 +61,14 @@ export const UPDATE_TASK_LABELS = gql`
   }
 `;
 
+export const DELETE_TASK = gql`
+  mutation deleteTask($id: ID!) {
+    deleteTask(id: $id) {
+      id
+    }
+  }
+`;
+
 export const DELETE_TASKS = gql`
   mutation deleteTasks($taskIds: [ID!]!) {
     deleteTasks(ids: $taskIds) {

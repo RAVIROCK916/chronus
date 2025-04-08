@@ -10,7 +10,6 @@ import {
 import { UPDATE_TASK_STATUS } from "@/lib/apollo/client/task";
 import { TaskStatus } from "@/types";
 import { useMutation } from "@apollo/client";
-import gql from "graphql-tag";
 import { useState } from "react";
 
 type Props = {

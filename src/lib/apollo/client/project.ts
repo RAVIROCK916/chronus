@@ -16,6 +16,8 @@ const PROJECT_REQUEST = `
 		description
 		status
 		priority
+		labels
+		due_date
 		created_at
 	}
 `;

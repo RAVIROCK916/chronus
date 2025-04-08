@@ -46,6 +46,10 @@ export default function TaskPage({ params }: TaskPageProps) {
     }
   }, [data]);
 
+  if (!task) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="mx-auto max-w-screen-lg space-y-6 pr-4 pt-4">
       <BreadCrumb paths={breadcrumbs} />
@@ -66,9 +70,11 @@ export default function TaskPage({ params }: TaskPageProps) {
                 <Label>Priority</Label>
                 <TaskPrioritySelect id={taskId} taskPriority={task.priority} />
               </div>
-              <div>
-                <TaskLabelInput taskId={taskId} taskLabels={task.labels} />
-              </div>
+              {task.labels && (
+                <div>
+                  <TaskLabelInput labels={task.labels} onChange={() => {}} />
+                </div>
+              )}
             </div>
           </div>
         </div>

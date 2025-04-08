@@ -232,7 +232,7 @@
 }
 .bottom,
 .flip-card .bottom-flip {
-  @apply flex items-end justify-center rounded-b-sm bg-neutral-100;
+  @apply flex items-end justify-center rounded-b-sm bg-neutral-50;
 }
 
 .flip-card .top-flip {

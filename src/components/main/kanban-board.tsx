@@ -16,8 +16,7 @@ import {
   PointerSensor,
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
-import gql from "graphql-tag";
-import { useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import { useSelector } from "react-redux";
 import { RootState } from "@/state/store";
 import { ProjectContext } from "@/app/(root)/(main)/projects/[name]/[projectId]/page";

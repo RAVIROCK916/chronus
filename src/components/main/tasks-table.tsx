@@ -87,9 +87,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Task } from "@/types";
-import { useMutation } from "@apollo/client";
-import { DELETE_TASKS } from "@/lib/apollo/client/task";
-import CreateTaskDialog from "./create-task-dialog";
+import CreateTaskDialog, { EditTaskDialog } from "./create-task-dialog";
 import { useProjectContext } from "./kanban-board";
 
 // Custom filter function for multi-column searching
@@ -123,7 +121,7 @@ const columns: ColumnDef<Task>[] = [
         aria-label="Select all"
       />
     ),
-    cell: ({ row }) => (
+    cell: ({ row }: { row: Row<Task> }) => (
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -179,6 +177,42 @@ const columns: ColumnDef<Task>[] = [
     size: 180,
   },
   {
+    id: "labels",
+    header: "Labels",
+    accessorKey: "labels",
+    cell: ({ row }) => {
+      const labels = row.getValue("labels") as string[];
+      return (
+        labels && (
+          <div className="flex flex-wrap gap-2">
+            {labels.map((label) => (
+              <div
+                key={label}
+                className="rounded-full bg-muted-foreground/60 px-2 py-0.5 text-primary-foreground"
+              >
+                {label}
+              </div>
+            ))}
+          </div>
+        )
+      );
+    },
+    enableSorting: false,
+  },
+  {
+    id: "due_date",
+    header: "Due Date",
+    accessorKey: "due_date",
+    cell: ({ row }) => {
+      const dueDate = row.getValue("due_date") as string;
+      return (
+        <div className="text-sm text-muted-foreground">
+          {dueDate ? new Date(Number(dueDate)).toLocaleDateString() : ""}
+        </div>
+      );
+    },
+  },
+  {
     id: "actions",
     header: () => <span className="sr-only">Actions</span>,
     cell: ({ row }) => <RowActions row={row} />,
@@ -186,7 +220,6 @@ const columns: ColumnDef<Task>[] = [
     enableHiding: false,
   },
 ];
-
 type TasksTableProps = {
   tasks: Task[];
 };
@@ -210,15 +243,10 @@ export default function TasksTable({ tasks }: TasksTableProps) {
     },
   ]);
 
-  const [deleteTasks] = useMutation(DELETE_TASKS);
-
   const handleDeleteRows = async () => {
     const selectedRows = table.getSelectedRowModel().rows;
 
     const selectedIds = selectedRows.map((row) => row.original.id);
-    await deleteTasks({
-      variables: { taskIds: selectedIds },
-    });
 
     deleteTasksFromContext(selectedIds);
 
@@ -641,10 +669,66 @@ export default function TasksTable({ tasks }: TasksTableProps) {
   );
 }
 
+type ActionType = "edit" | "delete";
+
 function RowActions({ row }: { row: Row<Task> }) {
+  const [action, setAction] = useState<ActionType | null>(null);
   const { deleteTask } = useProjectContext();
+
+  const handleAction = () => {
+    if (action === "edit") {
+      // your delete logic
+      console.log("Editing...");
+    } else if (action === "delete") {
+      // your archive logic
+      deleteTask(row.original.id);
+      console.log("Deleting...");
+    }
+
+    // Close the dialog
+    setAction(null);
+  };
+
+  const getAlertDialogContent = (action: ActionType) => {
+    switch (action) {
+      case "edit":
+        return (
+          <EditTaskDialog
+            task={row.original}
+            handleClose={() => setAction(null)}
+          />
+        );
+      case "delete":
+        return (
+          <>
+            <div className="flex flex-col gap-2 max-sm:items-center sm:flex-row sm:gap-4">
+              <div
+                className="flex size-9 shrink-0 items-center justify-center rounded-full border"
+                aria-hidden="true"
+              >
+                <CircleAlertIcon className="opacity-80" size={16} />
+              </div>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete the
+                  task
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+            </div>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleAction}>
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </>
+        );
+    }
+  };
+
   return (
-    <AlertDialog>
+    <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div className="flex justify-end">
@@ -660,7 +744,7 @@ function RowActions({ row }: { row: Row<Task> }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuGroup>
-            <DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => setAction("edit")}>
               <span>Edit</span>
               <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
             </DropdownMenuItem>
@@ -693,39 +777,23 @@ function RowActions({ row }: { row: Row<Task> }) {
             <DropdownMenuItem>Add to favorites</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <AlertDialogTrigger asChild>
-            <DropdownMenuItem className="text-destructive focus:text-destructive">
-              <>
-                <span>Delete</span>
-                <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-              </>
-            </DropdownMenuItem>
-          </AlertDialogTrigger>
+          <DropdownMenuItem
+            className="text-destructive focus:text-destructive"
+            onSelect={() => setAction("delete")}
+          >
+            <span>Delete</span>
+            <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <AlertDialogContent>
-        <div className="flex flex-col gap-2 max-sm:items-center sm:flex-row sm:gap-4">
-          <div
-            className="flex size-9 shrink-0 items-center justify-center rounded-full border"
-            aria-hidden="true"
-          >
-            <CircleAlertIcon className="opacity-80" size={16} />
-          </div>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the
-              task
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-        </div>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => deleteTask(row.original.id)}>
-            Delete
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+      <AlertDialog
+        open={!!action}
+        onOpenChange={(open) => !open && setAction(null)}
+      >
+        <AlertDialogContent>
+          {action && getAlertDialogContent(action)}
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }
