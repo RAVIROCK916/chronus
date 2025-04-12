@@ -1,26 +1,8 @@
 // import { Calendar } from "@phosphor-icons/react";
 import { getRandomAvatar } from "@/utils/avatar";
-import {
-  Bell,
-  Calendar,
-  Folder,
-  Home,
-  Settings,
-  LayoutIcon,
-  MessageSquare,
-  LayoutDashboard,
-  Sheet,
-} from "lucide-react";
+import { Bell, Calendar, Folder, Settings, MessageSquare } from "lucide-react";
 
-import {
-  FaBell,
-  FaCalendar,
-  FaFolder,
-  FaGear,
-  FaHouse,
-  FaMessage,
-  FaTable,
-} from "react-icons/fa6";
+import { PiTableFill } from "react-icons/pi";
 
 export const sidebarItems = {
   top: [
@@ -28,7 +10,7 @@ export const sidebarItems = {
       id: 1,
       name: "Dashboard",
       href: "/dashboard",
-      icon: Sheet,
+      icon: PiTableFill,
     },
     {
       id: 2,

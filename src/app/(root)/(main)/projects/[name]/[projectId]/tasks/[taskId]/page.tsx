@@ -12,6 +12,11 @@ import { Separator } from "@/components/ui/separator";
 import BreadCrumb from "@/components/shared/breadcrumb";
 import { Task as TaskType } from "@/types";
 import { gql, useQuery } from "@apollo/client";
+import { FaRegCircleDot } from "react-icons/fa6";
+import { MdPriorityHigh } from "react-icons/md";
+import { CiShoppingTag } from "react-icons/ci";
+import { Badge } from "@/components/ui";
+import { Clock } from "lucide-react";
 
 type TaskPageProps = {
   params: { projectId: string; taskId: string };
@@ -58,10 +63,10 @@ export default function TaskPage({ params }: TaskPageProps) {
           <div className="min-w-[600px]">
             <TaskDetails task={task} />
           </div>
-          <div className="w-60 min-w-64">
+          <div className="min-w-96">
             <h3 className="text-text-tertiary">Details</h3>
             <Separator className="my-3" />
-            <div className="space-y-4">
+            {/* <div className="space-y-4">
               <div>
                 <Label>Status</Label>
                 <TaskStatusSelect id={taskId} taskStatus={task.status} />
@@ -75,7 +80,44 @@ export default function TaskPage({ params }: TaskPageProps) {
                   <TaskLabelInput labels={task.labels} onChange={() => {}} />
                 </div>
               )}
-            </div>
+            </div> */}
+            <table className="[&_td]:pl-12 [&_th]:py-2 [&_th]:text-left [&_th]:font-normal [&_th]:text-text-muted [&_tr]:text-sm">
+              <tr>
+                <th className="flex items-center gap-2">
+                  <FaRegCircleDot />
+                  Status
+                </th>
+                <td>Status</td>
+              </tr>
+              <tr>
+                <th className="flex items-center gap-2">
+                  <MdPriorityHigh />
+                  Priority
+                </th>
+                <td>Priority</td>
+              </tr>
+              <tr>
+                <th className="flex items-center gap-2">
+                  <Clock size={16} /> Due Date
+                </th>
+                <td>Due Date</td>
+              </tr>
+              <tr>
+                <th className="flex items-center gap-2">
+                  <CiShoppingTag className="stroke-1" size={16} />
+                  Tags
+                </th>
+                <td>
+                  <div className="flex flex-wrap gap-2">
+                    {task?.labels?.map((label) => (
+                      <Badge key={label} variant="secondary">
+                        {label}
+                      </Badge>
+                    ))}
+                  </div>
+                </td>
+              </tr>
+            </table>
           </div>
         </div>
       )}

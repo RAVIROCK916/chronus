@@ -9,9 +9,10 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Command, LucideIcon, PanelLeft, Settings } from "lucide-react";
 import { IconType } from "react-icons/lib";
-import { FaGear } from "react-icons/fa6";
 import { NavUser } from "../shared/nav-user";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/state/store";
 
 type SidebarItemProps = {
   name: string;
@@ -33,10 +34,10 @@ const SidebarItem = ({ name, href, Icon }: SidebarItemProps) => {
         href={href}
         className={cn(
           "flex items-center gap-x-2.5 px-3 py-2 text-sm text-primary transition-colors",
-          isActive && "text-background-secondary",
+          isActive && "font-medium text-background-secondary",
         )}
       >
-        <Icon size={18} className="stroke-2" aria-hidden="true" />
+        <Icon size={18} aria-hidden="true" />
         <span>{name}</span>
       </Link>
     </div>
@@ -46,10 +47,13 @@ const SidebarItem = ({ name, href, Icon }: SidebarItemProps) => {
 const Sidebar = () => {
   const location = usePathname();
   const [isExpanded, setIsExpanded] = useState(true);
+
+  const profile = useSelector((state: RootState) => state.profile);
+
   return (
     <div
       className={cn(
-        "sticky top-0 h-screen min-w-64 space-y-4 border-r p-3 pt-6 transition-transform duration-500",
+        "sticky top-0 h-screen w-64 space-y-4 border-r p-3 pt-6 transition-transform duration-500",
         isExpanded ? "translate-x-0" : "-translate-x-full",
       )}
     >
@@ -81,7 +85,7 @@ const Sidebar = () => {
           <Separator />
           {/* Sidebar items */}
           <div className="space-y-6">
-            <div className="space-y-1.5">
+            <div className="space-y-1">
               {sidebarItems.top.map((item) => (
                 <SidebarItem
                   key={item.name}
@@ -95,7 +99,7 @@ const Sidebar = () => {
         </div>
 
         <div className="space-y-4">
-          <div>
+          <div className="space-y-1">
             {sidebarItems.bottom.map((item) => (
               <SidebarItem
                 key={item.name}
@@ -106,7 +110,7 @@ const Sidebar = () => {
             ))}
           </div>
           <Separator />
-          <NavUser user={sidebarItems.user} />
+          <NavUser user={profile} />
         </div>
       </div>
     </div>

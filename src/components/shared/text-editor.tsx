@@ -25,7 +25,7 @@ export default function Editor() {
       OrderedList,
       ListItem,
     ],
-    content: "<p>Write your task description...</p>",
+    content: "",
     editorProps: {
       attributes: {
         class:

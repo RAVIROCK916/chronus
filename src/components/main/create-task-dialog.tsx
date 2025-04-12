@@ -52,12 +52,17 @@ import { useMutation } from "@apollo/client";
 import { CREATE_TASK, UPDATE_TASK } from "@/lib/apollo/client/task";
 import { useProjectContext } from "./kanban-board";
 import { Task } from "@/types";
+import Loader from "../shared/loader";
 
 type CreateTaskDialogProps = {
   task?: Task;
+  children?: React.ReactNode;
 };
 
-export default function CreateTaskDialog({ task }: CreateTaskDialogProps) {
+export default function CreateTaskDialog({
+  task,
+  children,
+}: CreateTaskDialogProps) {
   const id = useId();
   const [open, setOpen] = useState(false);
 
@@ -103,7 +108,7 @@ export default function CreateTaskDialog({ task }: CreateTaskDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Add Task</Button>
+        {children || <Button variant="outline">Add Task</Button>}
       </DialogTrigger>
       <DialogContent className="flex flex-col gap-0 overflow-y-visible p-0 sm:max-w-lg [&>button:last-child]:top-3.5">
         <DialogHeader className="contents space-y-0 text-left">
@@ -275,7 +280,13 @@ export default function CreateTaskDialog({ task }: CreateTaskDialogProps) {
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit">Create</Button>
+              <Button
+                type="submit"
+                className="flex w-20 items-center justify-center"
+                disabled={loading}
+              >
+                {loading ? <Loader /> : "Create"}
+              </Button>
             </DialogFooter>
           </form>
         </Form>
@@ -342,6 +353,7 @@ export const EditTaskDialog = ({ task, handleClose }: EditTaskDialogProps) => {
 
     handleClose();
   }
+
   return (
     <AlertDialogContent className="flex flex-col gap-0 overflow-y-visible p-0 sm:max-w-lg [&>button:last-child]:top-3.5">
       <AlertDialogHeader className="contents space-y-0 text-left">

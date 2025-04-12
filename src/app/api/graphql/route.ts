@@ -20,7 +20,6 @@ const handler = startServerAndCreateNextHandler(server, {
   context: async (req: NextRequest) => {
     const token = cookies().get("sessionId")?.value;
 
-    console.log("route token", token);
     // if there is no token, return an empty object
     if (!token) {
       console.log("no token");

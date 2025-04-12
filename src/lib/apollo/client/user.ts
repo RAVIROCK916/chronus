@@ -9,7 +9,7 @@ const USER_REQUEST = `
 
 export const GET_USER = gql`
 	query getUser {
-    user {
+    currentUser {
 			${USER_REQUEST}
     }
   }

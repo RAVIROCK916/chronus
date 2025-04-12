@@ -25,12 +25,16 @@ import {
   ChevronRightIcon,
   ChevronUpIcon,
   CircleAlertIcon,
+  CircleCheckBig,
+  CircleCheckIcon,
+  CircleIcon,
   CircleXIcon,
   Columns3Icon,
   EllipsisIcon,
   FilterIcon,
   ListFilterIcon,
   PlusIcon,
+  Timer,
   TrashIcon,
 } from "lucide-react";
 
@@ -128,7 +132,7 @@ const columns: ColumnDef<Task>[] = [
         aria-label="Select row"
       />
     ),
-    size: 28,
+    size: 24,
     enableSorting: false,
     enableHiding: false,
   },
@@ -171,34 +175,53 @@ const columns: ColumnDef<Task>[] = [
   {
     header: "Status",
     accessorKey: "status",
-    cell: ({ row }) => (
-      <div>{(row.getValue("status") as string).toLowerCase()}</div>
-    ),
-    size: 180,
-  },
-  {
-    id: "labels",
-    header: "Labels",
-    accessorKey: "labels",
     cell: ({ row }) => {
-      const labels = row.getValue("labels") as string[];
+      const status = row.getValue("status") as string;
       return (
-        labels && (
-          <div className="flex flex-wrap gap-2">
-            {labels.map((label) => (
-              <div
-                key={label}
-                className="rounded-full bg-muted-foreground/60 px-2 py-0.5 text-primary-foreground"
-              >
-                {label}
-              </div>
-            ))}
+        <div className="flex items-center gap-2 text-muted-foreground">
+          {(() => {
+            switch (status) {
+              case "TODO":
+                return <CircleIcon size={16} />;
+              case "IN_PROGRESS":
+                return <Timer size={16} />;
+              case "DONE":
+                return <CircleCheckBig size={16} />;
+              default:
+                return status.toLowerCase();
+            }
+          })()}
+          <div className="text-sm text-muted-foreground">
+            {status.toLowerCase()}
           </div>
-        )
+        </div>
       );
     },
-    enableSorting: false,
+    size: 180,
   },
+  // {
+  //   id: "labels",
+  //   header: "Labels",
+  //   accessorKey: "labels",
+  //   cell: ({ row }) => {
+  //     const labels = row.getValue("labels") as string[];
+  //     return (
+  //       labels && (
+  //         <div className="flex flex-wrap gap-2">
+  //           {labels.map((label) => (
+  //             <div
+  //               key={label}
+  //               className="rounded-full bg-muted-foreground/60 px-2 py-0.5 text-primary-foreground"
+  //             >
+  //               {label}
+  //             </div>
+  //           ))}
+  //         </div>
+  //       )
+  //     );
+  //   },
+  //   enableSorting: false,
+  // },
   {
     id: "due_date",
     header: "Due Date",
@@ -207,7 +230,7 @@ const columns: ColumnDef<Task>[] = [
       const dueDate = row.getValue("due_date") as string;
       return (
         <div className="text-sm text-muted-foreground">
-          {dueDate ? new Date(Number(dueDate)).toLocaleDateString() : ""}
+          {dueDate ? new Date(Number(dueDate)).toLocaleDateString() : "N/A"}
         </div>
       );
     },
@@ -542,9 +565,12 @@ export default function TasksTable({ tasks }: TasksTableProps) {
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-24 space-y-4 py-8 text-center"
                 >
-                  No results.
+                  <div className="text-base">Create a task to get started.</div>
+                  <CreateTaskDialog>
+                    <Button>Add Task</Button>
+                  </CreateTaskDialog>
                 </TableCell>
               </TableRow>
             )}
@@ -586,8 +612,8 @@ export default function TasksTable({ tasks }: TasksTableProps) {
             <span className="text-foreground">
               {table.getState().pagination.pageIndex *
                 table.getState().pagination.pageSize +
-                1}
-              -
+                1}{" "}
+              -{" "}
               {Math.min(
                 Math.max(
                   table.getState().pagination.pageIndex *

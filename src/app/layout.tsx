@@ -32,7 +32,7 @@ export default async function Layout({
       </head>
       <body>
         <Providers>{children}</Providers>
-        <Toaster position="top-right" />
+        <Toaster position="top-right" richColors />
       </body>
     </html>
   );
