@@ -2,7 +2,8 @@ import { gql } from "@apollo/client";
 
 export const typeDefs = gql`
   type User {
-    id: ID!
+    id: String!
+    google_id: String
     name: String!
     email: String!
     password_hash: String!
@@ -56,7 +57,9 @@ export const typeDefs = gql`
 
   type Query {
     hello: String
-    user: User
+    user(id: ID!): User
+    currentUser: User
+    googleUser(googleId: String!): User
     users: [User]
     projects: [Project]
     project(id: ID!): Project
@@ -66,8 +69,22 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    createUser(email: String!, password: String!): User
+    getUser(id: ID!): User
+    createUser(email: String!, password: String!, googleId: String): User
+    createGoogleUser(
+      googleId: String!
+      name: String!
+      email: String!
+      profilePicture: String
+    ): User
+    updateGoogleUser(
+      googleId: String!
+      name: String!
+      email: String!
+      profilePicture: String
+    ): User
     loginUser(email: String!, password: String!): User
+    logoutUser: Boolean
     updateUser(
       id: ID!
       name: String
@@ -76,8 +93,7 @@ export const typeDefs = gql`
       profile_picture: String
     ): User
     deleteUser(id: ID!): User
-    updateNameOfUser(id: ID!, name: String!): User
-    verifySession: User
+    verifyUser: User
     createProject(name: String!, description: String): Project
     deleteProject(id: ID!): Project
     createTask(

@@ -18,10 +18,12 @@ interface SessionPayload extends JWTPayload {
 
 const handler = startServerAndCreateNextHandler(server, {
   context: async (req: NextRequest) => {
-    const token = cookies().get("sessionId")?.value || "";
+    const token = cookies().get("sessionId")?.value;
+
+    console.log("route token", token);
     // if there is no token, return an empty object
     if (!token) {
-      redirect("/login");
+      console.log("no token");
       return {
         userId: "",
         sessionId: "",
@@ -33,7 +35,8 @@ const handler = startServerAndCreateNextHandler(server, {
     )) as SessionPayload | null;
 
     if (!decryptedToken) {
-      redirect("/login");
+      console.log("decrypted token is null");
+      // redirect("/login");
       return {
         userId: "",
         sessionId: "",

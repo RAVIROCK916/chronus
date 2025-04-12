@@ -1,4 +1,5 @@
 import { randomUUID } from "crypto";
+import bcrypt from "bcrypt";
 import db from "./index";
 import {
   eventTable,
@@ -15,13 +16,14 @@ async function main() {
   // Create users
   const users = await Promise.all(
     Array.from({ length: 5 }, async (_, i) => {
+      const password_hash = await bcrypt.hash("testtest", 10);
       const user = await db
         .insert(userTable)
         .values({
           id: randomUUID(),
           name: `Test User ${i + 1}`,
           email: `user${i + 1}@example.com`,
-          password_hash: "hashed_password",
+          password_hash,
         })
         .returning();
       return user[0];

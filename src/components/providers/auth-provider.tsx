@@ -1,5 +1,7 @@
 "use client";
-import { VERIFY_SESSION } from "@/lib/apollo/client/auth";
+import { VERIFY_USER } from "@/lib/apollo/client/auth";
+import { setProfile } from "@/state/features/profile/profileSlice";
+import store from "@/state/store";
 import { User } from "@/types";
 import { useMutation } from "@apollo/client";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -19,11 +21,13 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState();
-  const [verifySession] = useMutation(VERIFY_SESSION);
+  const [verifyUser] = useMutation(VERIFY_USER);
 
   useEffect(() => {
     const fetchUser = async () => {
-      await verifySession();
+      const { data } = await verifyUser();
+      setUser(data.verifyUser);
+      store.dispatch(setProfile(data.verifyUser));
     };
 
     fetchUser();

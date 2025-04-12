@@ -1,5 +1,11 @@
+"use server";
+
 import { cookies } from "next/headers";
 import { jwtVerify, SignJWT } from "jose";
+import { redirect } from "next/navigation";
+import { SERVER_URL } from "@/constants";
+import privateAPI from "./axios";
+import { decryptSession } from "./session";
 
 const secret = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
 
@@ -33,5 +39,17 @@ export async function verifyAuth() {
 }
 
 export async function signOut() {
-  cookies().delete("sessionId");
+  await fetch(SERVER_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      query: `
+					mutation {
+						logoutUser
+					}
+				`,
+    }),
+    credentials: "include",
+  })
+    .then(() => cookies().delete("sessionId"))
+    .then(() => redirect("/login"));
 }

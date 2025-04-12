@@ -13,9 +13,10 @@ export const taskPriorityEnum = pgEnum("priority", ["LOW", "MEDIUM", "HIGH"]);
 
 export const userTable = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
+  google_id: text("google_id").unique(),
   name: text("name").notNull(),
   email: text("email").unique().notNull(),
-  password_hash: text("password_hash").notNull(),
+  password_hash: text("password_hash"),
   profile_picture: text("profile_picture"),
   created_at: timestamp("created_at").defaultNow().notNull(),
 });
