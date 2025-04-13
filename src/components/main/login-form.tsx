@@ -82,7 +82,7 @@ const LoginForm = () => {
       toast.success("Login successful");
 
       await createSession(loggedInUser.id);
-      router.push(redirect_url || "/dashboard");
+      window.location.href = redirect_url || "/dashboard";
     } catch (error: any) {
       console.error("Login error:", error);
       toast.error(error.message, {

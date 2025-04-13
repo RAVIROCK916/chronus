@@ -21,10 +21,11 @@ export function getRandomAvatar(seed?: string): string {
 export function getRandomStyledAvatar(style: string = "identicon"): string {
   // Available styles: 'identicon', 'avataaars', 'bottts', 'initials', 'pixel-art', etc.
   const validStyles = [
-    "identicon",
     "avataaars",
     "bottts",
+    "identicon",
     "initials",
+    "notionists",
     "pixel-art",
     "personas",
   ];

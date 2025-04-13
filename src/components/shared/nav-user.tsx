@@ -32,8 +32,6 @@ export function NavUser({
 }) {
   const { isMobile } = useSidebar();
 
-  console.log("user", user.profile_picture);
-
   return (
     <SidebarMenu>
       <SidebarMenuItem>

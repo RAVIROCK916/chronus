@@ -7,7 +7,6 @@ import { NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import { decryptSession } from "@/lib/session";
 import { JWTPayload } from "jose";
-import { redirect } from "next/navigation";
 
 const server = new ApolloServer({ typeDefs, resolvers });
 

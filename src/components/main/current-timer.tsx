@@ -28,19 +28,19 @@ export default function CurrentTimer() {
 
   return (
     <div className="flex gap-2">
-      <div className="inline-flex items-center gap-3">
+      <div className="inline-flex items-center gap-2">
         <div className="container-segment">
           <FlipCard dataAttribute="data-hours-tens" />
           <FlipCard dataAttribute="data-hours-ones" />
         </div>
-        <div className="text-3xl font-bold">
+        <div className="text-2xl font-bold">
           <span>:</span>
         </div>
         <div className="container-segment">
           <FlipCard dataAttribute="data-minutes-tens" />
           <FlipCard dataAttribute="data-minutes-ones" />
         </div>
-        <div className="text-3xl font-bold">
+        <div className="text-xl font-bold">
           <span>:</span>
         </div>
         <div className="container-segment">
@@ -48,7 +48,11 @@ export default function CurrentTimer() {
           <FlipCard dataAttribute="data-seconds-ones" />
         </div>
       </div>
-      <div>{isAM ? <p>AM</p> : <p>PM</p>}</div>
+      <div className="flex items-end">
+        <p className="text-sm font-bold text-neutral-500">
+          {isAM ? "AM" : "PM"}
+        </p>
+      </div>
     </div>
   );
 }

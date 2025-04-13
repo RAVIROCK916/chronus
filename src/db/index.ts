@@ -18,14 +18,13 @@ if (!globalThis.pool) {
   });
 }
 
-const pool = globalThis.pool;
-
 // Handle pool errors
-pool.on("error", (err) => {
+globalThis.pool.on("error", (err) => {
   console.error("Unexpected error on idle database client", err);
   process.exit(-1);
 });
 
+const pool = globalThis.pool;
 const db = drizzle({ client: pool, schema });
 
 export default db;

@@ -6,15 +6,12 @@ import {
   taskTable,
   userTable,
 } from "@/db/schema";
-import { and, eq, inArray } from "drizzle-orm";
+import { and, eq, gte, inArray, or } from "drizzle-orm";
 import bcrypt from "bcrypt";
-import { decryptSession } from "@/lib/session";
-import { JWTPayload } from "jose";
 import { ContextType } from "@/types/graphql";
-import { Project, Task, TaskPriority, TaskStatus } from "@/types";
-import { redirect } from "next/navigation";
+import { TaskPriority, TaskStatus } from "@/types";
 import { getRandomAvatar } from "@/utils/avatar";
-import { GraphQLError } from "graphql";
+import { sub } from "date-fns";
 
 export const resolvers = {
   Query: {
@@ -27,6 +24,7 @@ export const resolvers = {
     project: getProject,
     tasks: getTasks,
     task: getTask,
+    lastWeekTasks: getLastWeekTasks,
     events: getEvents,
   },
   Mutation: {
@@ -46,6 +44,10 @@ export const resolvers = {
     createEvent,
     updateEvent,
     deleteEvent,
+  },
+  User: {
+    projects: getProjects,
+    events: getEvents,
   },
   Project: {
     user: getUserOfProject,
@@ -149,6 +151,22 @@ async function getTask(_: any, { id }: { id: string }, context: ContextType) {
     .from(taskTable)
     .where(and(eq(taskTable.id, id), eq(taskTable.user_id, context.userId)));
   return task[0];
+}
+
+async function getLastWeekTasks(_: any, __: any, context: ContextType) {
+  const tasks = await db
+    .select()
+    .from(taskTable)
+    .where(
+      and(
+        eq(taskTable.user_id, context.userId),
+        or(
+          gte(taskTable.created_at, sub(new Date(), { days: 7 })),
+          gte(taskTable.updated_at, sub(new Date(), { days: 7 })),
+        ),
+      ),
+    );
+  return tasks;
 }
 
 async function getProjectOfTask(parent: typeof taskTable.$inferSelect) {

@@ -9,6 +9,8 @@ export const typeDefs = gql`
     password_hash: String!
     profile_picture: String
     created_at: String!
+    projects: [Project]
+    events: [Event]
   }
 
   type Session {
@@ -23,6 +25,7 @@ export const typeDefs = gql`
     name: String!
     description: String
     created_at: String!
+    updated_at: String!
     user: User!
     tasks: [Task]!
   }
@@ -38,6 +41,8 @@ export const typeDefs = gql`
     labels: [String]
     due_date: String
     created_at: String!
+    updated_at: String!
+    completed_at: String
     project: Project
   }
 
@@ -65,6 +70,7 @@ export const typeDefs = gql`
     project(id: ID!): Project
     tasks(projectId: ID!): [Task]
     task(id: ID!): Task
+    lastWeekTasks: [Task]
     events: [Event]
   }
 

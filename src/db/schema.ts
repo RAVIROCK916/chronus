@@ -38,6 +38,7 @@ export const projectTable = pgTable("projects", {
     .references(() => userTable.id, { onDelete: "cascade" })
     .notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
+  updated_at: timestamp("updated_at").defaultNow().notNull(),
 });
 
 export const taskTable = pgTable("tasks", {
@@ -55,6 +56,8 @@ export const taskTable = pgTable("tasks", {
     .references(() => userTable.id, { onDelete: "cascade" })
     .notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
+  updated_at: timestamp("updated_at").defaultNow().notNull(),
+  completed_at: timestamp("completed_at"),
 });
 
 export const eventTable = pgTable("events", {

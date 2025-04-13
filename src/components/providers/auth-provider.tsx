@@ -4,6 +4,7 @@ import { setProfile } from "@/state/features/profile/profileSlice";
 import store from "@/state/store";
 import { User } from "@/types";
 import { useMutation } from "@apollo/client";
+import { redirect, useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext<{
@@ -23,9 +24,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState();
   const [verifyUser] = useMutation(VERIFY_USER);
 
+  const router = useRouter();
+
   useEffect(() => {
     const fetchUser = async () => {
       const { data } = await verifyUser();
+      if (!data.verifyUser) {
+        router.push("/login");
+      }
       setUser(data.verifyUser);
       store.dispatch(setProfile(data.verifyUser));
     };
