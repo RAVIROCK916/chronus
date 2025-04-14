@@ -2,6 +2,7 @@ export type User = {
   id: string;
   name: string;
   email: string;
+  profile_picture: string;
   created_at: string;
   projects: Project[];
   tasks: Task[];
@@ -31,7 +32,7 @@ export type Task = {
   user: User;
   created_at: string;
   updated_at: string;
-	completed_at?: string;
+  completed_at?: string;
 };
 
 export type Column = {

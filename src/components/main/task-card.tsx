@@ -8,7 +8,7 @@ import { Badge } from "../ui/badge";
 import { ProjectContext } from "@/app/(root)/(main)/projects/[name]/[projectId]/page";
 import { EditIcon } from "lucide-react";
 import { CiEdit } from "react-icons/ci";
-import { Sheet, SheetTrigger } from "@/components/ui";
+import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import TaskSheet from "../shared/task-sheet";
 // import { useProject } from "./kanban-board";
 

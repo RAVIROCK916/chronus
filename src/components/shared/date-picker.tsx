@@ -15,7 +15,7 @@ import {
 
 type DatePickerProps = {
   value?: Date;
-  onChange: (date: Date) => void;
+  onChange?: (date: Date) => void;
 };
 
 export default function DatePicker({ value, onChange }: DatePickerProps) {
@@ -41,7 +41,7 @@ export default function DatePicker({ value, onChange }: DatePickerProps) {
           selected={value}
           onSelect={(date) => {
             if (date) {
-              onChange(date);
+              onChange?.(date);
               setOpen(false);
             }
           }}

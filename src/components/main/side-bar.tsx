@@ -2,7 +2,7 @@
 
 import Logo from "../shared/logo";
 import AddButton from "../shared/add-button";
-import { Separator } from "../ui";
+import { Separator } from "@/components/ui/separator";
 import { sidebarItems } from "@/constants/data";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";

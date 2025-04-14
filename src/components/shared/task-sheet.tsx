@@ -1,15 +1,13 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import {
-  Badge,
-  Button,
-  Input,
-  Label,
-  Separator,
   SheetContent,
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  Textarea,
-} from "@/components/ui";
+} from "@/components/ui/sheet";
 import { Task } from "@/types";
 import { CiShoppingTag } from "react-icons/ci";
 import { FaRegCircleDot, FaTags } from "react-icons/fa6";

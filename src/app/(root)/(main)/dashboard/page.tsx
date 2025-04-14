@@ -2,6 +2,7 @@
 
 import CurrentTimer from "@/components/main/current-timer";
 import { TasksAreaChart } from "@/components/shared/tasks-area-chart";
+import { TasksBarChart } from "@/components/shared/tasks-bar-chart";
 import { TasksPieChart } from "@/components/shared/tasks-pie-chart";
 import {
   Card,
@@ -9,7 +10,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui";
+} from "@/components/ui/card";
 import { GET_DASHBOARD_QUERY } from "@/lib/apollo/client/dashboard";
 import { TasksContext } from "@/state/context";
 import { Project, Task } from "@/types";
@@ -48,7 +49,7 @@ export default function Page() {
   }, 0);
 
   return (
-    <div className="space-y-4 pr-8">
+    <div className="space-y-4 pb-8 pr-4">
       {/* <div className="flex flex-row-reverse">
         <CurrentTimer />
       </div> */}
@@ -65,9 +66,7 @@ export default function Page() {
           <CardContent>
             <p className="text-4xl font-semibold">
               {tasks.length}{" "}
-              <span className="text-sm font-normal text-muted-foreground">
-                tasks
-              </span>
+              <span className="text-sm font-normal text-muted-foreground"></span>
             </p>
           </CardContent>
         </Card>
@@ -128,6 +127,7 @@ export default function Page() {
         <TasksContext.Provider value={tasks}>
           <TasksAreaChart />
           <TasksPieChart />
+          <TasksBarChart />
         </TasksContext.Provider>
       </div>
     </div>

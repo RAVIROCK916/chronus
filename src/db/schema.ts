@@ -10,6 +10,7 @@ import {
 
 export const taskStatusEnum = pgEnum("status", ["TODO", "IN_PROGRESS", "DONE"]);
 export const taskPriorityEnum = pgEnum("priority", ["LOW", "MEDIUM", "HIGH"]);
+export const themeEnum = pgEnum("theme", ["light", "dark", "system"]);
 
 export const userTable = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -84,6 +85,21 @@ export const notificationTable = pgTable("notifications", {
   message: text("message").notNull(),
   is_read: boolean("is_read").default(false).notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const userSettingsTable = pgTable("user_settings", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  user_id: uuid("user_id")
+    .references(() => userTable.id, { onDelete: "cascade" })
+    .notNull(),
+
+  // profile
+  timezone: text("timezone").default("UTC").notNull(),
+  theme: themeEnum("theme").default("dark").notNull(),
+
+  // timestamps
+  created_at: timestamp("created_at").defaultNow().notNull(),
+  updated_at: timestamp("updated_at").defaultNow().notNull(),
 });
 
 /* Relations */
