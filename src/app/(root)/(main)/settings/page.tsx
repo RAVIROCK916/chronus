@@ -5,9 +5,10 @@ import ThemeSelect from "@/components/shared/theme-select";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useQuery } from "@apollo/client";
-import { GET_USER } from "@/lib/apollo/client/user";
+import { useMutation, useQuery } from "@apollo/client";
+import { GET_USER, UPDATE_USER } from "@/lib/apollo/client/user";
 import { UserContext, useUserContext } from "@/state/context";
+import { z } from "zod";
 
 const tabs = [
   { name: "Personal", href: "#personal" },
@@ -20,6 +21,7 @@ const tabs = [
 
 export default function SettingsPage() {
   const { data } = useQuery(GET_USER);
+  if (!data?.currentUser) return <div>Loading...</div>;
   return (
     <div className="-ml-8 -mt-4">
       <UserContext.Provider value={data?.currentUser}>
@@ -74,6 +76,36 @@ export default function SettingsPage() {
 
 function PersonalSettingsTab() {
   const user = useUserContext();
+  const [updateUser] = useMutation(UPDATE_USER);
+
+  const nameSchema = z.object({
+    name: z.string().min(1, "Name is required"),
+  });
+
+  const emailSchema = z.object({
+    email: z.string().email("Invalid email"),
+  });
+
+  const handleNameSave = async (value: string) => {
+    await updateUser({
+      variables: {
+        id: user.id,
+        name: value,
+      },
+    });
+    console.log("Save");
+  };
+
+  const handleEmailSave = async (value: string) => {
+    await updateUser({
+      variables: {
+        id: user.id,
+        email: value,
+      },
+    });
+    console.log("Save");
+  };
+
   return (
     <div>
       <Setting.Root>
@@ -92,29 +124,29 @@ function PersonalSettingsTab() {
       </Setting.Root>
       <Setting.Root>
         <Setting.Header>
-          <Setting.Title>Profile</Setting.Title>
+          <Setting.Title>Name & Email</Setting.Title>
           <Setting.Description>
-            Manage your profile information and settings.
+            Update your name and email address.
           </Setting.Description>
         </Setting.Header>
-        <Setting.Content>
+        <Setting.Content className="space-y-4">
           <div className="flex items-center gap-2">
-            <div>
-              <Label htmlFor="name" className="text-sm font-medium">
-                Name
-              </Label>
-              <Setting.Input
-                id="name"
-                value={user.name}
-                onBlur={() => console.log("blur")}
-              />
-            </div>
-            <div className="flex flex-col">
-              <div className="text-sm font-semibold">John Doe</div>
-              <div className="text-xs text-muted-foreground">
-                john@example.com
-              </div>
-            </div>
+            <Setting.Input
+              name="name"
+              label="Name"
+              initialValue={user.name}
+              formSchema={nameSchema}
+              onSave={handleNameSave}
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <Setting.Input
+              name="email"
+              label="Email"
+              initialValue={user.email}
+              formSchema={emailSchema}
+              onSave={handleEmailSave}
+            />
           </div>
         </Setting.Content>
       </Setting.Root>

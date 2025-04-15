@@ -246,8 +246,12 @@
   @apply flex h-full w-full items-center justify-center gap-2;
 }
 
+* {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
 ::-webkit-scrollbar {
-  display: none;
+  display: none; /* Safari and Chrome */
 }
 
 /* calendar styles */

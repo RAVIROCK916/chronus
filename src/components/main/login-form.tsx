@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/form";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { Label } from "../ui/label";
 
 import { Eye, EyeSlash } from "@phosphor-icons/react";
 import { gql, useMutation } from "@apollo/client";
