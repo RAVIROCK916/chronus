@@ -12,6 +12,7 @@ export type Project = {
   id: string;
   name: string;
   description: string;
+  picture: string;
   created_at: string;
   user: User;
   tasks: Task[];

@@ -7,9 +7,9 @@ import ReactReduxWrapper from "@/components/providers/react-redux-wrapper";
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ApolloWrapper>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <ReactReduxWrapper>{children}</ReactReduxWrapper>
-        </ThemeProvider>
+      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <ReactReduxWrapper>{children}</ReactReduxWrapper>
+      </ThemeProvider>
     </ApolloWrapper>
   );
 }

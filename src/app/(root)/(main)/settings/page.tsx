@@ -10,8 +10,14 @@ import { GET_USER, UPDATE_USER } from "@/lib/apollo/client/user";
 import { UserContext, useUserContext } from "@/state/context";
 import { z } from "zod";
 
+import { useId } from "react";
+import { CheckIcon, MinusIcon } from "lucide-react";
+
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useTheme } from "next-themes";
+import Image from "next/image";
+
 const tabs = [
-  { name: "Personal", href: "#personal" },
   { name: "Account", href: "#account" },
   { name: "Billing", href: "#billing" },
   { name: "Integrations", href: "#integrations" },
@@ -25,7 +31,7 @@ export default function SettingsPage() {
   return (
     <div className="-ml-8 -mt-4">
       <UserContext.Provider value={data?.currentUser}>
-        <Tabs defaultValue="Personal" className="items-center bg-transparent">
+        <Tabs defaultValue="Account" className="items-center bg-transparent">
           <div className="space-y-8">
             <div className="px-10 pt-10">
               <h1 className="text-4xl">Settings</h1>
@@ -42,13 +48,8 @@ export default function SettingsPage() {
               ))}
             </TabsList>
           </div>
-          <TabsContent value="Personal" className="px-10">
-            <PersonalSettingsTab />
-          </TabsContent>
           <TabsContent value="Account" className="px-10">
-            <p className="p-4 text-center text-xs text-muted-foreground">
-              Content for Tab 3
-            </p>
+            <AccountSettingsTab />
           </TabsContent>
           <TabsContent value="Billing" className="px-10">
             <p className="p-4 text-center text-xs text-muted-foreground">
@@ -61,7 +62,7 @@ export default function SettingsPage() {
             </p>
           </TabsContent>
           <TabsContent value="Appearance" className="p-10">
-            <ThemeSelect />
+            <AppearanceSettingsTab />
           </TabsContent>
           <TabsContent value="Accessibility" className="p-10">
             <p className="p-4 text-center text-xs text-muted-foreground">
@@ -74,7 +75,7 @@ export default function SettingsPage() {
   );
 }
 
-function PersonalSettingsTab() {
+function AccountSettingsTab() {
   const user = useUserContext();
   const [updateUser] = useMutation(UPDATE_USER);
 
@@ -152,22 +153,84 @@ function PersonalSettingsTab() {
       </Setting.Root>
       <Setting.Root>
         <Setting.Header>
-          <Setting.Title>Profile</Setting.Title>
-          <Setting.Description>
-            Manage your profile information and settings.
-          </Setting.Description>
+          <Setting.Title>Timezone</Setting.Title>
+          <Setting.Description>Update your timezone.</Setting.Description>
         </Setting.Header>
         <Setting.Content>
-          <div className="">
-            <div className="flex flex-col">
-              <div className="text-sm font-semibold">John Doe</div>
-              <div className="text-xs text-muted-foreground">
-                john@example.com
-              </div>
-            </div>
-          </div>
+          <Setting.Select
+            label="Timezone"
+            options={Intl.supportedValuesOf("timeZone")}
+            initialValue={"UTC"}
+            // onSave={async (newTimezone) => {
+            //   await updateUserSettingInDB({ timezone: newTimezone });
+            // }}
+          />
         </Setting.Content>
       </Setting.Root>
     </div>
+  );
+}
+
+function AppearanceSettingsTab() {
+  const items = [
+    { value: "light", label: "Light", image: "/ui-light.png" },
+    { value: "dark", label: "Dark", image: "/ui-dark.png" },
+    { value: "system", label: "System", image: "/ui-system.png" },
+  ];
+
+  const id = useId();
+  const { theme, setTheme } = useTheme();
+  console.log("theme", theme);
+  return (
+    <fieldset className="space-y-4">
+      <Setting.Root>
+        <Setting.Header>
+          <legend className="font-medium leading-none text-foreground">
+            Choose a theme
+          </legend>
+        </Setting.Header>
+        <Setting.Content>
+          <RadioGroup
+            className="flex gap-6"
+            defaultValue="1"
+            value={theme}
+            onValueChange={(value) => {
+              setTheme(value);
+              console.log("value", value);
+            }}
+          >
+            {items.map((item) => (
+              <label key={`${id}-${item.value}`}>
+                <RadioGroupItem
+                  id={`${id}-${item.value}`}
+                  value={item.value}
+                  className="peer sr-only after:absolute after:inset-0"
+                />
+                <Image
+                  src={item.image}
+                  alt={item.label}
+                  width={120}
+                  height={100}
+                  className="shadow-xs peer-data-disabled:cursor-not-allowed peer-data-disabled:opacity-50 relative h-32 w-48 cursor-pointer overflow-hidden rounded-md border-[3px] border-input outline-none transition-[color,border,box-shadow] peer-focus-visible:ring-[3px] peer-focus-visible:ring-ring/50 peer-data-[state=checked]:border-ring peer-data-[state=checked]:bg-accent"
+                />
+                <span className="group mt-2 flex items-center gap-1 peer-data-[state=unchecked]:text-muted-foreground/70">
+                  <CheckIcon
+                    size={16}
+                    className="group-peer-data-[state=unchecked]:hidden"
+                    aria-hidden="true"
+                  />
+                  <MinusIcon
+                    size={16}
+                    className="group-peer-data-[state=checked]:hidden"
+                    aria-hidden="true"
+                  />
+                  <span className="text-sm font-medium">{item.label}</span>
+                </span>
+              </label>
+            ))}
+          </RadioGroup>
+        </Setting.Content>
+      </Setting.Root>
+    </fieldset>
   );
 }

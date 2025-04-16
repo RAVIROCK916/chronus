@@ -3,7 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Form,
   FormControl,
@@ -19,7 +26,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 function Root({ children }: { children: React.ReactNode }) {
   return (
     <div>
-      <div className="grid grid-cols-2 gap-8 py-6">{children}</div>
+      <div className="grid grid-cols-[40%_60%] gap-8 py-6">{children}</div>
       <Separator />
     </div>
   );
@@ -101,7 +108,7 @@ function SettingInput({
             control={form.control}
             name={name}
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="space-y-1">
                 <FormLabel>{label}</FormLabel>
                 <div className="flex items-center gap-4">
                   <FormControl>
@@ -122,20 +129,72 @@ function SettingInput({
           />
         </form>
       </Form>
-      {/* <div className="flex items-center gap-2">
-        <Input
-          id={props.id}
-          className="w-full min-w-96"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onBlur={handleBlur}
-          {...props}
-        />
-        <div className="text-sm text-muted-foreground">
-          {saving && "Saving..."}
-          {saved && "Saved"}
-        </div>
-      </div> */}
+    </div>
+  );
+}
+
+type SettingSelectProps = {
+  label: string;
+  options: string[];
+  initialValue: string;
+  onSave?: (newValue: string) => Promise<void>;
+};
+
+function SettingSelect({
+  label,
+  options,
+  initialValue,
+  onSave,
+}: SettingSelectProps) {
+  const [value, setValue] = useState(initialValue);
+  const [originalValue, setOriginalValue] = useState(initialValue);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    setValue(initialValue);
+    setOriginalValue(initialValue);
+  }, [initialValue]);
+
+  const handleBlur = async () => {
+    if (value !== originalValue) {
+      try {
+        setSaving(true);
+        // await onSave(value);
+        setOriginalValue(value);
+        setSaved(true);
+        setTimeout(() => setSaved(false), 1500);
+      } finally {
+        setSaving(false);
+      }
+    }
+  };
+
+  return (
+    <div className="flex flex-col space-y-1">
+      <Label className="text-sm font-medium">{label}</Label>
+      <Select
+        value={value}
+        onValueChange={setValue}
+        // onBlur={handleBlur}
+      >
+        <SelectTrigger className="w-96">
+          <SelectValue placeholder={label}>{value}</SelectValue>
+        </SelectTrigger>
+        <SelectContent className="flex gap-4">
+          <SelectGroup>
+            {options.map((option) => (
+              <SelectItem key={option} value={option}>
+                {option}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+          <div className="h-4 text-xs text-muted-foreground">
+            {saving && "Saving..."}
+            {saved && "Saved!"}
+          </div>
+        </SelectContent>
+      </Select>
     </div>
   );
 }
@@ -147,6 +206,7 @@ const Setting = {
   Description,
   Content,
   Input: SettingInput,
+  Select: SettingSelect,
 };
 
 export default Setting;

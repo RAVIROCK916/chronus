@@ -2,7 +2,7 @@ import { createContext, useContext } from "react";
 import { User, Project, Task } from "@/types";
 
 export const UserContext = createContext<User | null>(null);
-export const ProjectsContext = createContext<Project[]>([]);
+export const ProjectContext = createContext<Project | null>(null);
 export const TasksContext = createContext<Task[]>([]);
 
 export const useUserContext = () => {
@@ -13,10 +13,10 @@ export const useUserContext = () => {
   return context;
 };
 
-export const useProjectsContext = () => {
-  const context = useContext(ProjectsContext);
+export const useProjectContext = () => {
+  const context = useContext(ProjectContext);
   if (!context) {
-    throw new Error("useProjects must be used within a ProjectsProvider");
+    throw new Error("useProject must be used within a ProjectProvider");
   }
   return context;
 };

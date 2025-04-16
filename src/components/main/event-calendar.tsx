@@ -277,7 +277,7 @@ export function EventCalendar({
           <div className="flex items-center gap-1 sm:gap-4">
             <Button
               variant="outline"
-              className="max-[479px]:p-0! aspect-square"
+              className="max-[479px]:p-0!"
               onClick={handleToday}
             >
               <RiCalendarCheckLine
@@ -344,7 +344,7 @@ export function EventCalendar({
               </DropdownMenuContent>
             </DropdownMenu>
             <Button
-              className="max-[479px]:p-0! aspect-square"
+              className="max-[479px]:p-0!"
               onClick={() => {
                 setSelectedEvent(null); // Ensure we're creating a new event
                 setIsEventDialogOpen(true);

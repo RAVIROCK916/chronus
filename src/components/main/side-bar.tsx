@@ -34,7 +34,7 @@ const SidebarItem = ({ name, href, Icon }: SidebarItemProps) => {
         href={href}
         className={cn(
           "flex items-center gap-x-2.5 px-3 py-2 text-sm text-primary transition-colors",
-          isActive && "font-medium text-background-secondary",
+          isActive && "text-background-secondary",
         )}
       >
         <Icon size={18} aria-hidden="true" />
@@ -53,7 +53,7 @@ const Sidebar = () => {
   return (
     <div
       className={cn(
-        "sticky top-0 h-screen w-64 space-y-4 border-r p-3 pt-6 transition-transform duration-500",
+        "sticky top-0 hidden h-screen w-64 space-y-4 border-r p-3 pt-6 transition-transform duration-500 xl:block",
         isExpanded ? "translate-x-0" : "-translate-x-full",
       )}
     >

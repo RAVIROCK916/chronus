@@ -36,12 +36,18 @@ async function main() {
   for (const user of users) {
     const projects = await Promise.all(
       Array.from({ length: 5 }, async (_, i) => {
+        const picture = getRandomStyledAvatar("glass");
         const project = await db
           .insert(projectTable)
           .values({
             id: randomUUID(),
             name: `Project ${i + 1}`,
             description: `Description for project ${i + 1}`,
+            picture,
+            created_at: new Date(
+              Date.now() -
+                Math.floor(Math.random() * 100 * 24 * 60 * 60 * 1000),
+            ),
             user_id: user.id,
           })
           .returning();
@@ -52,7 +58,7 @@ async function main() {
     // Create tasks for each project
     for (const project of projects) {
       await Promise.all(
-        Array.from({ length: 10 }, async (_, i) => {
+        Array.from({ length: 20 }, async (_, i) => {
           const priorities = ["LOW", "MEDIUM", "HIGH"] as const;
           const statuses = ["TODO", "IN_PROGRESS", "DONE"] as const;
 
@@ -67,17 +73,17 @@ async function main() {
           const labels = ["bug", "feature", "enhancement"];
           const due_date = new Date(Date.now() + (i + 1) * 24 * 60 * 60 * 1000);
           const created_at = new Date(
-            Date.now() - Math.floor(Math.random() * 10 * 24 * 60 * 60 * 1000),
+            Date.now() - Math.floor(Math.random() * 100 * 24 * 60 * 60 * 1000),
           );
           const updated_at = new Date(
             created_at.getTime() +
-              Math.floor(Math.random() * 10 * 24 * 60 * 60 * 1000),
+              Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000),
           );
           const completed_at =
             status === "DONE"
               ? new Date(
                   updated_at.getTime() +
-                    Math.floor(Math.random() * 10 * 24 * 60 * 60 * 1000),
+                    Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000),
                 )
               : null;
           await db.insert(taskTable).values({
@@ -100,9 +106,13 @@ async function main() {
 
     // Create events for each user
     await Promise.all(
-      Array.from({ length: 10 }, async (_, i) => {
-        const start = new Date(Date.now() + (i + 1) * 24 * 60 * 60 * 1000);
-        const end = new Date(start.getTime() + 60 * 60 * 1000);
+      Array.from({ length: 20 }, async (_, i) => {
+        const start = new Date(
+          Date.now() - Math.floor(Math.random() * 50) * 24 * 60 * 60 * 1000,
+        );
+        const end = new Date(
+          start.getTime() + Math.floor(Math.random() * 10) * 60 * 60 * 1000,
+        );
         await db.insert(eventTable).values({
           id: randomUUID(),
           title: `Event ${i + 1}`,

@@ -149,6 +149,9 @@ const columns: ColumnDef<Task>[] = [
   {
     header: "Description",
     accessorKey: "description",
+    cell: ({ row }) => (
+      <div className="line-clamp-2">{row.getValue("description")}</div>
+    ),
     size: 220,
   },
   {

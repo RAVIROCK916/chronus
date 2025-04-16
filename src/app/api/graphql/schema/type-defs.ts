@@ -24,6 +24,7 @@ export const typeDefs = gql`
     id: ID!
     name: String!
     description: String
+    picture: String
     created_at: String!
     updated_at: String!
     user: User!

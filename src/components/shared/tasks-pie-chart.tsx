@@ -55,11 +55,11 @@ export function TasksPieChart() {
     },
     TODO: {
       label: "Todo",
-      color: "hsl(var(--chart-3))",
+      color: "hsl(var(--chart-1))",
     },
     IN_PROGRESS: {
       label: "In Progress",
-      color: "hsl(var(--chart-4))",
+      color: "hsl(var(--chart-3))",
     },
     DONE: {
       label: "Done",

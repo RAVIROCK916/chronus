@@ -14,6 +14,7 @@ import ClientKanbanBoard from "./client-kanban-board";
 import ProjectOverview from "./project-overview";
 import { useProjectContext } from "./kanban-board";
 import TasksTable from "./tasks-table";
+import ProjectSettings from "./project-settings";
 
 export default function ProjectHeader() {
   const { project } = useProjectContext();
@@ -94,7 +95,7 @@ export default function ProjectHeader() {
           Insights
         </TabsTrigger>
         <TabsTrigger
-          value="tab-6"
+          value="settings"
           className="relative after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 hover:bg-background-tertiary hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:after:bg-primary data-[state=active]:hover:bg-background-secondary"
         >
           <SettingsIcon
@@ -129,10 +130,8 @@ export default function ProjectHeader() {
           Content for Tab 5
         </p>
       </TabsContent>
-      <TabsContent value="tab-6">
-        <p className="pt-1 text-center text-xs text-muted-foreground">
-          Content for Tab 6
-        </p>
+      <TabsContent value="settings">
+        <ProjectSettings />
       </TabsContent>
     </Tabs>
   );

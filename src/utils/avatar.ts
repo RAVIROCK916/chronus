@@ -9,7 +9,7 @@ export function getRandomAvatar(seed?: string): string {
   const avatarSeed = seed || Math.random().toString(36).substring(2, 10);
 
   // Use DiceBear's identicon API
-  return `https://api.dicebear.com/7.x/identicon/svg?seed=${avatarSeed}`;
+  return `https://api.dicebear.com/9.x/identicon/svg?seed=${avatarSeed}`;
 }
 
 /**
@@ -37,5 +37,5 @@ export function getRandomStyledAvatar(style: string = "identicon"): string {
   const seed = Math.random().toString(36).substring(2, 10);
 
   // Return the DiceBear URL with the specified style
-  return `https://api.dicebear.com/7.x/${avatarStyle}/svg?seed=${seed}`;
+  return `https://api.dicebear.com/9.x/${avatarStyle}/svg?seed=${seed}`;
 }

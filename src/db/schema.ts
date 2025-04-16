@@ -35,6 +35,7 @@ export const projectTable = pgTable("projects", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull(),
   description: text("description"),
+  picture: text("picture"),
   user_id: uuid("user_id")
     .references(() => userTable.id, { onDelete: "cascade" })
     .notNull(),

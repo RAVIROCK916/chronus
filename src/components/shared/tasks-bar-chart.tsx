@@ -18,20 +18,11 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useTasksContext } from "@/state/context";
-import { subMonths } from "date-fns";
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-];
 
 const chartConfig = {
   desktop: {
     label: "Desktop",
-    color: "hsl(var(--chart-3))",
+    color: "hsl(var(--chart-1))",
   },
   mobile: {
     label: "Mobile",
@@ -41,15 +32,6 @@ const chartConfig = {
 
 export function TasksBarChart() {
   const tasks = useTasksContext();
-  // const last7Months = Array.from({ length: 7 }).map((_, i) => {
-  //   const date = subMonths(new Date(), 6 - i);
-  //   // date.setMonth(date.getMonth() - i);
-  //   return {
-  //     label: date.toLocaleString("default", { month: "short" }), // e.g., Jan, Feb
-  //     desktop: 0,
-  //     mobile: 0,
-  //   };
-  // });
 
   const last7Months = Object.values(
     tasks.reduce(
@@ -74,23 +56,6 @@ export function TasksBarChart() {
   );
 
   console.log("last7Months", last7Months);
-
-  // Count tasks created and completed
-  for (const task of tasks) {
-    const createdDate = new Date(Number(task.created_at));
-
-    for (const month of last7Months) {
-      if (
-        createdDate.toLocaleString("default", { month: "short" }) ===
-        month.label.slice(0, 3)
-      ) {
-        month.desktop += 1;
-        if (task.status === "DONE") {
-          month.mobile += 1;
-        }
-      }
-    }
-  }
 
   // Convert to chart format
   const chartData = last7Months.map((month) => ({

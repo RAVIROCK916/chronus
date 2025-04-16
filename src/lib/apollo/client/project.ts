@@ -4,6 +4,7 @@ const PROJECT_REQUEST = `
 	id
 	name
 	description
+	picture
 	created_at
 	user {
 		id

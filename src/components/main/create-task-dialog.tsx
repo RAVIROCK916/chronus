@@ -59,6 +59,22 @@ type CreateTaskDialogProps = {
   children?: React.ReactNode;
 };
 
+function StatusDot({ className }: { className?: string }) {
+  return (
+    <svg
+      width="8"
+      height="8"
+      fill="currentColor"
+      viewBox="0 0 8 8"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      <circle cx="4" cy="4" r="4" />
+    </svg>
+  );
+}
+
 export default function CreateTaskDialog({
   task,
   children,
@@ -201,11 +217,24 @@ export default function CreateTaskDialog({
                               <SelectValue placeholder="Select status" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="TODO">Todo</SelectItem>
-                              <SelectItem value="IN_PROGRESS">
-                                In progress
+                              <SelectItem value="TODO">
+                                <span className="flex items-center gap-2">
+                                  <StatusDot className="text-amber-500" />
+                                  <span className="truncate">Pending</span>
+                                </span>
                               </SelectItem>
-                              <SelectItem value="DONE">Done</SelectItem>
+                              <SelectItem value="IN_PROGRESS">
+                                <span className="flex items-center gap-2">
+                                  <StatusDot className="text-blue-500" />
+                                  <span className="truncate">In Progress</span>
+                                </span>
+                              </SelectItem>
+                              <SelectItem value="DONE">
+                                <span className="flex items-center gap-2">
+                                  <StatusDot className="text-emerald-600" />
+                                  <span className="truncate">Done</span>
+                                </span>
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
@@ -447,11 +476,24 @@ export const EditTaskDialog = ({ task, handleClose }: EditTaskDialogProps) => {
                             <SelectValue placeholder="Select status" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="TODO">Todo</SelectItem>
-                            <SelectItem value="IN_PROGRESS">
-                              In progress
+                            <SelectItem value="TODO">
+                              <span className="flex items-center gap-2">
+                                <StatusDot className="text-amber-500" />
+                                <span className="truncate">Pending</span>
+                              </span>
                             </SelectItem>
-                            <SelectItem value="DONE">Done</SelectItem>
+                            <SelectItem value="IN_PROGRESS">
+                              <span className="flex items-center gap-2">
+                                <StatusDot className="text-blue-500" />
+                                <span className="truncate">In Progress</span>
+                              </span>
+                            </SelectItem>
+                            <SelectItem value="DONE">
+                              <span className="flex items-center gap-2">
+                                <StatusDot className="text-emerald-600" />
+                                <span className="truncate">Done</span>
+                              </span>
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>

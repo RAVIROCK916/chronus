@@ -125,9 +125,9 @@ export default function Page() {
       </div>
       <div className="grid grid-cols-2 gap-4">
         <TasksContext.Provider value={tasks}>
-          <TasksAreaChart />
-          <TasksPieChart />
           <TasksBarChart />
+          <TasksPieChart />
+          <TasksAreaChart />
         </TasksContext.Provider>
       </div>
     </div>
