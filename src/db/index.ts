@@ -16,13 +16,13 @@ if (!globalThis.pool) {
   globalThis.pool = new Pool({
     connectionString,
   });
-}
 
-// Handle pool errors
-globalThis.pool.on("error", (err) => {
-  console.error("Unexpected error on idle database client", err);
-  process.exit(-1);
-});
+  // Handle pool errors
+  globalThis.pool.on("error", (err) => {
+    console.error("Unexpected error on idle database client", err);
+    process.exit(-1);
+  });
+}
 
 const pool = globalThis.pool;
 const db = drizzle({ client: pool, schema });

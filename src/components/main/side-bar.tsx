@@ -53,14 +53,14 @@ const Sidebar = () => {
   return (
     <div
       className={cn(
-        "sticky top-0 hidden h-screen w-64 space-y-4 border-r p-3 pt-6 transition-transform duration-500 xl:block",
+        "sticky top-0 hidden h-screen w-64 space-y-4 border-r py-4 transition-transform duration-500 xl:block",
         isExpanded ? "translate-x-0" : "-translate-x-full",
       )}
     >
       <div className="flex h-full flex-col justify-between gap-y-4">
         <div className="space-y-4">
           {/* <Logo /> */}
-          <div>
+          <SideBarContainer>
             <div className="relative flex items-center justify-between">
               <div className="flex gap-x-2">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
@@ -81,10 +81,10 @@ const Sidebar = () => {
                 <PanelLeft className="size-4" />
               </div>
             </div>
-          </div>
+          </SideBarContainer>
           <Separator />
           {/* Sidebar items */}
-          <div className="space-y-6">
+          <div className="space-y-6 px-3">
             <div className="space-y-1">
               {sidebarItems.top.map((item) => (
                 <SidebarItem
@@ -99,7 +99,7 @@ const Sidebar = () => {
         </div>
 
         <div className="space-y-4">
-          <div className="space-y-1">
+          <SideBarContainer className="space-y-1">
             {sidebarItems.bottom.map((item) => (
               <SidebarItem
                 key={item.name}
@@ -108,12 +108,25 @@ const Sidebar = () => {
                 Icon={item.icon}
               />
             ))}
-          </div>
+          </SideBarContainer>
           <Separator />
-          <NavUser user={profile} />
+          <SideBarContainer>
+            <NavUser user={profile} />
+          </SideBarContainer>
         </div>
       </div>
     </div>
   );
 };
+
+function SideBarContainer({
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return <div className={cn("px-3", className)}>{children}</div>;
+}
+
 export default Sidebar;

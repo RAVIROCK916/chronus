@@ -61,6 +61,15 @@ export const typeDefs = gql`
     updated_at: String!
   }
 
+  type Notification {
+    id: ID!
+    title: String!
+    message: String!
+    category: String!
+    isRead: Boolean!
+    created_at: String!
+  }
+
   type Query {
     hello: String
     user(id: ID!): User
@@ -73,6 +82,7 @@ export const typeDefs = gql`
     task(id: ID!): Task
     lastWeekTasks: [Task]
     events: [Event]
+    notifications: [Notification]
   }
 
   type Mutation {
@@ -142,5 +152,19 @@ export const typeDefs = gql`
       location: String
     ): Event
     deleteEvent(id: ID!): Event
+    createNotification(
+      title: String!
+      message: String!
+      category: String!
+      isRead: Boolean!
+    ): Notification
+    updateNotification(
+      id: ID!
+      title: String
+      message: String
+      category: String
+      isRead: Boolean
+    ): Notification
+    deleteNotification(id: ID!): Notification
   }
 `;

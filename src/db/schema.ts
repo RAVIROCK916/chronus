@@ -83,8 +83,10 @@ export const notificationTable = pgTable("notifications", {
   user_id: uuid("user_id")
     .references(() => userTable.id, { onDelete: "cascade" })
     .notNull(),
+  title: text("title").notNull(),
   message: text("message").notNull(),
-  is_read: boolean("is_read").default(false).notNull(),
+  category: text("type").$type<"general" | "reminder">().default("general"),
+  isRead: boolean("is_read").default(false).notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
 });
 

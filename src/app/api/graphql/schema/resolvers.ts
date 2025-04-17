@@ -1,6 +1,7 @@
 import db from "@/db";
 import {
   eventTable,
+  notificationTable,
   projectTable,
   sessionTable,
   taskTable,
@@ -9,7 +10,7 @@ import {
 import { and, eq, gte, inArray, or } from "drizzle-orm";
 import bcrypt from "bcrypt";
 import { ContextType } from "@/types/graphql";
-import { TaskPriority, TaskStatus } from "@/types";
+import { NotificationCategory, TaskPriority, TaskStatus } from "@/types";
 import { getRandomAvatar } from "@/utils/avatar";
 import { sub } from "date-fns";
 
@@ -26,6 +27,7 @@ export const resolvers = {
     task: getTask,
     lastWeekTasks: getLastWeekTasks,
     events: getEvents,
+    notifications: getNotifications,
   },
   Mutation: {
     createUser,
@@ -44,6 +46,7 @@ export const resolvers = {
     createEvent,
     updateEvent,
     deleteEvent,
+    updateNotification,
   },
   User: {
     projects: getProjects,
@@ -183,6 +186,14 @@ async function getEvents(_: any, __: any, context: ContextType) {
     .from(eventTable)
     .where(eq(eventTable.user_id, context.userId));
   return events;
+}
+
+async function getNotifications(_: any, __: any, context: ContextType) {
+  const notifications = await db
+    .select()
+    .from(notificationTable)
+    .where(eq(notificationTable.user_id, context.userId));
+  return notifications;
 }
 
 /* Mutation */
@@ -497,4 +508,37 @@ async function deleteEvent(_: any, { id }: { id: string }) {
     .where(eq(eventTable.id, id))
     .returning();
   return event[0];
+}
+
+/* Notifications */
+
+async function updateNotification(
+  _: any,
+  {
+    id,
+    title,
+    message,
+    category,
+    isRead,
+  }: {
+    id: string;
+    title: string;
+    message: string;
+    category: NotificationCategory;
+    isRead: boolean;
+  },
+  context: ContextType,
+) {
+  const notification = await db
+    .update(notificationTable)
+    .set({
+      title,
+      message,
+      category,
+      isRead,
+      user_id: context.userId,
+    })
+    .where(eq(notificationTable.id, id))
+    .returning();
+  return notification[0];
 }

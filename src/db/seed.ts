@@ -129,12 +129,18 @@ async function main() {
 
     // Create notifications for each user
     await Promise.all(
-      Array.from({ length: 2 }, async (_, i) => {
+      Array.from({ length: 10 }, async (_, i) => {
         await db.insert(notificationTable).values({
-          id: randomUUID(),
+          title: `Notification ${i + 1}`,
           message: "lorem ipsum dolor sit amet consectetur adipiscing elit",
-          is_read: [true, false][Math.floor(Math.random() * 2)],
+          category: (["general", "reminder"] as const)[
+            Math.floor(Math.random() * 2)
+          ],
+          isRead: [true, false][Math.floor(Math.random() * 2)],
           user_id: user.id,
+          created_at: new Date(
+            Date.now() - Math.floor(Math.random() * 10) * 24 * 60 * 60 * 1000,
+          ),
         });
       }),
     );

@@ -47,4 +47,17 @@ export type Event = {
   start: string;
   end: string;
   allDay: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type NotificationCategory = "general" | "reminder";
+
+export type Notification = {
+  id: string;
+  title: string;
+  message: string;
+  category: string;
+  isRead: boolean;
+  created_at: string;
 };
