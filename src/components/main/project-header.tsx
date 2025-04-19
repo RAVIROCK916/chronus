@@ -15,6 +15,7 @@ import ProjectOverview from "./project-overview";
 import { useProjectContext } from "./kanban-board";
 import TasksTable from "./tasks-table";
 import ProjectSettings from "./project-settings";
+import { HorizontalPaddingContainer } from "../shared/padding-container";
 
 export default function ProjectHeader() {
   const { project } = useProjectContext();
@@ -106,33 +107,35 @@ export default function ProjectHeader() {
           Settings
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="Overview">{/* <ProjectOverview /> */}</TabsContent>
-      <TabsContent value="Board">
-        <ClientKanbanBoard />
-      </TabsContent>
-      <TabsContent value="List">
-        <div className="pr-6">
-          <TasksTable tasks={project.tasks} />
-        </div>
-      </TabsContent>
-      <TabsContent value="tab-3">
-        <p className="pt-1 text-center text-xs text-muted-foreground">
-          Content for Tab 3
-        </p>
-      </TabsContent>
-      <TabsContent value="tab-4">
-        <p className="pt-1 text-center text-xs text-muted-foreground">
-          Content for Tab 4
-        </p>
-      </TabsContent>
-      <TabsContent value="tab-5">
-        <p className="pt-1 text-center text-xs text-muted-foreground">
-          Content for Tab 5
-        </p>
-      </TabsContent>
-      <TabsContent value="settings">
-        <ProjectSettings />
-      </TabsContent>
+      <HorizontalPaddingContainer>
+        <TabsContent value="Overview">{/* <ProjectOverview /> */}</TabsContent>
+        <TabsContent value="Board">
+          <ClientKanbanBoard />
+        </TabsContent>
+        <TabsContent value="List">
+          <div className="pr-6">
+            <TasksTable tasks={project.tasks} />
+          </div>
+        </TabsContent>
+        <TabsContent value="tab-3">
+          <p className="pt-1 text-center text-xs text-muted-foreground">
+            Content for Tab 3
+          </p>
+        </TabsContent>
+        <TabsContent value="tab-4">
+          <p className="pt-1 text-center text-xs text-muted-foreground">
+            Content for Tab 4
+          </p>
+        </TabsContent>
+        <TabsContent value="tab-5">
+          <p className="pt-1 text-center text-xs text-muted-foreground">
+            Content for Tab 5
+          </p>
+        </TabsContent>
+        <TabsContent value="settings">
+          <ProjectSettings />
+        </TabsContent>
+      </HorizontalPaddingContainer>
     </Tabs>
   );
 }

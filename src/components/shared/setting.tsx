@@ -26,7 +26,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 function Root({ children }: { children: React.ReactNode }) {
   return (
     <div>
-      <div className="grid grid-cols-[40%_60%] gap-8 py-6">{children}</div>
+      <SettingsPaddingContainer>
+        <div className="grid grid-cols-[40%_60%] gap-8">{children}</div>
+      </SettingsPaddingContainer>
       <Separator />
     </div>
   );
@@ -197,6 +199,10 @@ function SettingSelect({
       </Select>
     </div>
   );
+}
+
+function SettingsPaddingContainer({ children }: { children: React.ReactNode }) {
+  return <div className="px-10 py-6">{children}</div>;
 }
 
 const Setting = {

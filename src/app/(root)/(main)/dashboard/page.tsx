@@ -1,9 +1,10 @@
 "use client";
 
-import CurrentTimer from "@/components/main/current-timer";
+import PaddingContainer from "@/components/shared/padding-container";
 import { TasksAreaChart } from "@/components/shared/tasks-area-chart";
 import { TasksBarChart } from "@/components/shared/tasks-bar-chart";
 import { TasksPieChart } from "@/components/shared/tasks-pie-chart";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -21,6 +22,7 @@ import {
   Clock3,
   Percent,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function Page() {
   const { data } = useQuery(GET_DASHBOARD_QUERY);
@@ -49,7 +51,7 @@ export default function Page() {
   }, 0);
 
   return (
-    <div className="space-y-4 pb-8 pr-4">
+    <PaddingContainer className="space-y-4">
       {/* <div className="flex flex-row-reverse">
         <CurrentTimer />
       </div> */}
@@ -123,13 +125,27 @@ export default function Page() {
           </CardContent>
         </Card>
       </div>
-      <div className="grid grid-cols-2 gap-4">
-        <TasksContext.Provider value={tasks}>
-          <TasksBarChart />
-          <TasksPieChart />
-          <TasksAreaChart />
-        </TasksContext.Provider>
-      </div>
-    </div>
+      {tasks.length > 0 ? (
+        <div className="grid grid-cols-2 gap-4">
+          <TasksContext.Provider value={tasks}>
+            <TasksBarChart />
+            <TasksPieChart />
+            <TasksAreaChart />
+          </TasksContext.Provider>
+        </div>
+      ) : (
+        <div className="flex h-48 items-center justify-center">
+          <div className="flex flex-col items-center justify-center gap-2">
+            <h3 className="text-2xl font-bold">No tasks yet!</h3>
+            <p className="text-sm text-muted-foreground">
+              Let's get started by creating a new project.
+            </p>
+            <Button>
+              <Link href="/projects">Go to Projects</Link>
+            </Button>
+          </div>
+        </div>
+      )}
+    </PaddingContainer>
   );
 }

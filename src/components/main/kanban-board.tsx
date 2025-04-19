@@ -146,7 +146,7 @@ export default function KanbanBoard() {
         onDragOver={handleDragOver} // Real-time reorder on hover
         onDragEnd={handleDragEnd} // Clear active task after drop
       >
-        <div className="flex gap-8">
+        <div className="flex flex-wrap gap-8 *:flex-1">
           {COLUMNS.map((column) => {
             const columnTasks = useMemo(
               () => tasks.filter((task) => task.status === column.id),

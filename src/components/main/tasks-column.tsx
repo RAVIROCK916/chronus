@@ -32,11 +32,11 @@ export default function TasksColumn({
   });
 
   return (
-    <div className="space-y-2">
+    <div className="min-w-48 space-y-2">
       <h4 className="text-sm text-text-muted">{column.title}</h4>
       <div
         ref={setNodeRef}
-        className="w-96 space-y-2 self-start rounded-md border border-border p-4"
+        className="space-y-2 self-start rounded-md border border-border p-4"
       >
         <SortableContext items={tasks.map((task) => task.id)}>
           <div

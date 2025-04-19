@@ -29,7 +29,7 @@ export default function SettingsPage() {
   const { data } = useQuery(GET_USER);
   if (!data?.currentUser) return <div>Loading...</div>;
   return (
-    <div className="-ml-8 -mt-4">
+    <div className="">
       <UserContext.Provider value={data?.currentUser}>
         <Tabs defaultValue="Account" className="items-center bg-transparent">
           <div className="space-y-8">
@@ -48,23 +48,23 @@ export default function SettingsPage() {
               ))}
             </TabsList>
           </div>
-          <TabsContent value="Account" className="px-10">
+          <TabsContent value="Account">
             <AccountSettingsTab />
           </TabsContent>
-          <TabsContent value="Billing" className="px-10">
+          <TabsContent value="Billing">
             <p className="p-4 text-center text-xs text-muted-foreground">
               Content for Tab 4
             </p>
           </TabsContent>
-          <TabsContent value="Integrations" className="px-10">
+          <TabsContent value="Integrations">
             <p className="p-4 text-center text-xs text-muted-foreground">
               Content for Tab 5
             </p>
           </TabsContent>
-          <TabsContent value="Appearance" className="p-10">
+          <TabsContent value="Appearance">
             <AppearanceSettingsTab />
           </TabsContent>
-          <TabsContent value="Accessibility" className="p-10">
+          <TabsContent value="Accessibility">
             <p className="p-4 text-center text-xs text-muted-foreground">
               Content for Tab 7
             </p>
@@ -185,9 +185,10 @@ function AppearanceSettingsTab() {
     <fieldset className="space-y-4">
       <Setting.Root>
         <Setting.Header>
-          <legend className="font-medium leading-none text-foreground">
-            Choose a theme
-          </legend>
+          <Setting.Title>Theme</Setting.Title>
+          <Setting.Description>
+            Choose light/dark theme for your app.
+          </Setting.Description>
         </Setting.Header>
         <Setting.Content>
           <RadioGroup
@@ -211,7 +212,7 @@ function AppearanceSettingsTab() {
                   alt={item.label}
                   width={120}
                   height={100}
-                  className="shadow-xs peer-data-disabled:cursor-not-allowed peer-data-disabled:opacity-50 relative h-32 w-48 cursor-pointer overflow-hidden rounded-md border-[3px] border-input outline-none transition-[color,border,box-shadow] peer-focus-visible:ring-[3px] peer-focus-visible:ring-ring/50 peer-data-[state=checked]:border-ring peer-data-[state=checked]:bg-accent"
+                  className="shadow-xs peer-data-disabled:cursor-not-allowed peer-data-disabled:opacity-50 relative h-32 w-48 cursor-pointer overflow-hidden rounded-md border-2 border-input outline-none transition-[color,border,box-shadow] peer-focus-visible:ring-2 peer-focus-visible:ring-ring/50 peer-data-[state=checked]:border-ring peer-data-[state=checked]:bg-accent"
                 />
                 <span className="group mt-2 flex items-center gap-1 peer-data-[state=unchecked]:text-muted-foreground/70">
                   <CheckIcon

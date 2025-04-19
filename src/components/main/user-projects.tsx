@@ -37,18 +37,14 @@ export default function UserProjects({
   };
 
   return (
-    <div className="mt-8 flex flex-wrap gap-x-8 gap-y-4">
-      {projects?.length > 0 ? (
-        projects.map((project: any) => (
-          <ProjectCard
-            key={project.id}
-            project={project}
-            handleDeleteProject={handleDeleteProject}
-          />
-        ))
-      ) : (
-        <p>No projects found</p>
-      )}
+    <div className="mt-8 flex flex-wrap gap-x-8 gap-y-2">
+      {projects.map((project: any) => (
+        <ProjectCard
+          key={project.id}
+          project={project}
+          handleDeleteProject={handleDeleteProject}
+        />
+      ))}
     </div>
   );
 }

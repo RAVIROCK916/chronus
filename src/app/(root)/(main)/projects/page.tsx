@@ -9,6 +9,7 @@ import BreadCrumb from "@/components/shared/breadcrumb";
 import UserProjects from "@/components/main/user-projects";
 import CreateProjectDialog from "@/components/main/create-project-dialog";
 import ProjectsTable from "@/components/main/projects-table";
+import PaddingContainer from "@/components/shared/padding-container";
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -49,18 +50,35 @@ export default function ProjectsPage() {
   };
 
   return (
-    <div className="space-y-4 p-4">
-      <h1 className="text-4xl font-medium">Projects</h1>
+    <PaddingContainer className="space-y-6">
+      <h1 className="text-5xl font-medium">Projects</h1>
       {/* <BreadCrumb /> */}
-      <CreateProjectDialog
-        projects={projects}
-        handleAddProject={handleAddProject}
-      />
-      {/* <UserProjects
-        projects={optimisticProjects}
-        handleRemoveProject={handleRemoveProject}
-      /> */}
-      {projects.length > 0 && <ProjectsTable projects={optimisticProjects} />}
-    </div>
+      {projects.length > 0 ? (
+        <>
+          <CreateProjectDialog
+            projects={projects}
+            handleAddProject={handleAddProject}
+          />
+          <UserProjects
+            projects={optimisticProjects}
+            handleRemoveProject={handleRemoveProject}
+          />
+        </>
+      ) : (
+        // <ProjectsTable projects={optimisticProjects} />
+        <div className="flex h-48 items-center justify-center">
+          <div className="flex flex-col items-center justify-center gap-2">
+            <h3 className="text-2xl font-bold">No projects!</h3>
+            <p className="text-sm text-muted-foreground">
+              Let's get started by creating a new project.
+            </p>
+            <CreateProjectDialog
+              projects={projects}
+              handleAddProject={handleAddProject}
+            />
+          </div>
+        </div>
+      )}
+    </PaddingContainer>
   );
 }

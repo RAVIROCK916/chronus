@@ -1,12 +1,15 @@
 import CalendarApp from "@/components/main/calendar-app";
 import Calendar from "@/components/main/origin-ui-calendar";
+import PaddingContainer from "@/components/shared/padding-container";
 
 export default function Page() {
   return (
-    <div className="flex h-full w-full flex-col justify-center gap-8 py-3 pr-6">
-      <h1 className="text-4xl font-bold">Calendar</h1>
-      {/* <CalendarApp /> */}
-      <Calendar />
-    </div>
+    <PaddingContainer>
+      <div className="flex h-full w-full flex-col justify-center gap-6 pt-2">
+        <h1 className="text-4xl font-bold">Calendar</h1>
+        {/* <CalendarApp /> */}
+        <Calendar />
+      </div>
+    </PaddingContainer>
   );
 }

@@ -8,6 +8,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { GET_PROJECT } from "@/lib/apollo/client/project";
 import { Project } from "@/types";
 import { DELETE_TASK, DELETE_TASKS } from "@/lib/apollo/client/task";
+import PaddingContainer from "@/components/shared/padding-container";
 
 type ProjectPageProps = {
   params: {
@@ -108,15 +109,15 @@ export default function ProjectPage({
     <ProjectContext.Provider
       value={{ project, addTask, updateTask, deleteTask, deleteTasks }}
     >
-      <div className="space-y-6 py-3">
+      <PaddingContainer className="space-y-6">
         <BreadCrumb paths={breadcrumbPaths} />
         <div className="space-y-2">
           <h1 className="text-4xl">{name}</h1>
           <p className="text-text-muted">{data?.project?.description}</p>
           {/* <AddButton text="Add task" /> */}
         </div>
-        <ProjectHeader />
-      </div>
+      </PaddingContainer>
+      <ProjectHeader />
     </ProjectContext.Provider>
   );
 }
