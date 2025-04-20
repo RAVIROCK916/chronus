@@ -21,7 +21,7 @@ export default function ProjectHeader() {
   const { project } = useProjectContext();
   return (
     <Tabs defaultValue="List">
-      <TabsList className="mb-3 h-auto w-full justify-start gap-2 rounded-none border-b bg-transparent px-0 py-1 text-foreground">
+      <TabsList className="mb-3 h-auto w-full justify-start gap-2 rounded-none border-b bg-transparent px-8 py-1 text-foreground">
         <TabsTrigger
           value="Overview"
           className="relative after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 hover:bg-background-tertiary hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:after:bg-primary data-[state=active]:hover:bg-background-secondary"

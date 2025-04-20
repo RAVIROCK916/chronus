@@ -93,6 +93,7 @@ import {
 import { Task } from "@/types";
 import CreateTaskDialog, { EditTaskDialog } from "./create-task-dialog";
 import { useProjectContext } from "./kanban-board";
+import Link from "next/link";
 
 // Custom filter function for multi-column searching
 const multiColumnFilterFn: FilterFn<Task> = (row, columnId, filterValue) => {
@@ -140,7 +141,12 @@ const columns: ColumnDef<Task>[] = [
     header: "Title",
     accessorKey: "title",
     cell: ({ row }) => (
-      <div className="font-medium">{row.getValue("title")}</div>
+      <Link
+        href={`/tasks/${row.original.id}`}
+        className="font-medium hover:underline"
+      >
+        {row.getValue("title")}
+      </Link>
     ),
     size: 180,
     filterFn: multiColumnFilterFn,
@@ -150,7 +156,7 @@ const columns: ColumnDef<Task>[] = [
     header: "Description",
     accessorKey: "description",
     cell: ({ row }) => (
-      <div className="line-clamp-2">{row.getValue("description")}</div>
+      <div className="line-clamp-1">{row.getValue("description")}</div>
     ),
     size: 220,
   },

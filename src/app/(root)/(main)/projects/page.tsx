@@ -18,7 +18,7 @@ export default function ProjectsPage() {
     (projects, project) => [...projects, project],
   );
 
-  const { data, error } = useQuery(gql`
+  const { data, loading, error } = useQuery(gql`
     query {
       projects {
         id

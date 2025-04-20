@@ -3,6 +3,7 @@
 import Logo from "../shared/logo";
 import AddButton from "../shared/add-button";
 import { Separator } from "@/components/ui/separator";
+import Searchbar from "@/components/main/search-bar";
 import { sidebarItems } from "@/constants/data";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -83,8 +84,11 @@ const Sidebar = () => {
             </div>
           </SideBarContainer>
           <Separator />
+          <SideBarContainer>
+            <Searchbar />
+          </SideBarContainer>
           {/* Sidebar items */}
-          <div className="space-y-6 px-3">
+          <SideBarContainer className="space-y-6">
             <div className="space-y-1">
               {sidebarItems.top.map((item) => (
                 <SidebarItem
@@ -95,7 +99,7 @@ const Sidebar = () => {
                 />
               ))}
             </div>
-          </div>
+          </SideBarContainer>
         </div>
 
         <div className="space-y-4">

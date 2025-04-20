@@ -4,6 +4,7 @@ import PaddingContainer from "@/components/shared/padding-container";
 import { TasksAreaChart } from "@/components/shared/tasks-area-chart";
 import { TasksBarChart } from "@/components/shared/tasks-bar-chart";
 import { TasksPieChart } from "@/components/shared/tasks-pie-chart";
+import { Heatmap } from "@/components/main/heat-map";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -23,6 +24,7 @@ import {
   Percent,
 } from "lucide-react";
 import Link from "next/link";
+import { format } from "date-fns";
 
 export default function Page() {
   const { data } = useQuery(GET_DASHBOARD_QUERY);
@@ -49,6 +51,26 @@ export default function Page() {
       return acc;
     }
   }, 0);
+
+  const exampleData = {
+    "2025-01-01": 3,
+    "2025-01-02": 0,
+    "2025-01-03": 5,
+    // ...you can generate or fetch this from your DB
+  };
+
+  const heatmapData = tasks.reduce(
+    (acc: Record<string, number>, task: Task) => {
+      if (!task.completed_at) return acc;
+      const date = new Date(Number(task.completed_at));
+      const key = format(date, "yyyy-MM-dd");
+      acc[key] = (acc[key] || 0) + 1;
+      return acc;
+    },
+    {},
+  );
+
+  console.log("heatmapData", heatmapData);
 
   return (
     <PaddingContainer className="space-y-4">
@@ -131,6 +153,7 @@ export default function Page() {
             <TasksBarChart />
             <TasksPieChart />
             <TasksAreaChart />
+            <Heatmap data={heatmapData} />
           </TasksContext.Provider>
         </div>
       ) : (
