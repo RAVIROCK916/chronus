@@ -26,7 +26,7 @@ export default function ProjectCard({
     <ContextMenu>
       <ContextMenuTrigger className="data-[state=open]:bg-accent" asChild>
         <div
-          className="mb-4 min-h-20 w-80 cursor-pointer space-y-1 rounded-lg border border-input p-4 shadow-md transition-all hover:border-text-tertiary hover:shadow-sm"
+          className="min-h-20 w-80 cursor-pointer space-y-1 rounded-lg border border-input p-4 shadow-md transition-all hover:border-text-tertiary hover:shadow-sm"
           onClick={() => router.push(`/projects/${project.name}/${project.id}`)}
         >
           <div className="flex gap-2 text-secondary-foreground">

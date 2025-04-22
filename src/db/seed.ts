@@ -58,7 +58,7 @@ async function main() {
     // Create tasks for each project
     for (const project of projects) {
       await Promise.all(
-        Array.from({ length: 20 }, async (_, i) => {
+        Array.from({ length: 50 }, async (_, i) => {
           const priorities = ["LOW", "MEDIUM", "HIGH"] as const;
           const statuses = ["TODO", "IN_PROGRESS", "DONE"] as const;
 
@@ -71,7 +71,9 @@ async function main() {
           const priority =
             priorities[Math.floor(Math.random() * priorities.length)];
           const labels = ["bug", "feature", "enhancement"];
-          const due_date = new Date(Date.now() + (i + 1) * 24 * 60 * 60 * 1000);
+          const due_date = new Date(
+            Date.now() + Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000),
+          );
           const created_at = new Date(
             Date.now() - Math.floor(Math.random() * 100 * 24 * 60 * 60 * 1000),
           );
@@ -83,7 +85,7 @@ async function main() {
             status === "DONE"
               ? new Date(
                   updated_at.getTime() +
-                    Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000),
+                    Math.floor(Math.random() * 7 * 24 * 60 * 60 * 1000),
                 )
               : null;
           await db.insert(taskTable).values({

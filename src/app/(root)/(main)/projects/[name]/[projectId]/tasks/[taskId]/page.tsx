@@ -15,7 +15,7 @@ import { gql, useQuery } from "@apollo/client";
 import { FaRegCircleDot } from "react-icons/fa6";
 import { MdPriorityHigh } from "react-icons/md";
 import { CiShoppingTag } from "react-icons/ci";
-import { Badge } from "@/components/ui";
+import { Badge } from "@/components/ui/badge";
 import { Clock } from "lucide-react";
 
 type TaskPageProps = {

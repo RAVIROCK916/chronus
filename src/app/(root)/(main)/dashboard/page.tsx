@@ -10,6 +10,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -25,9 +26,10 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Page() {
-  const { data } = useQuery(GET_DASHBOARD_QUERY);
+  const { data, loading } = useQuery(GET_DASHBOARD_QUERY);
 
   if (!data) return null;
   console.log(data);
@@ -70,13 +72,48 @@ export default function Page() {
     {},
   );
 
-  console.log("heatmapData", heatmapData);
+  // if (loading)
+  return (
+    <PaddingContainer className="space-y-4">
+      {/* Skeleton for the 4 stat cards */}
+      <div className="grid grid-cols-4 gap-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <Card key={i}>
+            <CardHeader>
+              <div className="flex gap-2">
+                <Skeleton className="h-4 w-4" />
+                <Skeleton className="h-4 w-16" />
+              </div>
+              <Skeleton className="mt-1 h-3 w-32" />
+            </CardHeader>
+            <CardContent>
+              <Skeleton className="h-10 w-20" />
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Skeleton for the charts */}
+      <div className="grid grid-cols-2 gap-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <Card key={i}>
+            <CardHeader>
+              <Skeleton className="h-5 w-32" />
+            </CardHeader>
+            <CardContent>
+              <Skeleton className="h-[180px] w-full" />
+            </CardContent>
+            <CardFooter>
+              <Skeleton className="h-4 w-20" />
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+    </PaddingContainer>
+  );
 
   return (
     <PaddingContainer className="space-y-4">
-      {/* <div className="flex flex-row-reverse">
-        <CurrentTimer />
-      </div> */}
       {/* Total Tasks */}
       <div className="grid grid-cols-4 gap-4">
         <Card>

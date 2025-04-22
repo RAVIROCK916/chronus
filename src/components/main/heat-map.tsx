@@ -7,6 +7,7 @@ import {
   CardDescription,
   CardHeader,
   CardContent,
+  CardFooter,
 } from "@/components/ui/card";
 import {
   Tooltip,
@@ -21,20 +22,18 @@ type HeatmapProps = {
 };
 
 const colorScale = [
-  "bg-muted", // 0
-  "bg-neutral-600",
+  "bg-neutral-900",
+  "bg-neutral-700",
   "bg-neutral-500",
   "bg-neutral-300",
-  "bg-neutral-200",
   "bg-neutral-100",
-  "bg-neutral-50",
+  "bg-white",
 ];
 
-const getColorClass = (highest: number, count: number) => {
-  if (highest === 0) return colorScale[0];
-  if (highest <= 3) return colorScale[count];
-  const index = Math.floor((count / highest) * (colorScale.length - 1));
-  return colorScale[index] || "bg-muted";
+const getColorClass = (count: number) => {
+  let index = Math.ceil(count / 2);
+  index = Math.min(index, colorScale.length - 1);
+  return colorScale[index];
 };
 
 export function Heatmap({ data }: HeatmapProps) {
@@ -58,7 +57,7 @@ export function Heatmap({ data }: HeatmapProps) {
       </CardHeader>
       <CardContent>
         <div className="flex gap-2">
-          <div className="grid grid-flow-col grid-rows-7 text-xs text-muted-foreground">
+          <div className="grid grid-flow-col grid-rows-7 text-[10px] text-muted-foreground">
             <span>Sun</span>
             <span>Mon</span>
             <span>Tue</span>
@@ -69,7 +68,7 @@ export function Heatmap({ data }: HeatmapProps) {
           </div>
 
           <TooltipProvider>
-            <div className="grid grid-flow-col grid-cols-[repeat(53,minmax(0,1fr))] grid-rows-7 gap-x-5 gap-y-1">
+            <div className="grid grid-flow-col grid-cols-[repeat(53,minmax(0,1fr))] grid-rows-7 gap-x-4 gap-y-1">
               {days.map((day) => {
                 const key = format(day, "yyyy-MM-dd");
                 const count = data[key] || 0;
@@ -78,8 +77,8 @@ export function Heatmap({ data }: HeatmapProps) {
                     <TooltipTrigger asChild>
                       <div
                         className={cn(
-                          "size-4 rounded-sm",
-                          getColorClass(highest, count),
+                          "size-3 rounded-sm",
+                          getColorClass(count),
                         )}
                       />
                     </TooltipTrigger>
@@ -97,6 +96,16 @@ export function Heatmap({ data }: HeatmapProps) {
           </TooltipProvider>
         </div>
       </CardContent>
+      <CardFooter>
+        <div className="flex gap-4">
+          {colorScale.map((color, index) => (
+            <div key={index} className="flex items-center gap-1">
+              <div className={`h-2 w-2 ${color} rounded-[2px]`} />
+              <span className="text-xs text-muted-foreground">{index * 2}</span>
+            </div>
+          ))}
+        </div>
+      </CardFooter>
     </Card>
   );
 }

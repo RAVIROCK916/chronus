@@ -37,7 +37,7 @@ export default function UserProjects({
   };
 
   return (
-    <div className="mt-8 flex flex-wrap gap-x-8 gap-y-2">
+    <div className="mt-8 flex flex-wrap gap-x-8 gap-y-4">
       {projects.map((project: any) => (
         <ProjectCard
           key={project.id}
