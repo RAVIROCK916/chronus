@@ -32,34 +32,81 @@ export default function Page() {
   const { data, loading } = useQuery(GET_DASHBOARD_QUERY);
 
   if (!data) return null;
-  console.log(data);
   const tasks: Task[] = data.projects
     .map((project: Project) => project.tasks)
     .flat();
 
   let tasksCompleted = 0;
-  let currentStreak = 0;
+
+  // Replace the existing streak calculation with this approach
+  const calculateCurrentStreak = () => {
+    // Create a map of dates when tasks were completed
+    const completedDates = new Map<string, boolean>();
+
+    // Add all completed task dates to the map
+    tasks.forEach((task) => {
+      if (task.status === "DONE" && task.completed_at) {
+        const completedDate = new Date(+task.completed_at);
+        const dateKey = format(completedDate, "yyyy-MM-dd");
+        completedDates.set(dateKey, true);
+      }
+    });
+
+    // Sort dates to find consecutive days
+    const sortedDates = Array.from(completedDates.keys())
+      .map((dateStr) => new Date(dateStr))
+      .sort((a, b) => b.getTime() - a.getTime()); // Sort descending (newest first)
+
+    console.log("sortedDates", sortedDates);
+
+    if (sortedDates.length === 0) return 0;
+
+    let streak = 0;
+
+    // Check if there's a task completed today
+    const today = format(new Date(), "yyyy-MM-dd");
+    const hasTaskCompletedToday = completedDates.has(today);
+
+    // If no task completed today, streak is 0
+    if (hasTaskCompletedToday) streak++;
+
+    // Count consecutive days
+    let currentDate = new Date();
+
+    // Check previous days
+    while (true) {
+      // Move to previous day
+      currentDate.setDate(currentDate.getDate() - 1);
+      const dateKey = format(currentDate, "yyyy-MM-dd");
+
+      // If we have a task completed on this day, increase streak
+      if (completedDates.has(dateKey)) {
+        streak++;
+      } else {
+        // Break the streak when we find a day with no completed tasks
+        break;
+      }
+    }
+
+    return streak;
+  };
+
+  // Use the function to calculate the streak
+  const currentStreak = calculateCurrentStreak();
 
   const totalTime = tasks.reduce((acc, task) => {
-    if (task.status === "DONE") {
+    if (task.status === "DONE" && task.completed_at) {
       tasksCompleted += 1;
-      currentStreak += 1;
+      const completedAt = new Date(+task.completed_at);
+      const date = new Date().getTime();
+
       return (
         acc +
         (Number(task.completed_at) - Number(task.updated_at)) / 60 / 60 / 1000
       );
-    } else {
-      currentStreak = 0;
-      return acc;
     }
+    return acc;
   }, 0);
-
-  const exampleData = {
-    "2025-01-01": 3,
-    "2025-01-02": 0,
-    "2025-01-03": 5,
-    // ...you can generate or fetch this from your DB
-  };
 
   const heatmapData = tasks.reduce(
     (acc: Record<string, number>, task: Task) => {
@@ -72,45 +119,45 @@ export default function Page() {
     {},
   );
 
-  // if (loading)
-  return (
-    <PaddingContainer className="space-y-4">
-      {/* Skeleton for the 4 stat cards */}
-      <div className="grid grid-cols-4 gap-4">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <Card key={i}>
-            <CardHeader>
-              <div className="flex gap-2">
-                <Skeleton className="h-4 w-4" />
-                <Skeleton className="h-4 w-16" />
-              </div>
-              <Skeleton className="mt-1 h-3 w-32" />
-            </CardHeader>
-            <CardContent>
-              <Skeleton className="h-10 w-20" />
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+  if (loading)
+    return (
+      <PaddingContainer className="space-y-4">
+        {/* Skeleton for the 4 stat cards */}
+        <div className="grid grid-cols-4 gap-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Card key={i}>
+              <CardHeader>
+                <div className="flex gap-2">
+                  <Skeleton className="h-4 w-4" />
+                  <Skeleton className="h-4 w-16" />
+                </div>
+                <Skeleton className="mt-1 h-3 w-32" />
+              </CardHeader>
+              <CardContent>
+                <Skeleton className="h-10 w-20" />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
 
-      {/* Skeleton for the charts */}
-      <div className="grid grid-cols-2 gap-4">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <Card key={i}>
-            <CardHeader>
-              <Skeleton className="h-5 w-32" />
-            </CardHeader>
-            <CardContent>
-              <Skeleton className="h-[180px] w-full" />
-            </CardContent>
-            <CardFooter>
-              <Skeleton className="h-4 w-20" />
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
-    </PaddingContainer>
-  );
+        {/* Skeleton for the charts */}
+        <div className="grid grid-cols-2 gap-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Card key={i}>
+              <CardHeader>
+                <Skeleton className="h-5 w-32" />
+              </CardHeader>
+              <CardContent>
+                <Skeleton className="h-[180px] w-full" />
+              </CardContent>
+              <CardFooter>
+                <Skeleton className="h-4 w-20" />
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      </PaddingContainer>
+    );
 
   return (
     <PaddingContainer className="space-y-4">

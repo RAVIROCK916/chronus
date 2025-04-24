@@ -55,8 +55,6 @@ export function TasksBarChart() {
     ),
   );
 
-  console.log("last7Months", last7Months);
-
   // Convert to chart format
   const chartData = last7Months.map((month) => ({
     month: month.label,

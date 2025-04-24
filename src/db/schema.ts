@@ -34,6 +34,7 @@ export const sessionTable = pgTable("sessions", {
 export const projectTable = pgTable("projects", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull(),
+  summary: text("summary"),
   description: text("description"),
   picture: text("picture"),
   user_id: uuid("user_id")

@@ -27,7 +27,8 @@ export const createProjectFormSchema = (projects: Project[]) =>
   z
     .object({
       name: z.string().trim().min(1, "Project name is required").max(20),
-      description: z.string().trim().max(100).optional(),
+      summary: z.string().trim().max(100),
+      description: z.string().trim().max(1000).optional(),
     })
     .refine((data) => !projects.find((project) => project.name === data.name), {
       message: "Project name already exists",

@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -29,8 +30,9 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import { Separator } from "@/components/ui/separator";
 
-import LoaderButton from "../shared/loader-button";
+import LoaderButton from "@/components/shared/loader-button";
 
 type CreateProjectDialogProps = {
   projects: Project[];
@@ -57,6 +59,7 @@ const CreateProjectDialog = ({
     resolver: zodResolver(createProjectFormSchema(projects)),
     defaultValues: {
       name: "",
+      summary: "",
       description: "",
     },
   });
@@ -93,54 +96,82 @@ const CreateProjectDialog = ({
       <DialogTrigger asChild>
         <Button>Create Project</Button>
       </DialogTrigger>
-      <DialogContent aria-describedby={undefined}>
-        <DialogHeader>
-          <DialogTitle className="font-medium tracking-wide">
-            Create a new project
-          </DialogTitle>
+      <DialogContent
+        className="flex h-4/5 max-w-[800px] flex-col p-0"
+        aria-describedby={undefined}
+      >
+        <DialogHeader className="p-6 pb-0">
+          <DialogDescription className="text-text-muted">
+            New project
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
-            className="space-y-4"
+            className="flex h-full flex-col"
           >
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="ex. Diary" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description (optional)</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="ex. writing what I did today"
-                      className="h-24"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DialogFooter>
+            <div className="flex h-full flex-col p-6 pt-0">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    {/* <FormLabel>Name</FormLabel> */}
+                    <FormControl>
+                      <Input
+                        placeholder="Project Name"
+                        className="border-none px-0 text-2xl font-medium shadow-none focus-visible:ring-0"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="summary"
+                render={({ field }) => (
+                  <FormItem>
+                    {/* <FormLabel>Summary</FormLabel> */}
+                    <FormControl>
+                      <Input
+                        placeholder="Add a short summary..."
+                        className="border-none px-0 shadow-none focus-visible:ring-0"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Separator />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    {/* <FormLabel>Description (optional)</FormLabel> */}
+                    <FormControl>
+                      <Textarea
+                        placeholder="Write a description, if you want to..."
+                        className="h-full border-none px-0 text-sm shadow-none focus-visible:ring-0"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <DialogFooter className="border-t p-4">
+              <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+                Cancel
+              </Button>
               {loading ? (
                 <LoaderButton />
               ) : (
-                <Button type="submit" className="flex-1 font-medium">
-                  Create
-                </Button>
+                <Button type="submit">Create</Button>
               )}
             </DialogFooter>
           </form>

@@ -44,8 +44,6 @@ export function TasksAreaChart() {
     };
   });
 
-  console.log("last7Days", last7Days);
-
   // Count tasks created and completed
   for (const task of tasks) {
     const createdDate = parseISO(

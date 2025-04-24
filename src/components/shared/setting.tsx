@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import Loader from "@/components/shared/loader";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import {
   Form,
   FormControl,
@@ -22,6 +23,7 @@ import {
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CircleCheck } from "lucide-react";
 
 function Root({ children }: { children: React.ReactNode }) {
   return (
@@ -120,9 +122,9 @@ function SettingInput({
                       onBlur={form.handleSubmit(onSubmit)}
                     />
                   </FormControl>
-                  <div className="text-sm text-muted-foreground">
-                    {saving && "Saving..."}
-                    {saved && "Saved"}
+                  <div className="text-sm text-muted-foreground transition">
+                    {saving && <Loader />}
+                    {saved && <CircleCheck size={16} />}
                   </div>
                 </div>
                 <FormMessage />
