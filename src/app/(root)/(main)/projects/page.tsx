@@ -24,7 +24,9 @@ export default function ProjectsPage() {
       projects {
         id
         name
+				summary
         description
+				color
         created_at
       }
     }
@@ -51,33 +53,30 @@ export default function ProjectsPage() {
   };
 
   return (
-    <PaddingContainer className="space-y-6">
-      <h1 className="text-5xl font-medium">Projects</h1>
+    <PaddingContainer className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h6 className="">Projects</h6>
+        <CreateProjectDialog
+          projects={projects}
+          handleAddProject={handleAddProject}
+        />
+      </div>
       {/* <BreadCrumb /> */}
       {loading ? (
-        <div className="space-y-6">
-          <Skeleton className="h-10 w-40" />
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
-            {Array(10)
-              .fill(0)
-              .map((_, i) => (
-                <Skeleton key={i} className="h-20 w-80" />
-              ))}
-          </div>
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
+          {Array(10)
+            .fill(0)
+            .map((_, i) => (
+              <Skeleton key={i} className="h-20 w-80" />
+            ))}
         </div>
       ) : projects.length > 0 ? (
-        <>
-          <CreateProjectDialog
-            projects={projects}
-            handleAddProject={handleAddProject}
-          />
-          <UserProjects
-            projects={optimisticProjects}
-            handleRemoveProject={handleRemoveProject}
-          />
-        </>
+        // <UserProjects
+        //   projects={optimisticProjects}
+        //   handleRemoveProject={handleRemoveProject}
+        // />
+        <ProjectsTable projects={optimisticProjects} />
       ) : (
-        // <ProjectsTable projects={optimisticProjects} />
         <div className="flex h-48 items-center justify-center">
           <div className="flex flex-col items-center justify-center gap-2">
             <h3 className="text-2xl font-bold">No projects!</h3>

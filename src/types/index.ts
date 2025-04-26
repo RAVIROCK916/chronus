@@ -11,7 +11,9 @@ export type User = {
 export type Project = {
   id: string;
   name: string;
+  summary: string;
   description: string;
+  color: string;
   picture: string;
   created_at: string;
   user: User;

@@ -42,7 +42,9 @@ async function main() {
           .values({
             id: randomUUID(),
             name: `Project ${i + 1}`,
-            description: `Description for project ${i + 1}`,
+            summary: `Summary for project ${i + 1}`,
+            description: `Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum for project ${i + 1}`,
+            color: ["sky", "amber", "rose"][Math.floor(Math.random() * 3)],
             picture,
             created_at: new Date(
               Date.now() -
@@ -134,7 +136,8 @@ async function main() {
       Array.from({ length: 10 }, async (_, i) => {
         await db.insert(notificationTable).values({
           title: `Notification ${i + 1}`,
-          message: "lorem ipsum dolor sit amet consectetur adipiscing elit",
+          message:
+            "lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
           category: (["general", "reminder"] as const)[
             Math.floor(Math.random() * 2)
           ],

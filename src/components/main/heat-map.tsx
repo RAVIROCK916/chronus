@@ -68,7 +68,7 @@ export function Heatmap({ data }: HeatmapProps) {
           </div>
 
           <TooltipProvider>
-            <div className="grid grid-flow-col grid-cols-[repeat(53,minmax(0,1fr))] grid-rows-7 gap-x-4 gap-y-1">
+            <div className="grid grid-flow-col grid-cols-[repeat(53,minmax(0,1fr))] grid-rows-7 gap-x-5 gap-y-1">
               {days.map((day) => {
                 const key = format(day, "yyyy-MM-dd");
                 const count = data[key] || 0;
@@ -77,7 +77,7 @@ export function Heatmap({ data }: HeatmapProps) {
                     <TooltipTrigger asChild>
                       <div
                         className={cn(
-                          "size-3 rounded-sm",
+                          "size-4 rounded-sm",
                           getColorClass(count),
                         )}
                       />

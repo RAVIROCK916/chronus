@@ -31,8 +31,26 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 import LoaderButton from "@/components/shared/loader-button";
+import Logo from "../shared/logo";
+import { Box, Plus } from "lucide-react";
+import { cn } from "@/lib/utils";
+import type { EventColor } from "@/components";
+import { colorOptions } from "@/constants/colors";
 
 type CreateProjectDialogProps = {
   projects: Project[];
@@ -44,12 +62,16 @@ const CreateProjectDialog = ({
   handleAddProject,
 }: CreateProjectDialogProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [color, setColor] = useState<EventColor>("sky");
+
   const [createProject, { loading }] = useMutation(gql`
     mutation CreateProject($name: String!, $description: String) {
       createProject(name: $name, description: $description) {
         id
         name
+        summary
         description
+        color
         created_at
       }
     }
@@ -94,16 +116,22 @@ const CreateProjectDialog = ({
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button>Create Project</Button>
+        <Button variant="outline">
+          Project{" "}
+          <span>
+            <Plus className="!size-3" />
+          </span>
+        </Button>
       </DialogTrigger>
       <DialogContent
-        className="flex h-4/5 max-w-[800px] flex-col p-0"
+        className="flex h-[90vh] max-w-[1000px] flex-col p-0"
         aria-describedby={undefined}
       >
         <DialogHeader className="p-6 pb-0">
-          <DialogDescription className="text-text-muted">
+          <DialogTitle className="flex items-center gap-1 text-sm font-medium text-text-tertiary">
+            <Logo />
             New project
-          </DialogDescription>
+          </DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -111,6 +139,42 @@ const CreateProjectDialog = ({
             className="flex h-full flex-col"
           >
             <div className="flex h-full flex-col p-6 pt-0">
+              <div className="mb-4">
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <Button variant="outline" size="icon">
+                      <Box size="16px" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start">
+                    <fieldset className="space-y-4 p-2">
+                      <p className="text-sm font-medium leading-none text-text-muted">
+                        Choose a color
+                      </p>
+                      <RadioGroup
+                        className="flex gap-2"
+                        defaultValue={colorOptions[0].value}
+                        value={color}
+                        onValueChange={(value: EventColor) => setColor(value)}
+                      >
+                        {colorOptions.map((colorOption) => (
+                          <RadioGroupItem
+                            key={colorOption.value}
+                            id={`color-${colorOption.value}`}
+                            value={colorOption.value}
+                            aria-label={colorOption.label}
+                            className={cn(
+                              "size-6 shadow-none",
+                              colorOption.bgClass,
+                              colorOption.borderClass,
+                            )}
+                          />
+                        ))}
+                      </RadioGroup>
+                    </fieldset>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
               <FormField
                 control={form.control}
                 name="name"
@@ -155,7 +219,7 @@ const CreateProjectDialog = ({
                     <FormControl>
                       <Textarea
                         placeholder="Write a description, if you want to..."
-                        className="h-full border-none px-0 text-sm shadow-none focus-visible:ring-0"
+                        className="max-h-96 min-h-48 border-none px-0 shadow-none focus-visible:ring-0"
                         {...field}
                       />
                     </FormControl>

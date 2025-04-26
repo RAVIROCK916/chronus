@@ -36,7 +36,10 @@ export const projectTable = pgTable("projects", {
   name: text("name").notNull(),
   summary: text("summary"),
   description: text("description"),
+  priority: taskPriorityEnum("priority").default("LOW"),
+  color: text("color").default("sky"),
   picture: text("picture"),
+  due_date: timestamp("due_date"),
   user_id: uuid("user_id")
     .references(() => userTable.id, { onDelete: "cascade" })
     .notNull(),

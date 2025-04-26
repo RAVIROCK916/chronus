@@ -23,7 +23,9 @@ export const typeDefs = gql`
   type Project {
     id: ID!
     name: String!
+    summary: String
     description: String
+    color: String
     picture: String
     created_at: String!
     updated_at: String!
