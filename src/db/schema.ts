@@ -10,6 +10,12 @@ import {
 
 export const taskStatusEnum = pgEnum("status", ["TODO", "IN_PROGRESS", "DONE"]);
 export const taskPriorityEnum = pgEnum("priority", ["LOW", "MEDIUM", "HIGH"]);
+export interface TaskComment {
+  id: string;
+  user_id: string;
+  content: string;
+  created_at: string;
+}
 export const themeEnum = pgEnum("theme", ["light", "dark", "system"]);
 
 export const userTable = pgTable("users", {
@@ -55,6 +61,7 @@ export const taskTable = pgTable("tasks", {
   priority: taskPriorityEnum("priority").default("LOW").notNull(),
   labels: text("labels").array().$type<string[]>(),
   due_date: timestamp("due_date"),
+  comments: text("comments").array().$type<TaskComment[]>(),
   project_id: uuid("project_id")
     .references(() => projectTable.id, { onDelete: "cascade" })
     .notNull(),

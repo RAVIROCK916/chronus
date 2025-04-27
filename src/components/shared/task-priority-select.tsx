@@ -12,13 +12,15 @@ import { useState } from "react";
 import { UPDATE_TASK_PRIORITY } from "@/lib/apollo/client/task";
 
 type TaskPrioritySelectProps = {
-  id: string;
-  taskPriority: TaskPriority;
+  id?: string;
+  taskPriority: string;
+  onChange?: (priority: string) => void;
 };
 
 export default function TaskPrioritySelect({
   id,
   taskPriority,
+  onChange,
 }: TaskPrioritySelectProps) {
   const [priority, setPriority] = useState<string>(taskPriority);
 
@@ -27,9 +29,17 @@ export default function TaskPrioritySelect({
   const handleValueChange = (value: string) => {
     console.log("value", value);
     setPriority(value);
-    updateTaskPriority({
-      variables: { id, priority: value },
-    });
+    if (id) {
+      updateTaskPriority({
+        variables: {
+          id,
+          priority: value,
+        },
+      });
+    }
+
+    // Call the onChange prop if provided
+    onChange?.(value);
   };
 
   return (

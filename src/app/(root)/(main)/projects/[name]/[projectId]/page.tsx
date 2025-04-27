@@ -113,7 +113,9 @@ export default function ProjectPage({
         <BreadCrumb paths={breadcrumbPaths} />
         <div className="space-y-2">
           <h1 className="text-4xl">{name}</h1>
-          <p className="text-text-muted">{data?.project?.description}</p>
+          {/* <p className="line-clamp-1 max-w-xl text-text-muted">
+            {data?.project?.description}
+          </p> */}
           {/* <AddButton text="Add task" /> */}
         </div>
       </PaddingContainer>

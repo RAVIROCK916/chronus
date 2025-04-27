@@ -8,7 +8,9 @@ import { Project } from "@/types";
 import BreadCrumb from "@/components/shared/breadcrumb";
 import UserProjects from "@/components/main/user-projects";
 import CreateProjectDialog from "@/components/main/create-project-dialog";
-import ProjectsTable from "@/components/main/projects-table";
+import ProjectsTable, {
+  ProjectsTableSkeleton,
+} from "@/components/main/projects-table";
 import PaddingContainer from "@/components/shared/padding-container";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -24,9 +26,9 @@ export default function ProjectsPage() {
       projects {
         id
         name
-				summary
+        summary
         description
-				color
+        color
         created_at
       }
     }
@@ -63,13 +65,7 @@ export default function ProjectsPage() {
       </div>
       {/* <BreadCrumb /> */}
       {loading ? (
-        <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
-          {Array(10)
-            .fill(0)
-            .map((_, i) => (
-              <Skeleton key={i} className="h-20 w-80" />
-            ))}
-        </div>
+        <ProjectsTableSkeleton />
       ) : projects.length > 0 ? (
         // <UserProjects
         //   projects={optimisticProjects}

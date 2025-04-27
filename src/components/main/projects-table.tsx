@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useId } from "react";
 import MarginContainer from "@/components/shared/margin-container";
 import { cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type ProjectsTableProps = {
   projects: Project[];
@@ -60,3 +61,41 @@ export default function ProjectsTable({ projects }: ProjectsTableProps) {
     </MarginContainer>
   );
 }
+
+export const ProjectsTableSkeleton = () => {
+  const loadingRows = Array(5).fill(null);
+
+  return (
+    <MarginContainer className="overflow-hidden bg-background">
+      <Table className="border-t">
+        <TableHeader>
+          <TableRow className="hover:bg-transparent">
+            <TableHead className="pl-8">Name</TableHead>
+            <TableHead>Summary</TableHead>
+            <TableHead>Description</TableHead>
+            <TableHead>Created At</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody className="[&_td:first-child]:rounded-l-lg [&_td:last-child]:rounded-r-lg">
+          {loadingRows.map((_, idx) => (
+            <TableRow key={idx} className="border-none *:py-2.5">
+              <TableCell className="flex items-center gap-2 pl-8">
+                <Skeleton className="size-4 rounded-full" />
+                <Skeleton className="h-5 w-32" />
+              </TableCell>
+              <TableCell>
+                <Skeleton className="h-5 w-48" />
+              </TableCell>
+              <TableCell>
+                <Skeleton className="h-5 w-64 max-w-96" />
+              </TableCell>
+              <TableCell>
+                <Skeleton className="h-5 w-24" />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </MarginContainer>
+  );
+};

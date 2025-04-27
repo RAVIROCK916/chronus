@@ -9,20 +9,107 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Task } from "@/types";
-import { CiShoppingTag } from "react-icons/ci";
-import { FaRegCircleDot, FaTags } from "react-icons/fa6";
-import { MdOutlineDescription, MdPriorityHigh } from "react-icons/md";
-import { Clock } from "lucide-react";
+import { MdOutlineDescription } from "react-icons/md";
 import TextEditor from "./text-editor";
 import TaskStatusSelect from "./task-status-select";
 import TaskPrioritySelect from "./task-priority-select";
 import TaskLabelInput from "./task-label-input";
+import { useMutation } from "@apollo/client";
+import { CREATE_TASK, UPDATE_TASK } from "@/lib/apollo/client/task";
+import { useState, useEffect } from "react";
 
 type TaskSheetProps = {
-  task: Task;
+  task?: Task;
+  projectId?: string;
+  onClose: () => void;
+  onSuccess?: () => void;
 };
 
-export default function TaskSheet({ task }: TaskSheetProps) {
+export default function TaskSheet({
+  task,
+  projectId,
+  onClose,
+  onSuccess,
+}: TaskSheetProps) {
+  const isEditMode = !!task;
+
+  // Initialize state with task data or empty values
+  const [formData, setFormData] = useState<{
+    title: string;
+    description: string;
+    status: string;
+    priority: string;
+    labels: string[];
+  }>({
+    title: task?.title || "",
+    description: task?.description || "",
+    status: task?.status || "TODO",
+    priority: task?.priority || "LOW",
+    labels: task?.labels || [],
+  });
+
+  // Update form data when task changes
+  useEffect(() => {
+    if (task) {
+      setFormData({
+        title: task.title || "",
+        description: task.description || "",
+        status: task.status || "TODO",
+        priority: task.priority || "LOW",
+        labels: task.labels || [],
+      });
+    }
+  }, [task]);
+
+  // Create task mutation
+  const [createTask, { loading: createLoading }] = useMutation(CREATE_TASK, {
+    onCompleted: () => {
+      onSuccess?.();
+      onClose();
+    },
+  });
+
+  // Update task mutation
+  const [updateTask, { loading: updateLoading }] = useMutation(UPDATE_TASK, {
+    onCompleted: () => {
+      onSuccess?.();
+      onClose();
+    },
+  });
+
+  const handleInputChange = (field: string, value: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleSubmit = () => {
+    if (isEditMode && task) {
+      updateTask({
+        variables: {
+          id: task.id,
+          title: formData.title,
+          description: formData.description,
+          status: formData.status,
+          priority: formData.priority,
+          labels: formData.labels,
+        },
+      });
+    } else if (projectId) {
+      createTask({
+        variables: {
+          title: formData.title,
+          description: formData.description,
+          status: formData.status,
+          priority: formData.priority,
+          labels: formData.labels,
+          projectId: projectId,
+        },
+      });
+    }
+  };
+
   return (
     <SheetContent
       className="min-w-[500px] p-0"
@@ -30,88 +117,68 @@ export default function TaskSheet({ task }: TaskSheetProps) {
     >
       {/* Header */}
       <SheetHeader className="px-6 py-4">
-        <SheetTitle className="text-sm font-light">Project Name</SheetTitle>
+        <SheetTitle className="text-sm font-light">
+          {isEditMode ? "Edit Task" : "Create New Task"}
+        </SheetTitle>
       </SheetHeader>
       <Separator />
       <div className="space-y-4 px-6 py-4">
         {/* Task Name */}
-        <h3 className="text-3xl">Task Name</h3>
-        {/* Task Status, Priority, Due Date, Tags */}
-        {/* <table className="[&_td]:pl-12 [&_th]:py-2 [&_th]:text-left [&_th]:font-normal [&_th]:text-text-muted [&_tr]:text-sm">
-          <tr>
-            <th className="flex items-center gap-2">
-              <FaRegCircleDot />
-              Status
-            </th>
-            <td>Status</td>
-          </tr>
-          <tr>
-            <th className="flex items-center gap-2">
-              <MdPriorityHigh />
-              Priority
-            </th>
-            <td>Priority</td>
-          </tr>
-          <tr>
-            <th className="flex items-center gap-2">
-              <Clock size={16} /> Due Date
-            </th>
-            <td>Due Date</td>
-          </tr>
-          <tr>
-            <th className="flex items-center gap-2">
-              <CiShoppingTag className="stroke-1" size={16} />
-              Tags
-            </th>
-            <td>
-              <div className="flex flex-wrap gap-2">
-                {task?.labels?.map((label) => (
-                  <Badge key={label} variant="secondary">
-                    {label}
-                  </Badge>
-                ))}
-              </div>
-            </td>
-          </tr>
-        </table> */}
-        <div className="space-y-4">
-          <div className="space-y-1">
-            <Label className="text-sm text-text-muted">Name</Label>
-            <Input
-              value={task.title}
-              onChange={(e: any) => console.log(e.target.value)}
+        <div className="space-y-1">
+          <Label className="text-sm text-text-muted">Name</Label>
+          <Input
+            value={formData.title}
+            onChange={(e) => handleInputChange("title", e.target.value)}
+            placeholder="Task name"
+          />
+        </div>
+        <div className="flex items-center justify-center gap-4">
+          <div className="flex-1 space-y-1">
+            <Label className="text-sm text-text-muted">Status</Label>
+            <TaskStatusSelect
+              id={task?.id}
+              taskStatus={formData.status}
+              onChange={(status) => handleInputChange("status", status)}
             />
           </div>
-          <div className="flex items-center justify-center gap-4">
-            <div className="flex-1 space-y-1">
-              <Label className="text-sm text-text-muted">Status</Label>
-              <TaskStatusSelect id={task.id} taskStatus={task.status} />
-            </div>
-            <div className="flex-1 space-y-1">
-              <Label className="text-sm text-text-muted">Priority</Label>
-              <TaskPrioritySelect id={task.id} taskPriority={task.priority} />
-            </div>
+          <div className="flex-1 space-y-1">
+            <Label className="text-sm text-text-muted">Priority</Label>
+            <TaskPrioritySelect
+              id={task?.id}
+              taskPriority={formData.priority}
+              onChange={(priority) => handleInputChange("priority", priority)}
+            />
           </div>
-          {task.labels && (
-            <div className="text-text-muted">
-              <TaskLabelInput labels={task.labels} onChange={() => {}} />
-            </div>
-          )}
-          {/* Task Description */}
-          <div className="space-y-2">
-            <div className="flex gap-2 text-text-muted">
-              <MdOutlineDescription />
-              <h3 className="text-sm">Description</h3>
-            </div>
-            {/* <Textarea value={task.description} className="h-20" /> */}
-            <TextEditor />
+        </div>
+        <div className="text-text-muted">
+          <TaskLabelInput
+            labels={formData.labels}
+            onChange={(labels) => handleInputChange("labels", labels)}
+          />
+        </div>
+        {/* Task Description */}
+        <div className="space-y-2">
+          <div className="flex gap-2 text-text-muted">
+            <MdOutlineDescription />
+            <h3 className="text-sm">Description</h3>
           </div>
+          <TextEditor
+            initialValue={formData.description}
+            onChange={(content) => handleInputChange("description", content)}
+          />
         </div>
       </div>
       {/* Footer */}
       <SheetFooter className="px-6 py-4">
-        <Button variant="outline">Cancel</Button>
-        <Button>Save</Button>
+        <Button variant="outline" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button
+          onClick={handleSubmit}
+          disabled={createLoading || updateLoading || !formData.title}
+        >
+          {isEditMode ? "Update" : "Create"}
+        </Button>
       </SheetFooter>
     </SheetContent>
   );

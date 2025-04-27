@@ -15,7 +15,15 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export default function Editor() {
+type TextEditorProps = {
+  initialValue?: string;
+  onChange?: (content: string) => void;
+};
+
+export default function TextEditor({
+  initialValue = "",
+  onChange,
+}: TextEditorProps) {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -25,7 +33,7 @@ export default function Editor() {
       OrderedList,
       ListItem,
     ],
-    content: "",
+    content: initialValue,
     editorProps: {
       attributes: {
         class:

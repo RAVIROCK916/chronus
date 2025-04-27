@@ -3,10 +3,12 @@ import { Column as ColumnType, TaskStatus, Task as TaskType } from "@/types";
 import { useDroppable } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
 import { Button } from "../ui/button";
-import { Plus } from "lucide-react";
+import { EllipsisVertical, Plus } from "lucide-react";
 import { useRef, useState } from "react";
 import TaskInputCard from "./task-input-card";
 import useClickOutside from "@/hooks/useClickOutside";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import TaskSheet from "../shared/task-sheet";
 
 type TaskColumnProps = {
   column: ColumnType;
@@ -22,6 +24,7 @@ export default function TasksColumn({
   deleteTask,
 }: TaskColumnProps) {
   const inputTaskRef = useRef<HTMLDivElement>(null);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isTaskInputOpen, setIsTaskInputOpen] = useState(false);
 
   useClickOutside(inputTaskRef, () => setIsTaskInputOpen(false));
@@ -32,15 +35,29 @@ export default function TasksColumn({
   });
 
   return (
-    <div className="min-w-48 space-y-2">
-      <h4 className="text-sm text-text-muted">{column.title}</h4>
-      <div
-        ref={setNodeRef}
-        className="space-y-2 self-start rounded-md border border-border p-4"
-      >
+    <div className="max-w-[400px] space-y-2 rounded-md border border-border bg-color-background">
+      <div ref={setNodeRef} className="space-y-4 self-start p-4">
+        <div className="flex justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="h-5 w-1.5 rounded-[2px] bg-red-900"></div>
+            <h4 className="text-sm text-text-muted">{column.title}</h4>
+            <span className="rounded bg-background-tertiary px-2 py-1 text-sm">
+              {tasks.length}
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Sheet>
+              <SheetTrigger>
+                <Plus size={16} strokeWidth={2} aria-hidden="true" />
+              </SheetTrigger>
+              <TaskSheet onClose={() => setIsSheetOpen(false)} />
+            </Sheet>
+            <EllipsisVertical size={16} aria-hidden="true" />
+          </div>
+        </div>
         <SortableContext items={tasks.map((task) => task.id)}>
           <div
-            className="max-h-[500px] space-y-3 overflow-auto transition-all duration-500 ease-in-out"
+            className="max-h-[550px] space-y-3 overflow-auto transition-all duration-500 ease-in-out"
             style={{
               transitionProperty: "height, padding",
             }}
@@ -50,7 +67,7 @@ export default function TasksColumn({
             ))}
           </div>
         </SortableContext>
-        <div>
+        {/* <div>
           {isTaskInputOpen ? (
             <TaskInputCard
               ref={inputTaskRef}
@@ -72,7 +89,7 @@ export default function TasksColumn({
               Add Task
             </Button>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -3,13 +3,15 @@ import { TaskStatus, Task as TaskType } from "@/types";
 import { useSortable } from "@dnd-kit/sortable";
 import { DotsSixVertical, Trash } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Badge } from "../ui/badge";
 import { ProjectContext } from "@/app/(root)/(main)/projects/[name]/[projectId]/page";
-import { EditIcon } from "lucide-react";
+import { Clock, EditIcon } from "lucide-react";
 import { CiEdit } from "react-icons/ci";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
-import TaskSheet from "../shared/task-sheet";
+import TaskSheet from "@/components/shared/task-sheet";
+import { Separator } from "@/components/ui/separator";
+import { FaRegCommentAlt } from "react-icons/fa";
 // import { useProject } from "./kanban-board";
 
 type TaskCardProps = {
@@ -28,6 +30,7 @@ function useProjectContext() {
 
 export default function TaskCard({ task, deleteTask }: TaskCardProps) {
   const router = useRouter();
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const { project } = useProjectContext();
 
@@ -53,7 +56,7 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
       }
     : {};
 
-  function goToTaskPage(e: React.MouseEvent<HTMLDivElement>) {
+  function goToTaskPage() {
     router.push(`/projects/${project.name}/${project.id}/tasks/${task.id}`);
   }
 
@@ -69,7 +72,7 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
         {...attributes}
         {...listeners}
         style={style}
-        className="h-24 cursor-grab space-y-1 rounded-md border border-neutral-800 bg-background-secondary p-4 opacity-50"
+        className="h-48 cursor-grab space-y-1 rounded-md border border-neutral-800 bg-background-secondary p-4 opacity-50"
       />
     );
   }
@@ -79,19 +82,19 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
       ref={setNodeRef}
       style={style}
       className={cn(
-        "group cursor-pointer space-y-2.5 rounded-md bg-background-secondary p-4 transition-all hover:opacity-90",
+        "group cursor-pointer space-y-2.5 rounded-md border bg-background p-4 transition-all hover:opacity-90 dark:bg-background-secondary",
       )}
-      onClick={goToTaskPage}
     >
       <div className="z-50 flex justify-between gap-2">
         <Badge
           variant={task.priority.toLowerCase() as "low" | "medium" | "high"}
-          className="px-1.5 py-px text-[11px] font-normal"
+          className="px-1.5 py-px text-[10px] font-normal"
         >
           {task.priority}
         </Badge>
+        {/* Edit, Drag, Delete  */}
         <div className="invisible mt-1 flex gap-2 group-hover:visible">
-          <Sheet>
+          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger onClick={(e) => e.stopPropagation()}>
               <CiEdit
                 size="16"
@@ -99,7 +102,7 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
                 className="text-neutral-500 outline-none transition-all hover:text-neutral-200"
               />
             </SheetTrigger>
-            <TaskSheet task={task} />
+            <TaskSheet task={task} onClose={() => setIsSheetOpen(false)} />
           </Sheet>
           <DotsSixVertical
             {...attributes}
@@ -115,7 +118,23 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
         </div>
       </div>
       <div>
-        <h3 className="">{task.title}</h3>
+        <p className="text-sm" onClick={() => goToTaskPage()}>
+          {task.title}
+        </p>
+        <p className="line-clamp-2 text-xs text-text-muted">
+          {task.description}
+        </p>
+      </div>
+      <Separator />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1.5">
+          <FaRegCommentAlt size={14} className="text-neutral-500" />
+          <span className="text-xs text-neutral-500">0</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <Clock size={14} className="text-neutral-500" />
+          <span className="text-xs text-neutral-500">4d</span>
+        </div>
       </div>
     </div>
   );
