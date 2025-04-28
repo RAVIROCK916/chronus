@@ -19,7 +19,14 @@ import { CREATE_TASK, UPDATE_TASK } from "@/lib/apollo/client/task";
 import { useState, useEffect } from "react";
 
 type TaskSheetProps = {
-  task?: Task;
+  task?: {
+    id?: string;
+    title?: string;
+    description?: string;
+    status?: string;
+    priority?: string;
+    labels?: string[];
+  };
   projectId?: string;
   onClose: () => void;
   onSuccess?: () => void;
@@ -31,7 +38,13 @@ export default function TaskSheet({
   onClose,
   onSuccess,
 }: TaskSheetProps) {
-  const isEditMode = !!task;
+  const isEditMode = !!task?.id;
+
+  const title = task?.title || "";
+  const description = task?.description || "";
+  const status = task?.status || "TODO";
+  const priority = task?.priority || "LOW";
+  const labels = task?.labels || [];
 
   // Initialize state with task data or empty values
   const [formData, setFormData] = useState<{
@@ -41,22 +54,22 @@ export default function TaskSheet({
     priority: string;
     labels: string[];
   }>({
-    title: task?.title || "",
-    description: task?.description || "",
-    status: task?.status || "TODO",
-    priority: task?.priority || "LOW",
-    labels: task?.labels || [],
+    title,
+    description,
+    status,
+    priority,
+    labels,
   });
 
   // Update form data when task changes
   useEffect(() => {
     if (task) {
       setFormData({
-        title: task.title || "",
-        description: task.description || "",
-        status: task.status || "TODO",
-        priority: task.priority || "LOW",
-        labels: task.labels || [],
+        title,
+        description,
+        status,
+        priority,
+        labels,
       });
     }
   }, [task]);
@@ -117,8 +130,8 @@ export default function TaskSheet({
     >
       {/* Header */}
       <SheetHeader className="px-6 py-4">
-        <SheetTitle className="text-sm font-light">
-          {isEditMode ? "Edit Task" : "Create New Task"}
+        <SheetTitle className="text-sm font-medium">
+          {isEditMode ? "Edit Task" : "New Task"}
         </SheetTitle>
       </SheetHeader>
       <Separator />
@@ -150,7 +163,8 @@ export default function TaskSheet({
             />
           </div>
         </div>
-        <div className="text-text-muted">
+        <div className="space-y-1">
+          <Label className="text-text-muted">Labels</Label>
           <TaskLabelInput
             labels={formData.labels}
             onChange={(labels) => handleInputChange("labels", labels)}

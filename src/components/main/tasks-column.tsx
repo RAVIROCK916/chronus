@@ -1,5 +1,5 @@
 import TaskCard from "./task-card";
-import { Column as ColumnType, TaskStatus, Task as TaskType } from "@/types";
+import { TaskStatus, Task as TaskType } from "@/types";
 import { useDroppable } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
 import { Button } from "../ui/button";
@@ -9,9 +9,10 @@ import TaskInputCard from "./task-input-card";
 import useClickOutside from "@/hooks/useClickOutside";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import TaskSheet from "../shared/task-sheet";
+import { cn } from "@/lib/utils";
 
 type TaskColumnProps = {
-  column: ColumnType;
+  column: any;
   tasks: TaskType[];
   createTask: (status: TaskStatus, title: string, description?: string) => void;
   deleteTask: (id: string) => void;
@@ -39,9 +40,14 @@ export default function TasksColumn({
       <div ref={setNodeRef} className="space-y-4 self-start p-4">
         <div className="flex justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="h-5 w-1.5 rounded-[2px] bg-red-900"></div>
+            <div
+              className="h-5 w-[5px] rounded-[2px]"
+              style={{
+                backgroundColor: `hsl(var(--${column.color}))`,
+              }}
+            ></div>
             <h4 className="text-sm text-text-muted">{column.title}</h4>
-            <span className="rounded bg-background-tertiary px-2 py-1 text-sm">
+            <span className="rounded bg-background-tertiary px-[5px] py-0.5 text-xs">
               {tasks.length}
             </span>
           </div>
@@ -50,7 +56,12 @@ export default function TasksColumn({
               <SheetTrigger>
                 <Plus size={16} strokeWidth={2} aria-hidden="true" />
               </SheetTrigger>
-              <TaskSheet onClose={() => setIsSheetOpen(false)} />
+              <TaskSheet
+                task={{
+                  status: column.id,
+                }}
+                onClose={() => setIsSheetOpen(false)}
+              />
             </Sheet>
             <EllipsisVertical size={16} aria-hidden="true" />
           </div>

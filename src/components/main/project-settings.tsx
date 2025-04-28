@@ -91,7 +91,7 @@ export default function ProjectSettings() {
                     <Textarea
                       id={`${id}-description`}
                       placeholder="Project description"
-                      className="h-32"
+                      className="max-h-96 min-h-64"
                       // maxLength={maxLength}
                       value={field.value}
                       // onChange={(event) => {
@@ -118,7 +118,7 @@ export default function ProjectSettings() {
             />
           </div>
         </div>
-        <div>
+        <div className="flex justify-end">
           <Button variant="outline">Save</Button>
         </div>
       </form>

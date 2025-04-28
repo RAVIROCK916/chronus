@@ -77,6 +77,7 @@ export default function TaskPage({ params }: TaskPageProps) {
               </div>
               {task.labels && (
                 <div>
+									<Label>Labels</Label>
                   <TaskLabelInput labels={task.labels} onChange={() => {}} />
                 </div>
               )}

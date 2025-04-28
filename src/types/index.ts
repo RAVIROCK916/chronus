@@ -38,11 +38,6 @@ export type Task = {
   completed_at?: string;
 };
 
-export type Column = {
-  id: TaskStatus;
-  title: string;
-};
-
 export type Event = {
   id: string;
   title: string;

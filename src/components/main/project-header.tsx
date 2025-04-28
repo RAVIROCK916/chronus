@@ -20,7 +20,7 @@ import { HorizontalPaddingContainer } from "../shared/padding-container";
 export default function ProjectHeader() {
   const { project } = useProjectContext();
   return (
-    <Tabs defaultValue="List">
+    <Tabs defaultValue="Board">
       <TabsList className="mb-3 h-auto w-full justify-start gap-2 rounded-none border-b bg-transparent px-8 py-1 text-foreground">
         <TabsTrigger
           value="Overview"

@@ -12,6 +12,7 @@ import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import TaskSheet from "@/components/shared/task-sheet";
 import { Separator } from "@/components/ui/separator";
 import { FaRegCommentAlt } from "react-icons/fa";
+import Link from "next/link";
 // import { useProject } from "./kanban-board";
 
 type TaskCardProps = {
@@ -56,10 +57,6 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
       }
     : {};
 
-  function goToTaskPage() {
-    router.push(`/projects/${project.name}/${project.id}/tasks/${task.id}`);
-  }
-
   function handleDeleteTask(e: React.MouseEvent<SVGSVGElement>) {
     e.stopPropagation();
     deleteTask(task.id);
@@ -82,13 +79,13 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
       ref={setNodeRef}
       style={style}
       className={cn(
-        "group cursor-pointer space-y-2.5 rounded-md border bg-background p-4 transition-all hover:opacity-90 dark:bg-background-secondary",
+        "group space-y-2.5 rounded-md border bg-background p-4 transition-all hover:opacity-90 dark:bg-background-secondary",
       )}
     >
       <div className="z-50 flex justify-between gap-2">
         <Badge
           variant={task.priority.toLowerCase() as "low" | "medium" | "high"}
-          className="px-1.5 py-px text-[10px] font-normal"
+          className="px-1.5 text-[10px] tracking-wide"
         >
           {task.priority}
         </Badge>
@@ -118,9 +115,9 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
         </div>
       </div>
       <div>
-        <p className="text-sm" onClick={() => goToTaskPage()}>
-          {task.title}
-        </p>
+        <Link href={`/projects/${project.name}/${project.id}/tasks/${task.id}`}>
+          <span className="text-sm">{task.title}</span>
+        </Link>
         <p className="line-clamp-2 text-xs text-text-muted">
           {task.description}
         </p>

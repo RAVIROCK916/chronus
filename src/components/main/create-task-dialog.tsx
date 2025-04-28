@@ -294,7 +294,7 @@ export default function CreateTaskDialog({
                   name="labels"
                   render={({ field }) => (
                     <FormItem>
-                      {/* <FormLabel htmlFor={`${id}-labels`}>Labels</FormLabel> */}
+                      <FormLabel htmlFor={`${id}-labels`}>Labels</FormLabel>
                       <FormControl>
                         <TaskLabelInput labels={[]} onChange={field.onChange} />
                       </FormControl>
@@ -553,7 +553,7 @@ export const EditTaskDialog = ({ task, handleClose }: EditTaskDialogProps) => {
                 name="labels"
                 render={({ field }) => (
                   <FormItem>
-                    {/* <FormLabel htmlFor={`${id}-labels`}>Labels</FormLabel> */}
+                    <FormLabel htmlFor={`${id}-labels`}>Labels</FormLabel>
                     <FormControl>
                       <TaskLabelInput
                         labels={field.value}

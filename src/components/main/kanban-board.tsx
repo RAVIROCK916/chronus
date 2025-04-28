@@ -3,7 +3,7 @@ import { useState, useContext, useMemo } from "react";
 import TasksColumn from "./tasks-column";
 import TaskCard from "./task-card";
 
-import { Column as ColumnType, TaskStatus, Task as TaskType } from "@/types";
+import { TaskStatus, Task as TaskType } from "@/types";
 
 import {
   DndContext,
@@ -21,10 +21,10 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/state/store";
 import { ProjectContext } from "@/app/(root)/(main)/projects/[name]/[projectId]/page";
 
-const COLUMNS: ColumnType[] = [
-  { id: "TODO", title: "To Do" },
-  { id: "IN_PROGRESS", title: "In Progress" },
-  { id: "DONE", title: "Done" },
+const COLUMNS = [
+  { id: "TODO", title: "To Do", color: "amber-500" },
+  { id: "IN_PROGRESS", title: "In Progress", color: "sky-500" },
+  { id: "DONE", title: "Done", color: "emerald-500" },
 ];
 
 export function useProjectContext() {
