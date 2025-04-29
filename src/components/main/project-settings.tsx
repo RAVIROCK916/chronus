@@ -119,7 +119,7 @@ export default function ProjectSettings() {
           </div>
         </div>
         <div className="flex justify-end">
-          <Button variant="outline">Save</Button>
+          <Button>Save</Button>
         </div>
       </form>
     </Form>

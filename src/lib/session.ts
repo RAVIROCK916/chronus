@@ -12,7 +12,7 @@ const secret = new TextEncoder().encode(secretKey);
 
 export async function createSession(userId: string) {
   console.log("Creating session for user:", userId);
-  const expiresAt = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
+  const expiresAt = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
 
   // 1. Create a session in the database
   const data = await db

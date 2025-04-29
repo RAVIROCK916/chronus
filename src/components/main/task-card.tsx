@@ -116,7 +116,9 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
       </div>
       <div>
         <Link href={`/projects/${project.name}/${project.id}/tasks/${task.id}`}>
-          <span className="text-sm">{task.title}</span>
+          <span className="text-sm decoration-dashed hover:underline">
+            {task.title}
+          </span>
         </Link>
         <p className="line-clamp-2 text-xs text-text-muted">
           {task.description}

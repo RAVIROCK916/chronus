@@ -11,12 +11,24 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import BreadCrumb from "@/components/shared/breadcrumb";
 import { Task as TaskType } from "@/types";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { FaRegCircleDot } from "react-icons/fa6";
 import { MdPriorityHigh } from "react-icons/md";
 import { CiShoppingTag } from "react-icons/ci";
 import { Badge } from "@/components/ui/badge";
 import { Clock } from "lucide-react";
+import { MdSignalCellular1Bar } from "react-icons/md";
+
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type TaskPageProps = {
   params: { projectId: string; taskId: string };
@@ -66,7 +78,7 @@ export default function TaskPage({ params }: TaskPageProps) {
           <div className="min-w-96">
             <h3 className="text-text-tertiary">Details</h3>
             <Separator className="my-3" />
-            {/* <div className="space-y-4">
+            <div className="space-y-4">
               <div>
                 <Label>Status</Label>
                 <TaskStatusSelect id={taskId} taskStatus={task.status} />
@@ -77,12 +89,12 @@ export default function TaskPage({ params }: TaskPageProps) {
               </div>
               {task.labels && (
                 <div>
-									<Label>Labels</Label>
+                  <Label>Labels</Label>
                   <TaskLabelInput labels={task.labels} onChange={() => {}} />
                 </div>
               )}
-            </div> */}
-            <table className="[&_td]:pl-12 [&_th]:py-2 [&_th]:text-left [&_th]:font-normal [&_th]:text-text-muted [&_tr]:text-sm">
+            </div>
+            {/* <table className="[&_td]:pl-12 [&_th]:py-2 [&_th]:text-left [&_th]:font-normal [&_th]:text-text-muted [&_tr]:text-sm">
               <tr>
                 <th className="flex items-center gap-2">
                   <FaRegCircleDot />
@@ -118,7 +130,7 @@ export default function TaskPage({ params }: TaskPageProps) {
                   </div>
                 </td>
               </tr>
-            </table>
+            </table> */}
           </div>
         </div>
       )}

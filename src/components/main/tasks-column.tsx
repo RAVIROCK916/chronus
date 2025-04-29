@@ -47,7 +47,13 @@ export default function TasksColumn({
               }}
             ></div>
             <h4 className="text-sm text-text-muted">{column.title}</h4>
-            <span className="rounded bg-background-tertiary px-[5px] py-0.5 text-xs">
+            <span
+              className="rounded bg-background-tertiary px-[5px] py-0.5 text-xs"
+              style={{
+                color: `hsl(var(--${column.color}))`,
+                filter: "brightness(1.2)",
+              }}
+            >
               {tasks.length}
             </span>
           </div>

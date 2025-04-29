@@ -76,6 +76,18 @@ async function main() {
           const due_date = new Date(
             Date.now() + Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000),
           );
+          const comments = [
+            {
+              id: randomUUID(),
+              user_id: user.id,
+              content:
+                "Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+              created_at: new Date(
+                Date.now() -
+                  Math.floor(Math.random() * 7 * 24 * 60 * 60 * 1000),
+              ),
+            },
+          ];
           const created_at = new Date(
             Date.now() - Math.floor(Math.random() * 100 * 24 * 60 * 60 * 1000),
           );
@@ -98,6 +110,7 @@ async function main() {
             priority,
             due_date,
             labels,
+            comments,
             created_at,
             updated_at,
             completed_at,

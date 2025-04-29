@@ -22,6 +22,12 @@ export type Project = {
 
 export type TaskStatus = "TODO" | "IN_PROGRESS" | "DONE";
 export type TaskPriority = "LOW" | "MEDIUM" | "HIGH";
+export type TaskComment = {
+  id: string;
+  content: string;
+  created_at: string;
+  user: User;
+};
 
 export type Task = {
   id: string;
@@ -31,6 +37,7 @@ export type Task = {
   priority: TaskPriority;
   labels?: string[];
   dueDate?: string;
+  comments?: TaskComment[];
   project: Project;
   user: User;
   created_at: string;

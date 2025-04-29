@@ -43,10 +43,18 @@ export const typeDefs = gql`
     priority: String!
     labels: [String]
     due_date: String
+    comments: [TaskComment]
     created_at: String!
     updated_at: String!
     completed_at: String
     project: Project
+  }
+
+  type TaskComment {
+    id: ID!
+    content: String!
+    created_at: String!
+    user: User!
   }
 
   type Event {

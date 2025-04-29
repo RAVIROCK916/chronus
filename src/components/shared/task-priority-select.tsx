@@ -10,6 +10,11 @@ import {
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { UPDATE_TASK_PRIORITY } from "@/lib/apollo/client/task";
+import {
+  MdSignalCellular1Bar,
+  MdSignalCellular2Bar,
+  MdSignalCellular3Bar,
+} from "react-icons/md";
 
 type TaskPrioritySelectProps = {
   id?: string;
@@ -48,9 +53,22 @@ export default function TaskPrioritySelect({
         <SelectValue placeholder="Select priority" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="LOW">Low</SelectItem>
-        <SelectItem value="MEDIUM">Medium</SelectItem>
-        <SelectItem value="HIGH">High</SelectItem>
+        <SelectItem value="LOW">
+          <div className="flex items-center gap-2">
+            <MdSignalCellular1Bar className="text-green-400" /> <span>Low</span>
+          </div>
+        </SelectItem>
+        <SelectItem value="MEDIUM">
+          <div className="flex items-center gap-2">
+            <MdSignalCellular2Bar className="text-yellow-400" />{" "}
+            <span>Medium</span>
+          </div>
+        </SelectItem>
+        <SelectItem value="HIGH">
+          <div className="flex items-center gap-2">
+            <MdSignalCellular3Bar className="text-red-500" /> <span>High</span>
+          </div>
+        </SelectItem>
       </SelectContent>
     </Select>
   );
