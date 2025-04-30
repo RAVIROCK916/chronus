@@ -29,6 +29,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Calendar } from "@/components/ui/calendar";
+import DatePicker from "@/components/shared/date-picker";
 
 type TaskPageProps = {
   params: { projectId: string; taskId: string };
@@ -71,28 +73,32 @@ export default function TaskPage({ params }: TaskPageProps) {
     <div className="mx-auto max-w-screen-lg space-y-6 pr-4 pt-4">
       <BreadCrumb paths={breadcrumbs} />
       {task && (
-        <div className="flex gap-6">
+        <div className="flex justify-between gap-6">
           <div className="min-w-[600px]">
             <TaskDetails task={task} />
           </div>
-          <div className="min-w-96">
-            <h3 className="text-text-tertiary">Details</h3>
+          <div className="max-w-72">
+            <h3>Details</h3>
             <Separator className="my-3" />
             <div className="space-y-4">
               <div>
-                <Label>Status</Label>
+                <Label className="text-text-tertiary">Status</Label>
                 <TaskStatusSelect id={taskId} taskStatus={task.status} />
               </div>
               <div>
-                <Label>Priority</Label>
+                <Label className="text-text-tertiary">Priority</Label>
                 <TaskPrioritySelect id={taskId} taskPriority={task.priority} />
               </div>
               {task.labels && (
                 <div>
-                  <Label>Labels</Label>
+                  <Label className="text-text-tertiary">Labels</Label>
                   <TaskLabelInput labels={task.labels} onChange={() => {}} />
                 </div>
               )}
+              <div>
+                <Label className="text-text-tertiary">Due Date</Label>
+                {task.dueDate ? <DatePicker /> : <DatePicker />}
+              </div>
             </div>
             {/* <table className="[&_td]:pl-12 [&_th]:py-2 [&_th]:text-left [&_th]:font-normal [&_th]:text-text-muted [&_tr]:text-sm">
               <tr>

@@ -16,7 +16,6 @@ import { DateInput } from "@/components/ui/datefield-rac";
 export default function Component() {
   return (
     <DatePicker className="*:not-first:mt-2">
-      <Label className="text-sm font-medium text-foreground">Date picker</Label>
       <div className="flex">
         <Group className="w-full">
           <DateInput className="pe-9" />

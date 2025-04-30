@@ -20,12 +20,12 @@ export default function TaskDetails({ task }: TaskDetailsProps) {
         />
         <Textarea
           value={task.description}
-          className="min-h-48 resize-none border-0 p-0 text-base focus-visible:ring-0"
+          className="min-h-48 resize-none border-0 p-0 text-base text-text-muted focus-visible:ring-0"
         />
       </div>
       {/* <Separator /> */}
       <div className="space-y-2">
-        <h6 className="text-sm text-text-muted">Comments</h6>
+        <h6 className="text-sm">Comments</h6>
         <Input placeholder="Add a comment" />
         {task.comments && (
           <div className="space-y-4">

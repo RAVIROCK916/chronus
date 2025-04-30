@@ -38,7 +38,7 @@ export const typeDefs = gql`
     project_id: ID!
     user_id: ID!
     title: String!
-    description: String!
+    description: String
     status: String!
     priority: String!
     labels: [String]

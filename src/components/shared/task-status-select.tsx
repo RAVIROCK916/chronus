@@ -58,8 +58,6 @@ export default function TaskStatusSelect({
     onChange?.(newStatus);
   };
 
-  console.log("status", status);
-
   return (
     <Select defaultValue={status} onValueChange={handleStatusChange}>
       <SelectTrigger id={id}>

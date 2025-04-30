@@ -62,24 +62,24 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
     deleteTask(task.id);
   }
 
-  if (isDragging) {
-    return (
-      <div
-        ref={setNodeRef}
-        {...attributes}
-        {...listeners}
-        style={style}
-        className="h-48 cursor-grab space-y-1 rounded-md border border-neutral-800 bg-background-secondary p-4 opacity-50"
-      />
-    );
-  }
+  // if (isDragging) {
+  //   return (
+  //     <div
+  //       ref={setNodeRef}
+  //       {...attributes}
+  //       {...listeners}
+  //       style={style}
+  //       className="h-40 cursor-grab space-y-1 rounded-md border border-neutral-800 bg-background-secondary p-4 opacity-50"
+  //     />
+  //   );
+  // }
 
   return (
     <div
       ref={setNodeRef}
       style={style}
       className={cn(
-        "group space-y-2.5 rounded-md border bg-background p-4 transition-all hover:opacity-90 dark:bg-background-secondary",
+        "group space-y-2.5 rounded-md border bg-background/60 p-4 backdrop-blur transition-all dark:bg-background-secondary/80",
       )}
     >
       <div className="z-50 flex justify-between gap-2">

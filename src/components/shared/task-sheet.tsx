@@ -17,6 +17,7 @@ import TaskLabelInput from "./task-label-input";
 import { useMutation } from "@apollo/client";
 import { CREATE_TASK, UPDATE_TASK } from "@/lib/apollo/client/task";
 import { useState, useEffect } from "react";
+import DatePicker from "./date-picker";
 
 type TaskSheetProps = {
   task?: {
@@ -26,6 +27,7 @@ type TaskSheetProps = {
     status?: string;
     priority?: string;
     labels?: string[];
+    dueDate?: string;
   };
   projectId?: string;
   onClose: () => void;
@@ -41,24 +43,27 @@ export default function TaskSheet({
   const isEditMode = !!task?.id;
 
   const title = task?.title || "";
-  const description = task?.description || "";
+  const description = task?.description;
   const status = task?.status || "TODO";
   const priority = task?.priority || "LOW";
-  const labels = task?.labels || [];
+  const labels = task?.labels;
+  const dueDate = task?.dueDate || null;
 
   // Initialize state with task data or empty values
   const [formData, setFormData] = useState<{
     title: string;
-    description: string;
+    description?: string;
     status: string;
     priority: string;
-    labels: string[];
+    labels?: string[];
+    dueDate: string | null;
   }>({
     title,
     description,
     status,
     priority,
     labels,
+    dueDate,
   });
 
   // Update form data when task changes
@@ -70,6 +75,7 @@ export default function TaskSheet({
         status,
         priority,
         labels,
+        dueDate,
       });
     }
   }, [task]);
@@ -98,6 +104,7 @@ export default function TaskSheet({
   };
 
   const handleSubmit = () => {
+    console.log(formData);
     if (isEditMode && task) {
       updateTask({
         variables: {
@@ -107,6 +114,7 @@ export default function TaskSheet({
           status: formData.status,
           priority: formData.priority,
           labels: formData.labels,
+          dueDate: formData.dueDate,
         },
       });
     } else if (projectId) {
@@ -118,6 +126,7 @@ export default function TaskSheet({
           priority: formData.priority,
           labels: formData.labels,
           projectId: projectId,
+          dueDate: formData.dueDate,
         },
       });
     }
@@ -166,16 +175,18 @@ export default function TaskSheet({
         <div className="space-y-1">
           <Label className="text-text-muted">Labels</Label>
           <TaskLabelInput
-            labels={formData.labels}
+            labels={formData.labels || []}
             onChange={(labels) => handleInputChange("labels", labels)}
           />
         </div>
+        {/* Due Date */}
+        <div className="flex flex-col space-y-2">
+          <Label className="text-text-muted">Due Date</Label>
+          <DatePicker />
+        </div>
         {/* Task Description */}
-        <div className="space-y-2">
-          <div className="flex gap-2 text-text-muted">
-            <MdOutlineDescription />
-            <h3 className="text-sm">Description</h3>
-          </div>
+        <div className="space-y-1">
+          <Label className="text-text-muted">Description</Label>
           <TextEditor
             initialValue={formData.description}
             onChange={(content) => handleInputChange("description", content)}

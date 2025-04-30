@@ -30,8 +30,8 @@ export default function TextEditor({
       TextStyle,
       Underline,
       BulletList,
-      OrderedList,
-      ListItem,
+      // OrderedList,
+      // ListItem,
     ],
     content: initialValue,
     editorProps: {

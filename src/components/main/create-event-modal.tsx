@@ -18,8 +18,8 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "../ui/label";
-import DatePicker from "../shared/date-picker";
+import { Label } from "@/components/ui/label";
+import DatePicker from "@/components/shared/date-picker";
 
 import { z } from "zod";
 

@@ -46,13 +46,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import TaskLabelInput from "../shared/task-label-input";
-import DatePicker from "../shared/date-picker";
+import TaskLabelInput from "@/components/shared/task-label-input";
+import DatePicker from "@/components/shared/date-picker";
 import { useMutation } from "@apollo/client";
 import { CREATE_TASK, UPDATE_TASK } from "@/lib/apollo/client/task";
 import { useProjectContext } from "./kanban-board";
 import { Task } from "@/types";
-import Loader from "../shared/loader";
+import Loader from "@/components/shared/loader";
 
 type CreateTaskDialogProps = {
   task?: Task;
