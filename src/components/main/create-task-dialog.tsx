@@ -281,7 +281,7 @@ export default function CreateTaskDialog({
                       </FormLabel>
                       <FormControl>
                         <DatePicker
-                          value={field.value}
+                          value={field.value?.toDateString()}
                           onChange={field.onChange}
                         />
                       </FormControl>
@@ -540,7 +540,7 @@ export const EditTaskDialog = ({ task, handleClose }: EditTaskDialogProps) => {
                     </FormLabel>
                     <FormControl>
                       <DatePicker
-                        value={field.value}
+                        value={field.value?.toDateString()}
                         onChange={field.onChange}
                       />
                     </FormControl>

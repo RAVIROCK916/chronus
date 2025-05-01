@@ -40,8 +40,8 @@ export const sidebarItems = {
     },
     {
       id: 2,
-      name: "Feedback",
-      href: "/feedback",
+      name: "Contact Us",
+      href: "/contact-us",
       icon: MessageSquare,
     },
   ],

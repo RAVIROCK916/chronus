@@ -10,7 +10,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
         <div className="flex w-screen">
           <Sidebar />
           <Header />
-          <main className="flex-1 pb-4">{children}</main>
+          <main className="flex-1">{children}</main>
         </div>
       </SidebarProvider>
     </AuthProvider>
