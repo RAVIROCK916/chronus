@@ -8,16 +8,15 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Task } from "@/types";
-import { MdOutlineDescription } from "react-icons/md";
-import TextEditor from "./text-editor";
-import TaskStatusSelect from "./task-status-select";
-import TaskPrioritySelect from "./task-priority-select";
-import TaskLabelInput from "./task-label-input";
+import TextEditor from "@/components/shared/text-editor";
+import TaskStatusSelect from "@/components/shared/task-status-select";
+import TaskPrioritySelect from "@/components/shared/task-priority-select";
+import TaskLabelInput from "@/components/shared/task-label-input";
 import { useMutation } from "@apollo/client";
 import { CREATE_TASK, UPDATE_TASK } from "@/lib/apollo/client/task";
 import { useState, useEffect } from "react";
-import DatePicker from "./date-picker";
+import DatePicker from "@/components/shared/date-picker";
+import { useProjectPageContext } from "@/state/context";
 
 type TaskSheetProps = {
   task?: {
@@ -48,6 +47,9 @@ export default function TaskSheet({
   const priority = task?.priority || "LOW";
   const labels = task?.labels;
   const dueDate = task?.dueDate || null;
+
+  const { addTask: createTaskInContext, updateTask: updateTaskInContext } =
+    useProjectPageContext();
 
   // Initialize state with task data or empty values
   const [formData, setFormData] = useState<{
@@ -105,29 +107,34 @@ export default function TaskSheet({
 
   const handleSubmit = () => {
     console.log(formData);
+
     if (isEditMode && task) {
+      const taskToUpdate = {
+        id: task.id,
+        title: formData.title,
+        description: formData.description,
+        status: formData.status,
+        priority: formData.priority,
+        labels: formData.labels,
+        dueDate: formData.dueDate,
+      };
+      updateTaskInContext(taskToUpdate);
       updateTask({
-        variables: {
-          id: task.id,
-          title: formData.title,
-          description: formData.description,
-          status: formData.status,
-          priority: formData.priority,
-          labels: formData.labels,
-          dueDate: formData.dueDate,
-        },
+        variables: taskToUpdate,
       });
     } else if (projectId) {
+      const taskToCreate = {
+        title: formData.title,
+        description: formData.description,
+        status: formData.status,
+        priority: formData.priority,
+        labels: formData.labels,
+        projectId: projectId,
+        dueDate: formData.dueDate,
+      };
+      createTaskInContext(taskToCreate);
       createTask({
-        variables: {
-          title: formData.title,
-          description: formData.description,
-          status: formData.status,
-          priority: formData.priority,
-          labels: formData.labels,
-          projectId: projectId,
-          dueDate: formData.dueDate,
-        },
+        variables: taskToCreate,
       });
     }
   };
@@ -188,8 +195,8 @@ export default function TaskSheet({
         <div className="space-y-1">
           <Label className="text-text-muted">Description</Label>
           <TextEditor
-            initialValue={formData.description}
-            onChange={(content) => handleInputChange("description", content)}
+            value={formData.description}
+            onChange={(value) => handleInputChange("description", value)}
           />
         </div>
       </div>

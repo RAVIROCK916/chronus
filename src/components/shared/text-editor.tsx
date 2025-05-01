@@ -1,121 +1,44 @@
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import TextStyle from "@tiptap/extension-text-style";
-import Underline from "@tiptap/extension-underline";
-import BulletList from "@tiptap/extension-bullet-list";
-import OrderedList from "@tiptap/extension-ordered-list";
-import ListItem from "@tiptap/extension-list-item";
-import {
-  Bold,
-  Italic,
-  Underline as UnderlineIcon,
-  Strikethrough,
-  List,
-  ListOrdered,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+import ReactQuill from "react-quill-new";
+import { useState } from "react";
+
+import "react-quill-new/dist/quill.snow.css";
 
 type TextEditorProps = {
-  initialValue?: string;
-  onChange?: (content: string) => void;
+  value: string | undefined;
+  onChange: (value: string) => void;
 };
 
-export default function TextEditor({
-  initialValue = "",
-  onChange,
-}: TextEditorProps) {
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      TextStyle,
-      Underline,
-      BulletList,
-      // OrderedList,
-      // ListItem,
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, false] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
     ],
-    content: initialValue,
-    editorProps: {
-      attributes: {
-        class:
-          "min-h-[150px] outline-none border-none text-primary bg-transparent p-2 prose prose-neutral dark:prose-invert prose-sm max-w-none",
-      },
-    },
-  });
+    ["link", "image"],
+    ["clean"],
+  ],
+};
 
-  if (!editor) return null;
+const TextEditor = ({ value, onChange }: TextEditorProps) => {
+  const [text, setText] = useState(value || "");
+
+  const handleChange = (value: string) => {
+    setText(value);
+    onChange(value);
+  };
 
   return (
-    <div className="w-full max-w-2xl rounded-lg border bg-background">
-      {/* Toolbar */}
-
-      <div className="flex gap-2 border-b p-2">
-        {/* Bold */}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          className={editor.isActive("bold") ? "bg-muted" : ""}
-        >
-          <Bold className="h-4 w-4" />
-        </Button>
-
-        {/* Italic */}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={editor.isActive("italic") ? "bg-muted" : ""}
-        >
-          <Italic className="h-4 w-4" />
-        </Button>
-
-        {/* Underline */}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => editor.chain().focus().toggleUnderline().run()}
-          className={editor.isActive("underline") ? "bg-muted" : ""}
-        >
-          <UnderlineIcon className="h-4 w-4" />
-        </Button>
-
-        {/* Strike */}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => editor.chain().focus().toggleStrike().run()}
-          className={editor.isActive("strike") ? "bg-muted" : ""}
-        >
-          <Strikethrough className="h-4 w-4" />
-        </Button>
-
-        {/* Unordered List */}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => {
-            console.log("Toggling bullet list");
-            const result = editor.chain().focus().toggleBulletList().run();
-            console.log("Result:", result);
-          }}
-          className={editor.isActive("bulletList") ? "bg-muted" : ""}
-        >
-          <List className="h-4 w-4" />
-        </Button>
-
-        {/* Ordered List */}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={editor.isActive("orderedList") ? "bg-muted" : ""}
-        >
-          <ListOrdered className="h-4 w-4" />
-        </Button>
-      </div>
-
-      {/* Editor Content */}
-      <EditorContent editor={editor} className="min-h-[150px] p-2" />
-    </div>
+    <ReactQuill
+      value={text}
+      onChange={handleChange}
+      theme="snow"
+      style={{ height: 200 }}
+    />
   );
-}
+};
+
+export default TextEditor;
