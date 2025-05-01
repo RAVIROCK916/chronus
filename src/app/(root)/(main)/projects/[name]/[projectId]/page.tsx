@@ -9,6 +9,7 @@ import { GET_PROJECT } from "@/lib/apollo/client/project";
 import { Project } from "@/types";
 import { DELETE_TASK, DELETE_TASKS } from "@/lib/apollo/client/task";
 import PaddingContainer from "@/components/shared/padding-container";
+import { ProjectPageContext } from "@/state/context";
 
 type ProjectPageProps = {
   params: {
@@ -16,14 +17,6 @@ type ProjectPageProps = {
     projectId: string;
   };
 };
-
-export const ProjectContext = createContext<{
-  project: Project;
-  addTask: (task: any) => void;
-  updateTask: (task: any) => void;
-  deleteTask: (taskId: string) => void;
-  deleteTasks(taskIds: string[]): void;
-} | null>(null);
 
 export default function ProjectPage({
   params: { name, projectId },
@@ -106,7 +99,7 @@ export default function ProjectPage({
   }
 
   return (
-    <ProjectContext.Provider
+    <ProjectPageContext.Provider
       value={{ project, addTask, updateTask, deleteTask, deleteTasks }}
     >
       <PaddingContainer className="space-y-6">
@@ -120,6 +113,6 @@ export default function ProjectPage({
         </div>
       </PaddingContainer>
       <ProjectHeader />
-    </ProjectContext.Provider>
+    </ProjectPageContext.Provider>
   );
 }

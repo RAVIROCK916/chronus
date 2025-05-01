@@ -77,7 +77,7 @@ export default function ProjectsPage() {
           <div className="flex flex-col items-center justify-center gap-2">
             <h3 className="text-2xl font-bold">No projects!</h3>
             <p className="text-sm text-muted-foreground">
-              Let's get started by creating a new project.
+              Let&apos;s get started by creating a new project.
             </p>
             <CreateProjectDialog
               projects={projects}

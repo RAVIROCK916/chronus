@@ -92,8 +92,8 @@ import {
 } from "@/components/ui/table";
 import { Task } from "@/types";
 import CreateTaskDialog, { EditTaskDialog } from "./create-task-dialog";
-import { useProjectContext } from "./kanban-board";
 import Link from "next/link";
+import { useProjectPageContext } from "@/state/context";
 
 // Custom filter function for multi-column searching
 const multiColumnFilterFn: FilterFn<Task> = (row, columnId, filterValue) => {
@@ -263,7 +263,7 @@ export default function TasksTable({ tasks }: TasksTableProps) {
   });
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { deleteTasks: deleteTasksFromContext } = useProjectContext();
+  const { deleteTasks: deleteTasksFromContext } = useProjectPageContext();
 
   const [sorting, setSorting] = useState<SortingState>([
     {
@@ -705,7 +705,7 @@ type ActionType = "edit" | "delete";
 
 function RowActions({ row }: { row: Row<Task> }) {
   const [action, setAction] = useState<ActionType | null>(null);
-  const { deleteTask } = useProjectContext();
+  const { deleteTask } = useProjectPageContext();
 
   const handleAction = () => {
     if (action === "edit") {

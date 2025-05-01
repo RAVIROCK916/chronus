@@ -7,6 +7,8 @@ import {
 } from "@/utils/google-oauth";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
     // get code from query params

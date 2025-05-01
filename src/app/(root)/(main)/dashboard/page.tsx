@@ -245,7 +245,7 @@ export default function Page() {
           <div className="flex flex-col items-center justify-center gap-2">
             <h3 className="text-2xl font-bold">No tasks yet!</h3>
             <p className="text-sm text-muted-foreground">
-              Let's get started by creating a new project.
+              Let&apos;s get started by creating a new project.
             </p>
             <Button>
               <Link href="/projects">Go to Projects</Link>

@@ -1,4 +1,4 @@
-import { useState, useContext, useMemo } from "react";
+import { useState, useContext } from "react";
 
 import TasksColumn from "./tasks-column";
 import TaskCard from "./task-card";
@@ -19,7 +19,7 @@ import { arrayMove } from "@dnd-kit/sortable";
 import { gql, useMutation } from "@apollo/client";
 import { useSelector } from "react-redux";
 import { RootState } from "@/state/store";
-import { ProjectContext } from "@/app/(root)/(main)/projects/[name]/[projectId]/page";
+import { useProjectPageContext } from "@/state/context";
 
 const COLUMNS = [
   { id: "TODO", title: "To Do", color: "amber-500" },
@@ -27,17 +27,8 @@ const COLUMNS = [
   { id: "DONE", title: "Done", color: "emerald-500" },
 ];
 
-export function useProjectContext() {
-  const projectContext = useContext(ProjectContext);
-  if (!projectContext) {
-    throw new Error("useProjectContext must be used within a ProjectContext");
-  }
-
-  return projectContext;
-}
-
 export default function KanbanBoard() {
-  const { project } = useProjectContext();
+  const { project } = useProjectPageContext();
 
   const [tasks, setTasks] = useState<TaskType[]>(project.tasks || []);
   const [activeTask, setActiveTask] = useState<TaskType | null>(null);
@@ -148,10 +139,10 @@ export default function KanbanBoard() {
       >
         <div className="flex flex-wrap gap-6 *:flex-1">
           {COLUMNS.map((column) => {
-            const columnTasks = useMemo(
-              () => tasks.filter((task) => task.status === column.id),
-              [tasks, column.id],
+            const columnTasks = tasks.filter(
+              (task) => task.status === column.id,
             );
+
             return (
               <TasksColumn
                 key={column.id}

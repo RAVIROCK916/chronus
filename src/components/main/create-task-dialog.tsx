@@ -50,9 +50,9 @@ import TaskLabelInput from "@/components/shared/task-label-input";
 import DatePicker from "@/components/shared/date-picker";
 import { useMutation } from "@apollo/client";
 import { CREATE_TASK, UPDATE_TASK } from "@/lib/apollo/client/task";
-import { useProjectContext } from "./kanban-board";
 import { Task } from "@/types";
 import Loader from "@/components/shared/loader";
+import { useProjectPageContext } from "@/state/context";
 
 type CreateTaskDialogProps = {
   task?: Task;
@@ -82,7 +82,7 @@ export default function CreateTaskDialog({
   const id = useId();
   const [open, setOpen] = useState(false);
 
-  const { project, addTask } = useProjectContext();
+  const { project, addTask } = useProjectPageContext();
 
   const [createTask, { loading }] = useMutation(CREATE_TASK);
 
@@ -334,7 +334,7 @@ export const EditTaskDialog = ({ task, handleClose }: EditTaskDialogProps) => {
 
   const titleInputRef = useRef<HTMLInputElement>(null);
 
-  const { project, updateTask } = useProjectContext();
+  const { project, updateTask } = useProjectPageContext();
 
   const [updateTaskInDB, { loading }] = useMutation(UPDATE_TASK);
 

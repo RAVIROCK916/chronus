@@ -46,7 +46,7 @@ export default function ContactUsPage() {
             <h1 className="text-4xl font-semibold">Contact Us</h1>
             <p className="text-[14px] text-muted">
               If you have any questions or need assistance, please reach out to
-              us. We're here to help!
+              us. We&apos;re here to help!
             </p>
           </div>
           <Form {...form}>

@@ -1,4 +1,3 @@
-import { useProjectContext } from "@/components/main/kanban-board";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,10 +17,11 @@ import {
 } from "@/components/ui/form";
 import { useId } from "react";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { useProjectPageContext } from "@/state/context";
 
 export default function ProjectSettings() {
   const id = useId();
-  const { project } = useProjectContext();
+  const { project } = useProjectPageContext();
 
   const ProjectSettingsSchema = z.object({
     name: z.string().min(1, "Name is required"),

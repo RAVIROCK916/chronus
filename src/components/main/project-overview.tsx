@@ -1,8 +1,8 @@
+import { useProjectPageContext } from "@/state/context";
 import TasksTable from "./tasks-table";
-import { useProjectContext } from "./kanban-board";
 
 export default function ProjectOverview() {
-  const { project } = useProjectContext();
+  const { project } = useProjectPageContext();
   return (
     <div className="pr-6">
       <TasksTable tasks={project.tasks} />

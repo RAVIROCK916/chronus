@@ -16,8 +16,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { TaskStatus } from "@/types";
 import { gql, useMutation } from "@apollo/client";
-import { useProjectContext } from "./kanban-board";
 import { CREATE_TASK } from "@/lib/apollo/client/task";
+import { useProjectPageContext } from "@/state/context";
 
 type TaskInputCardProps = {
   status: TaskStatus;
@@ -26,7 +26,7 @@ type TaskInputCardProps = {
 
 export default forwardRef<HTMLDivElement, TaskInputCardProps>(
   function TaskInputCard({ status, createTask }, ref) {
-    const { project } = useProjectContext();
+    const { project } = useProjectPageContext();
 
     const form = useForm({
       resolver: zodResolver(createTaskFormSchema),

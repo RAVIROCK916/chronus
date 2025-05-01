@@ -111,7 +111,6 @@ export function DraggableEvent({
     <div
       ref={(node) => {
         setNodeRef(node);
-        if (elementRef) elementRef.current = node;
       }}
       style={style}
       className="touch-none"

@@ -11,14 +11,13 @@ import {
   UsersRoundIcon,
 } from "lucide-react";
 import ClientKanbanBoard from "./client-kanban-board";
-import ProjectOverview from "./project-overview";
-import { useProjectContext } from "./kanban-board";
 import TasksTable from "./tasks-table";
 import ProjectSettings from "./project-settings";
 import { HorizontalPaddingContainer } from "../shared/padding-container";
+import { useProjectPageContext } from "@/state/context";
 
 export default function ProjectHeader() {
-  const { project } = useProjectContext();
+  const { project } = useProjectPageContext();
   return (
     <Tabs defaultValue="Board">
       <TabsList className="mb-3 h-auto w-full justify-start gap-2 rounded-none border-b bg-transparent px-8 py-1 text-foreground">

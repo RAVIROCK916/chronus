@@ -10,7 +10,7 @@ import useClickOutside from "@/hooks/useClickOutside";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import TaskSheet from "../shared/task-sheet";
 import { cn } from "@/lib/utils";
-import { useProjectContext } from "./kanban-board";
+import { useProjectPageContext } from "@/state/context";
 
 type TaskColumnProps = {
   column: any;
@@ -29,7 +29,7 @@ export default function TasksColumn({
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isTaskInputOpen, setIsTaskInputOpen] = useState(false);
 
-  const { project } = useProjectContext();
+  const { project } = useProjectPageContext();
 
   useClickOutside(inputTaskRef, () => setIsTaskInputOpen(false));
 

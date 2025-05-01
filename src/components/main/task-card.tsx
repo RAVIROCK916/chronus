@@ -5,7 +5,6 @@ import { DotsSixVertical, Trash } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { Badge } from "../ui/badge";
-import { ProjectContext } from "@/app/(root)/(main)/projects/[name]/[projectId]/page";
 import { Clock, EditIcon } from "lucide-react";
 import { CiEdit } from "react-icons/ci";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
@@ -13,6 +12,7 @@ import TaskSheet from "@/components/shared/task-sheet";
 import { Separator } from "@/components/ui/separator";
 import { FaRegCommentAlt } from "react-icons/fa";
 import Link from "next/link";
+import { useProjectPageContext } from "@/state/context";
 // import { useProject } from "./kanban-board";
 
 type TaskCardProps = {
@@ -20,20 +20,11 @@ type TaskCardProps = {
   deleteTask: (id: string) => void;
 };
 
-function useProjectContext() {
-  const projectContext = useContext(ProjectContext);
-  if (!projectContext) {
-    throw new Error("useProjectContext must be used within a ProjectContext");
-  }
-
-  return projectContext;
-}
-
 export default function TaskCard({ task, deleteTask }: TaskCardProps) {
   const router = useRouter();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-  const { project } = useProjectContext();
+  const { project } = useProjectPageContext();
 
   const {
     attributes,
