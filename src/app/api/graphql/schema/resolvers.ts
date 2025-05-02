@@ -366,12 +366,37 @@ async function verifyUser(_: any, __: any, context: ContextType) {
 
 async function createProject(
   _: any,
-  { name, description }: { name: string; description: string },
+  {
+    name,
+    summary,
+    description,
+    priority,
+    color,
+    picture,
+    dueDate,
+  }: {
+    name: string;
+    summary?: string;
+    description?: string;
+    priority: TaskPriority;
+    color: string;
+    picture?: string;
+    dueDate?: string;
+  },
   context: ContextType,
 ) {
   const project = await db
     .insert(projectTable)
-    .values({ user_id: context.userId, name, description })
+    .values({
+      user_id: context.userId,
+      name,
+      summary,
+      description,
+      priority,
+      color,
+      picture,
+      due_date: dueDate ? new Date(dueDate) : undefined,
+    })
     .returning();
   return project[0];
 }

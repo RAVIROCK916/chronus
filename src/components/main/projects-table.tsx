@@ -33,7 +33,10 @@ export default function ProjectsTable({ projects }: ProjectsTableProps) {
         </TableHeader>
         <TableBody className="[&_td:first-child]:rounded-l-lg [&_td:last-child]:rounded-r-lg">
           {projects.map((project, idx) => (
-            <TableRow key={project.id} className="border-none *:py-2.5">
+            <TableRow
+              key={`${project.name}-${idx}`}
+              className="border-none *:py-2.5"
+            >
               <TableCell className="flex items-center gap-2 pl-8">
                 <span
                   className={cn(

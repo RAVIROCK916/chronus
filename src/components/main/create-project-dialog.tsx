@@ -31,26 +31,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-} from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-import LoaderButton from "@/components/shared/loader-button";
+import Loader from "@/components/shared/loader";
 import Logo from "../shared/logo";
 import { Box, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { EventColor } from "@/components";
 import { colorOptions } from "@/constants/colors";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
 type CreateProjectDialogProps = {
   projects: Project[];
@@ -62,11 +50,20 @@ const CreateProjectDialog = ({
   handleAddProject,
 }: CreateProjectDialogProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [color, setColor] = useState<EventColor>("sky");
 
   const [createProject, { loading }] = useMutation(gql`
-    mutation CreateProject($name: String!, $description: String) {
-      createProject(name: $name, description: $description) {
+    mutation CreateProject(
+      $name: String!
+      $summary: String
+      $description: String
+      $color: String!
+    ) {
+      createProject(
+        name: $name
+        summary: $summary
+        description: $description
+        color: $color
+      ) {
         id
         name
         summary
@@ -83,22 +80,28 @@ const CreateProjectDialog = ({
       name: "",
       summary: "",
       description: "",
+      color: "sky",
     },
   });
 
   async function handleSubmit(
     values: z.infer<ReturnType<typeof createProjectFormSchema>>,
   ) {
-    setIsDialogOpen(false);
+    console.log("values", values);
     // send login request to server
     const response = await createProject({
       variables: {
         name: values.name,
+        summary: values.summary,
         description: values.description,
+        color: values.color,
       },
     });
+    setIsDialogOpen(false);
 
     const project = response.data.createProject;
+
+    console.log("created project", project);
 
     handleAddProject(project);
 
@@ -139,48 +142,11 @@ const CreateProjectDialog = ({
             className="flex h-full flex-col"
           >
             <div className="flex h-full flex-col p-6 pt-0">
-              <div className="mb-4">
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <Button variant="outline" size="icon">
-                      <Box size="16px" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start">
-                    <fieldset className="space-y-4 p-2">
-                      <p className="text-sm font-medium leading-none text-text-muted">
-                        Choose a color
-                      </p>
-                      <RadioGroup
-                        className="flex gap-2"
-                        defaultValue={colorOptions[0].value}
-                        value={color}
-                        onValueChange={(value: EventColor) => setColor(value)}
-                      >
-                        {colorOptions.map((colorOption) => (
-                          <RadioGroupItem
-                            key={colorOption.value}
-                            id={`color-${colorOption.value}`}
-                            value={colorOption.value}
-                            aria-label={colorOption.label}
-                            className={cn(
-                              "size-6 shadow-none",
-                              colorOption.bgClass,
-                              colorOption.borderClass,
-                            )}
-                          />
-                        ))}
-                      </RadioGroup>
-                    </fieldset>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    {/* <FormLabel>Name</FormLabel> */}
                     <FormControl>
                       <Input
                         placeholder="Project Name"
@@ -197,7 +163,6 @@ const CreateProjectDialog = ({
                 name="summary"
                 render={({ field }) => (
                   <FormItem>
-                    {/* <FormLabel>Summary</FormLabel> */}
                     <FormControl>
                       <Input
                         placeholder="Add a short summary..."
@@ -209,13 +174,65 @@ const CreateProjectDialog = ({
                   </FormItem>
                 )}
               />
+              <div className="mb-4">
+                <FormField
+                  control={form.control}
+                  name="color"
+                  render={({ field }) => (
+                    <FormItem>
+                      {/* <FormLabel className="text-sm font-medium leading-none text-text-muted">
+                        Choose a color
+                      </FormLabel> */}
+                      <FormControl>
+                        <div className="mt-2">
+                          <RadioGroup
+                            className="flex gap-2"
+                            value={field.value}
+                            onValueChange={field.onChange}
+                          >
+                            {colorOptions.map((colorOption) => (
+                              <RadioGroupItem
+                                key={colorOption.value}
+                                id={`color-${colorOption.value}`}
+                                value={colorOption.value}
+                                aria-label={colorOption.label}
+                                className={cn(
+                                  "size-6 shadow-none",
+                                  colorOption.bgClass,
+                                  colorOption.borderClass,
+                                )}
+                              />
+                            ))}
+                            {/* <button
+                                key={colorOption.value}
+                                type="button"
+                                className={cn(
+                                  "size-6 rounded-full focus:outline-none focus:ring-2 focus:ring-ring",
+                                  colorOption.bgClass,
+                                  colorOption.borderClass,
+                                  field.value === colorOption.value &&
+                                    "ring-2 ring-ring",
+                                )}
+                                onClick={() => {
+                                  field.onChange(colorOption.value);
+                                  setColor(colorOption.value);
+                                }}
+                                aria-label={colorOption.label}
+                              /> */}
+                          </RadioGroup>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <Separator />
               <FormField
                 control={form.control}
                 name="description"
                 render={({ field }) => (
                   <FormItem className="flex-1">
-                    {/* <FormLabel>Description (optional)</FormLabel> */}
                     <FormControl>
                       <Textarea
                         placeholder="Write a description, if you want to..."
@@ -232,11 +249,9 @@ const CreateProjectDialog = ({
               <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
                 Cancel
               </Button>
-              {loading ? (
-                <LoaderButton />
-              ) : (
-                <Button type="submit">Create</Button>
-              )}
+              <Button type="submit" disabled={loading}>
+                {loading ? <Loader /> : "Create"}
+              </Button>
             </DialogFooter>
           </form>
         </Form>

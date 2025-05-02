@@ -25,7 +25,7 @@ export const typeDefs = gql`
     name: String!
     summary: String
     description: String
-    color: String
+    color: String!
     picture: String
     created_at: String!
     updated_at: String!
@@ -121,7 +121,12 @@ export const typeDefs = gql`
     ): User
     deleteUser(id: ID!): User
     verifyUser: User
-    createProject(name: String!, description: String): Project
+    createProject(
+      name: String!
+      summary: String
+      description: String
+      color: String!
+    ): Project
     deleteProject(id: ID!): Project
     createTask(
       title: String!
