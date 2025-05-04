@@ -29,11 +29,11 @@ export default function SettingsPage() {
   const { data } = useQuery(GET_USER);
   if (!data?.currentUser) return <div>Loading...</div>;
   return (
-    <div className="">
+    <div>
       <UserContext.Provider value={data?.currentUser}>
         <Tabs defaultValue="Account" className="items-center bg-transparent">
-          <div className="space-y-8">
-            <div className="px-10 pt-10">
+          <div className="space-y-6">
+            <div className="px-10 pt-6">
               <h1 className="text-4xl">Settings</h1>
             </div>
             <TabsList className="h-auto w-full justify-start gap-4 rounded-none border-b bg-transparent py-1 pl-10 pr-0 text-foreground">

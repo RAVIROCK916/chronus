@@ -49,10 +49,12 @@ export default function ProjectsTable({ projects }: ProjectsTableProps) {
                 </Link>
               </TableCell>
               <TableCell>
-                <p className="line-clamp-1">{project.summary}</p>
+                <p className="line-clamp-1">{project.summary || "--"}</p>
               </TableCell>
               <TableCell>
-                <p className="line-clamp-1 max-w-96">{project.description}</p>
+                <p className="line-clamp-1 max-w-96">
+                  {project.description || "--"}
+                </p>
               </TableCell>
               <TableCell>
                 {new Date(Number(project.created_at)).toLocaleDateString()}

@@ -97,9 +97,6 @@ export default function Page() {
   const totalTime = tasks.reduce((acc, task) => {
     if (task.status === "DONE" && task.completed_at) {
       tasksCompleted += 1;
-      const completedAt = new Date(+task.completed_at);
-      const date = new Date().getTime();
-
       return (
         acc +
         (Number(task.completed_at) - Number(task.updated_at)) / 60 / 60 / 1000
@@ -125,7 +122,7 @@ export default function Page() {
         {/* Skeleton for the 4 stat cards */}
         <div className="grid grid-cols-4 gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
-            <Card key={i}>
+            <Card key={i} className="border-none">
               <CardHeader>
                 <div className="flex gap-2">
                   <Skeleton className="h-4 w-4" />
@@ -223,7 +220,9 @@ export default function Page() {
           </CardHeader>
           <CardContent>
             <p className="text-4xl font-semibold">
-              {Math.floor((tasksCompleted / tasks.length) * 100)}{" "}
+              {tasks.length
+                ? Math.floor((tasksCompleted / tasks.length) * 100)
+                : 0}{" "}
               <span className="text-sm font-normal text-muted-foreground">
                 <Percent className="inline-block" size={14} />
               </span>

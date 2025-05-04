@@ -28,14 +28,13 @@ const SidebarItem = ({ name, href, Icon }: SidebarItemProps) => {
     <div
       className={cn(
         "rounded-md transition-colors hover:bg-background-secondary",
-        isActive && "bg-text-primary hover:bg-text-primary/90",
+        isActive && "bg-background-tertiary hover:bg-background-tertiary",
       )}
     >
       <Link
         href={href}
         className={cn(
           "flex items-center gap-x-2.5 px-3 py-2 text-sm text-primary transition-colors",
-          isActive && "text-background-secondary",
         )}
       >
         <Icon size={18} aria-hidden="true" />
@@ -101,7 +100,6 @@ const Sidebar = () => {
             </div>
           </SideBarContainer>
         </div>
-
         <div className="space-y-4">
           <SideBarContainer className="space-y-1">
             {sidebarItems.bottom.map((item) => (

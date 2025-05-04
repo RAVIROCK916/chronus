@@ -22,12 +22,12 @@ type HeatmapProps = {
 };
 
 const colorScale = [
-  "bg-neutral-900",
-  "bg-neutral-700",
-  "bg-neutral-500",
-  "bg-neutral-300",
-  "bg-neutral-100",
-  "bg-white",
+  "bg-neutral-100 dark:bg-neutral-900",
+  "bg-neutral-200 dark:bg-neutral-700",
+  "bg-neutral-400 dark:bg-neutral-500",
+  "bg-neutral-600 dark:bg-neutral-300",
+  "bg-neutral-800 dark:bg-neutral-100",
+  "bg-neutral-950 dark:bg-50",
 ];
 
 const getColorClass = (count: number) => {
@@ -82,7 +82,10 @@ export function Heatmap({ data }: HeatmapProps) {
                         )}
                       />
                     </TooltipTrigger>
-                    <TooltipContent side="top" className="bg-neutral-200">
+                    <TooltipContent
+                      side="top"
+                      className="bg-neutral-100 text-neutral-900"
+                    >
                       <p>
                         <span className="font-bold">{count}</span>{" "}
                         {count === 1 ? "task" : "tasks"} on{" "}

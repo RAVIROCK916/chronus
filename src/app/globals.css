@@ -18,7 +18,8 @@
     /* ======= Background Shades ======= */
     --background-primary: 0 0% 100%;
     --background-secondary: 0 0% 96%;
-    --background-tertiary: 0 0% 90%;
+    --background-tertiary: 0 0% 94%;
+    --background-quaternary: 0 0% 90%;
     --background-muted: 0 0% 85%;
 
     /* Neutral */
@@ -351,7 +352,7 @@
     /* ======= Base Colors ======= */
     --color-black: 0 0% 0%;
     --color-white: 0 0% 100%;
-    --color-background: 0 0% 2.5%;
+    --color-background: 0 0% 3%;
     --color-foreground: 0 0% 98%;
 
     /* ======= Text Shades ======= */
@@ -362,8 +363,9 @@
 
     /* ======= Background Shades ======= */
     --background-primary: 0 0% 1.9%;
-    --background-secondary: 0 0% 4.5%;
-    --background-tertiary: 0 0% 7%;
+    --background-secondary: 0 0% 3.5%;
+    --background-tertiary: 0 0% 5%;
+    --background-quaternary: 0 0% 7%;
     --background-muted: 0 0% 25.1%;
     --background-hover: 0 0% 3.5%;
 

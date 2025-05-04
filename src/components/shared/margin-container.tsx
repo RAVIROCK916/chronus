@@ -7,5 +7,5 @@ export default function MarginContainer({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <div className={cn("-mx-8 -my-4", className)}>{children}</div>;
+  return <div className={cn("-m-4", className)}>{children}</div>;
 }

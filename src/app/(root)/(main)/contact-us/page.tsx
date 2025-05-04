@@ -41,10 +41,10 @@ export default function ContactUsPage() {
   return (
     <div>
       <div className="flex h-screen justify-center p-10">
-        <div className="flex flex-col items-center gap-y-6">
+        <div className="flex flex-col items-center gap-y-10">
           <div className="flex flex-col items-center space-y-2">
             <h1 className="text-4xl font-semibold">Contact Us</h1>
-            <p className="text-[14px] text-muted">
+            <p className="text-[14px] text-text-muted">
               If you have any questions or need assistance, please reach out to
               us. We&apos;re here to help!
             </p>

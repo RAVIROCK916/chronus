@@ -172,6 +172,13 @@ export function NotificationList({ items }: NotificationListProps) {
     }
   `);
 
+  if (!items.length)
+    return (
+      <div className="-mt-2 p-8 text-center text-muted-foreground">
+        No Notifications
+      </div>
+    );
+
   return (
     <ScrollArea className="h-screen">
       <div className="flex flex-col gap-2 p-4 pt-1">

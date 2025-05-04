@@ -43,6 +43,7 @@ const config: Config = {
           primary: "hsl(var(--background-primary))",
           secondary: "hsl(var(--background-secondary))",
           tertiary: "hsl(var(--background-tertiary))",
+          quaternary: "hsl(var(--background-quaternary))",
           muted: "hsl(var(--background-muted))",
           hover: "hsl(var(--background-hover))",
         },

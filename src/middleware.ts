@@ -24,12 +24,9 @@ export async function middleware(request: NextRequest) {
   }
 
   // Check if token is valid
-  const { userId, sessionId } = (await decryptSession(token)) as {
-    userId: string;
-    sessionId: string;
-  };
+  const decryptedToken = await decryptSession(token);
 
-  if (!userId || !sessionId) {
+  if (!decryptedToken?.userId || !decryptedToken.sessionId) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
