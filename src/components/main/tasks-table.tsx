@@ -401,7 +401,10 @@ export default function TasksTable({ tasks }: TasksTableProps) {
           {/* Toggle columns visibility */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline">
+              <Button
+                variant="outline"
+                className="font-normal text-muted-foreground"
+              >
                 <Columns3Icon
                   className="-ms-1 opacity-60"
                   size={16}

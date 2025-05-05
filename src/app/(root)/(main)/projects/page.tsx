@@ -55,8 +55,8 @@ export default function ProjectsPage() {
   };
 
   return (
-    <PaddingContainer className="space-y-2">
-      <div className="flex items-center justify-between px-4">
+    <PaddingContainer className="space-y-4">
+      <div className="flex items-center justify-between">
         <h6 className="">Projects</h6>
         <CreateProjectDialog
           projects={projects}

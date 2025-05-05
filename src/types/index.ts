@@ -15,6 +15,7 @@ export type Project = {
   description: string;
   color: string;
   picture: string;
+  due_date: string;
   created_at: string;
   user: User;
   tasks: Task[];
