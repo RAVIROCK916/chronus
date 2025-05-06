@@ -94,8 +94,12 @@ export default function ProjectPage({
     setProject(data.project);
   }
 
-  if (loading || !project) {
-    return <div>Loading...</div>;
+  if (!project) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        There is no project with this name.
+      </div>
+    );
   }
 
   return (

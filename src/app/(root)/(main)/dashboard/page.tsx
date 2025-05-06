@@ -27,6 +27,7 @@ import {
 import Link from "next/link";
 import { format } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
+import Header from "@/components/main/header";
 
 export default function Page() {
   const { data, loading } = useQuery(GET_DASHBOARD_QUERY);
@@ -56,8 +57,6 @@ export default function Page() {
     const sortedDates = Array.from(completedDates.keys())
       .map((dateStr) => new Date(dateStr))
       .sort((a, b) => b.getTime() - a.getTime()); // Sort descending (newest first)
-
-    console.log("sortedDates", sortedDates);
 
     if (sortedDates.length === 0) return 0;
 
@@ -116,6 +115,21 @@ export default function Page() {
     {},
   );
 
+  // Function to get time of day greeting
+  const getTimeOfDay = () => {
+    const currentHour = new Date().getHours();
+
+    if (currentHour >= 5 && currentHour < 12) {
+      return "Morning";
+    } else if (currentHour >= 12 && currentHour < 17) {
+      return "Afternoon";
+    } else if (currentHour >= 17 && currentHour < 21) {
+      return "Evening";
+    } else {
+      return "Night";
+    }
+  };
+
   if (loading)
     return (
       <PaddingContainer className="space-y-4">
@@ -158,6 +172,14 @@ export default function Page() {
 
   return (
     <PaddingContainer className="space-y-4">
+      <Header>
+        <p className="text-sm uppercase text-text-muted">
+          Good{" "}
+          <span className="text-3xl tracking-wider text-foreground">
+            {getTimeOfDay()}
+          </span>
+        </p>
+      </Header>
       {/* Total Tasks */}
       <div className="grid grid-cols-4 gap-4">
         <Card>

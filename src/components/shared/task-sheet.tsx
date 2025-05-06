@@ -17,6 +17,7 @@ import { CREATE_TASK, UPDATE_TASK } from "@/lib/apollo/client/task";
 import { useState, useEffect } from "react";
 import DatePicker from "@/components/shared/date-picker";
 import { useProjectPageContext } from "@/state/context";
+import { Textarea } from "../ui/textarea";
 
 type TaskSheetProps = {
   task?: {
@@ -99,6 +100,7 @@ export default function TaskSheet({
   });
 
   const handleInputChange = (field: string, value: any) => {
+    console.log("handleInputChange", field, value);
     setFormData((prev) => ({
       ...prev,
       [field]: value,
@@ -194,9 +196,15 @@ export default function TaskSheet({
         {/* Task Description */}
         <div className="space-y-1">
           <Label className="text-text-muted">Description</Label>
-          <TextEditor
+          {/* <TextEditor
             value={formData.description}
             onChange={(value) => handleInputChange("description", value)}
+          /> */}
+          <Textarea
+            value={formData.description}
+            onChange={(e) => handleInputChange("description", e.target.value)}
+            placeholder="Add a description..."
+            className="h-48"
           />
         </div>
       </div>

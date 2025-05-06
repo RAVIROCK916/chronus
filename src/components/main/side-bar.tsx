@@ -28,13 +28,15 @@ const SidebarItem = ({ name, href, Icon }: SidebarItemProps) => {
     <div
       className={cn(
         "rounded-md transition-colors hover:bg-background-secondary",
-        isActive && "bg-background-tertiary hover:bg-background-tertiary",
+        isActive &&
+          "hover:bg-current/90 border bg-color-background dark:border-none dark:bg-background-tertiary",
       )}
     >
       <Link
         href={href}
         className={cn(
-          "flex items-center gap-x-2.5 px-3 py-2 text-sm text-primary transition-colors",
+          "flex items-center gap-x-2.5 px-3 py-2 text-sm text-text-muted transition-colors",
+          isActive && "text-primary",
         )}
       >
         <Icon size={18} aria-hidden="true" />
@@ -83,9 +85,6 @@ const Sidebar = () => {
             </div>
           </SideBarContainer>
           <Separator />
-          <SideBarContainer>
-            <Searchbar />
-          </SideBarContainer>
           {/* Sidebar items */}
           <SideBarContainer className="space-y-6">
             <div className="space-y-1">

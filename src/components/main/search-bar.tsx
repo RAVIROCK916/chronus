@@ -19,8 +19,9 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command";
+import { cn } from "@/lib/utils";
 
-export default function Searchbar() {
+export default function Searchbar({ className }: { className?: string }) {
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -38,7 +39,10 @@ export default function Searchbar() {
   return (
     <>
       <button
-        className="shadow-xs inline-flex h-9 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground outline-none transition-[color,box-shadow] placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
+        className={cn(
+          "shadow-xs inline-flex h-9 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground outline-none transition-[color,box-shadow] placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50",
+          className,
+        )}
         onClick={() => setOpen(true)}
       >
         <span className="flex grow items-center">

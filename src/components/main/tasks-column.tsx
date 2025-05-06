@@ -11,6 +11,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import TaskSheet from "../shared/task-sheet";
 import { cn } from "@/lib/utils";
 import { useProjectPageContext } from "@/state/context";
+import CreateTaskDialog from "./create-task-dialog";
 
 type TaskColumnProps = {
   column: any;
@@ -39,7 +40,7 @@ export default function TasksColumn({
   });
 
   return (
-    <div className="max-w-[400px] space-y-2 rounded-md border border-border bg-color-background">
+    <div className="max-w-[350px] space-y-2 rounded-md border border-border bg-color-background">
       <div ref={setNodeRef} className="space-y-4 self-start p-4">
         <div className="flex justify-between">
           <div className="flex items-center gap-2.5">
@@ -78,7 +79,7 @@ export default function TasksColumn({
         </div>
         <SortableContext items={tasks.map((task) => task.id)}>
           <div
-            className="max-h-[550px] space-y-3 overflow-auto transition-all duration-500 ease-in-out"
+            className="h-auto space-y-3 transition-all duration-500 ease-in-out"
             style={{
               transitionProperty: "height, padding",
             }}
@@ -88,29 +89,20 @@ export default function TasksColumn({
             ))}
           </div>
         </SortableContext>
-        {/* <div>
-          {isTaskInputOpen ? (
-            <TaskInputCard
-              ref={inputTaskRef}
-              status={column.id}
-              createTask={createTask}
-            />
-          ) : (
-            <Button
-              variant="ghost"
-              className="w-full gap-1 text-muted"
-              onClick={() => setIsTaskInputOpen(true)}
-            >
-              <Plus
-                className="opacity-60 sm:-ms-1 sm:me-2"
-                size={16}
-                strokeWidth={2}
-                aria-hidden="true"
-              />
-              Add Task
-            </Button>
-          )}
-        </div> */}
+        {/* <Button
+          variant="ghost"
+          className="w-full gap-1 text-muted"
+          onClick={() => setIsTaskInputOpen(true)}
+        >
+          <Plus
+            className="opacity-60 sm:-ms-1 sm:me-2"
+            size={16}
+            strokeWidth={2}
+            aria-hidden="true"
+          />
+          Add Task
+        </Button> */}
+        <CreateTaskDialog />
       </div>
     </div>
   );

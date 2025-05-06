@@ -37,7 +37,7 @@ export default function BreadCrumb({ paths }: BreadCrumbProps) {
               <BreadcrumbItem className={cn(isLast && "text-foreground")}>
                 <BreadcrumbLink
                   href={!isLast ? path.url : undefined}
-                  className="flex gap-x-2"
+                  className="flex items-center gap-x-2"
                 >
                   {path.icon && <path.icon size={16} />}
                   {path.name}

@@ -76,7 +76,6 @@ import {
 import { Project as ProjectType } from "@/types";
 import Link from "next/link";
 import { useId } from "react";
-import MarginContainer from "@/components/shared/margin-container";
 
 const columns: ColumnDef<ProjectType>[] = [
   {
@@ -600,17 +599,6 @@ export default function ProjectsTable({ projects }: ProjectsTableProps) {
           </Select>
         </div>
       </div>
-      <p className="mt-4 text-center text-sm text-muted-foreground">
-        Numeric pagination made with{" "}
-        <a
-          className="underline hover:text-foreground"
-          href="https://tanstack.com/table"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          TanStack Table
-        </a>
-      </p>
     </div>
   );
 }
@@ -619,36 +607,78 @@ export const ProjectsTableSkeleton = () => {
   const loadingRows = Array(5).fill(null);
 
   return (
-    <MarginContainer className="overflow-hidden bg-background">
-      <Table className="border-t">
-        <TableHeader>
-          <TableRow className="hover:bg-transparent">
-            <TableHead className="pl-8">Name</TableHead>
-            <TableHead>Summary</TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead>Created At</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody className="[&_td:first-child]:rounded-l-lg [&_td:last-child]:rounded-r-lg">
-          {loadingRows.map((_, idx) => (
-            <TableRow key={idx} className="border-none *:py-2.5">
-              <TableCell className="flex items-center gap-2 pl-8">
-                <Skeleton className="size-4 rounded-full" />
-                <Skeleton className="h-5 w-32" />
-              </TableCell>
-              <TableCell>
-                <Skeleton className="h-5 w-48" />
-              </TableCell>
-              <TableCell>
-                <Skeleton className="h-5 w-64 max-w-96" />
-              </TableCell>
-              <TableCell>
-                <Skeleton className="h-5 w-24" />
-              </TableCell>
+    <div className="space-y-4">
+      {/* Filter and controls skeleton */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          {/* Search input skeleton */}
+          <Skeleton className="h-10 w-60" />
+          {/* Filter dropdown skeleton */}
+          <Skeleton className="h-10 w-[120px]" />
+          {/* View button skeleton */}
+          <Skeleton className="h-10 w-24" />
+        </div>
+      </div>
+
+      {/* Table skeleton */}
+      <div className="overflow-hidden rounded-md border bg-background">
+        <Table>
+          <TableHeader>
+            <TableRow className="hover:bg-transparent">
+              <TableHead className="w-[28px]">
+                <Skeleton className="h-4 w-4" />
+              </TableHead>
+              <TableHead className="w-[180px]">Name</TableHead>
+              <TableHead className="w-[200px]">Summary</TableHead>
+              <TableHead className="w-[200px]">Description</TableHead>
+              <TableHead>Due Date</TableHead>
+              <TableHead>Created At</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </MarginContainer>
+          </TableHeader>
+          <TableBody>
+            {loadingRows.map((_, idx) => (
+              <TableRow key={idx}>
+                <TableCell>
+                  <Skeleton className="h-4 w-4" />
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2">
+                    <Skeleton className="size-4 rounded-full" />
+                    <Skeleton className="h-5 w-32" />
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-5 w-48" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-5 w-64" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-5 w-24" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-5 w-24" />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* Pagination skeleton */}
+      <div className="flex items-center justify-between gap-3 max-sm:flex-col">
+        <Skeleton className="h-5 w-32" />
+        <div className="grow">
+          <div className="flex items-center justify-center gap-2">
+            <Skeleton className="h-10 w-10" /> {/* Previous button */}
+            <Skeleton className="h-10 w-10" /> {/* Page 1 */}
+            <Skeleton className="h-10 w-10" /> {/* Page 2 */}
+            <Skeleton className="h-10 w-10" /> {/* Page 3 */}
+            <Skeleton className="h-10 w-10" /> {/* Next button */}
+          </div>
+        </div>
+        <Skeleton className="h-10 w-24" /> {/* Results per page */}
+      </div>
+    </div>
   );
 };
