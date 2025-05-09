@@ -35,7 +35,7 @@ const SidebarItem = ({ name, href, Icon }: SidebarItemProps) => {
       <Link
         href={href}
         className={cn(
-          "flex items-center gap-x-2.5 px-3 py-2 text-sm text-text-muted transition-colors",
+          "flex items-center gap-x-2.5 px-3 py-2 text-sm text-text-secondary transition-colors",
           isActive && "text-primary",
         )}
       >

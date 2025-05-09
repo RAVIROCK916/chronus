@@ -3,6 +3,8 @@ import { gql } from "@apollo/client";
 const PROJECT_REQUEST = `
 	id
 	name
+	summary
+	color
 	description
 	picture
 	created_at

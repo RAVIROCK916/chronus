@@ -27,7 +27,7 @@ export const createProjectFormSchema = (projects: Project[]) =>
   z
     .object({
       name: z.string().trim().min(1, "Project name is required").max(20),
-      summary: z.string().trim().max(100),
+      summary: z.string().trim().max(200),
       description: z.string().trim().max(1000).optional(),
       color: z.string().default("sky"),
     })

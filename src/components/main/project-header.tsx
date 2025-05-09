@@ -15,11 +15,12 @@ import TasksTable from "./tasks-table";
 import ProjectSettings from "./project-settings";
 import { HorizontalPaddingContainer } from "../shared/padding-container";
 import { useProjectPageContext } from "@/state/context";
+import ProjectOverview from "./project-overview";
 
 export default function ProjectHeader() {
   const { project } = useProjectPageContext();
   return (
-    <Tabs defaultValue="Board">
+    <Tabs defaultValue="Overview">
       <TabsList className="mb-3 h-auto w-full justify-start gap-2 rounded-none border-b bg-transparent px-8 py-1 text-foreground">
         <TabsTrigger
           value="Overview"
@@ -107,7 +108,9 @@ export default function ProjectHeader() {
         </TabsTrigger>
       </TabsList>
       <HorizontalPaddingContainer>
-        <TabsContent value="Overview">{/* <ProjectOverview /> */}</TabsContent>
+        <TabsContent value="Overview">
+          <ProjectOverview />
+        </TabsContent>
         <TabsContent value="Board">
           <ClientKanbanBoard />
         </TabsContent>

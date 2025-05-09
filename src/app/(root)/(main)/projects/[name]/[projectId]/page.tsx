@@ -10,6 +10,8 @@ import { Project } from "@/types";
 import { DELETE_TASK, DELETE_TASKS } from "@/lib/apollo/client/task";
 import PaddingContainer from "@/components/shared/padding-container";
 import { ProjectPageContext } from "@/state/context";
+import Header from "@/components/main/header";
+import Loader from "@/components/shared/loader";
 
 type ProjectPageProps = {
   params: {
@@ -94,6 +96,14 @@ export default function ProjectPage({
     setProject(data.project);
   }
 
+  if (loading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
+
   if (!project) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -107,7 +117,9 @@ export default function ProjectPage({
       value={{ project, addTask, updateTask, deleteTask, deleteTasks }}
     >
       <PaddingContainer className="space-y-6">
-        <BreadCrumb paths={breadcrumbPaths} />
+        <Header>
+          <BreadCrumb paths={breadcrumbPaths} />
+        </Header>
         <div className="space-y-2">
           <h1 className="text-4xl">{name}</h1>
           {/* <p className="line-clamp-1 max-w-xl text-text-muted">

@@ -16,8 +16,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useId } from "react";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useProjectPageContext } from "@/state/context";
+import { colorOptions } from "@/constants/colors";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { cn } from "@/lib/utils";
 
 export default function ProjectSettings() {
   const id = useId();
@@ -25,16 +28,28 @@ export default function ProjectSettings() {
 
   const ProjectSettingsSchema = z.object({
     name: z.string().min(1, "Name is required"),
-    description: z.string().min(1, "Description is required"),
+    summary: z
+      .string()
+      .min(1, "Summary is required")
+      .max(200, "Summary is too long"),
+    description: z
+      .string()
+      .min(1, "Description is required")
+      .max(1000, "Description is too long"),
+    color: z.string(),
   });
 
   const form = useForm({
     resolver: zodResolver(ProjectSettingsSchema),
     defaultValues: {
       name: project.name,
+      summary: project.summary,
       description: project.description,
+      color: project.color,
     },
   });
+
+  console.log(form.watch("color"));
 
   // const { limit, remaining, overLimit } = useCharacterLimit(
   // 	form.watch("description"),
@@ -48,14 +63,15 @@ export default function ProjectSettings() {
   return (
     <Form {...form}>
       <form
-        className="mx-auto my-8 max-w-96 space-y-4"
+        className="mx-auto my-8 max-w-md space-y-4"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <div className="overflow-y-auto">
+        <div className="overflow-y-auto px-4">
           <div className="flex flex-col items-center gap-4">
             <div className="space-y-1">
               <Avatar className="size-16">
                 <AvatarImage src={project.picture} />
+                <AvatarFallback>CN</AvatarFallback>
               </Avatar>
             </div>
             <FormField
@@ -73,6 +89,56 @@ export default function ProjectSettings() {
                       type="text"
                       {...field}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="summary"
+              render={({ field }) => (
+                <FormItem className="w-full space-y-1">
+                  <FormLabel htmlFor={`${id}-summary`}>
+                    Summary <span>*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      id={`${id}-summary`}
+                      placeholder="Project summary"
+                      type="text"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="color"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem className="w-full space-y-1">
+                  <FormLabel htmlFor={`${id}-color`}>Color</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      className="flex flex-wrap gap-1.5"
+                      defaultValue={field.value}
+                      value={field.value}
+                      onValueChange={field.onChange}
+                    >
+                      {colorOptions.map((colorOption) => (
+                        <RadioGroupItem
+                          value={colorOption.value}
+                          id={`${id}-color-${colorOption}`}
+                          className={cn(
+                            "size-6 shadow-none",
+                            colorOption.bgClass,
+                            colorOption.borderClass,
+                          )}
+                        ></RadioGroupItem>
+                      ))}
+                    </RadioGroup>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

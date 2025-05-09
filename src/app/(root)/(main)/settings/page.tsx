@@ -16,6 +16,7 @@ import { CheckIcon, MinusIcon } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useTheme } from "next-themes";
 import Image from "next/image";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const tabs = [
   { name: "Account", href: "#account" },
@@ -26,8 +27,9 @@ const tabs = [
 ];
 
 export default function SettingsPage() {
-  const { data } = useQuery(GET_USER);
-  if (!data?.currentUser) return <div>Loading...</div>;
+  const { data, loading } = useQuery(GET_USER);
+  if (loading) return <SettingsSkeleton />;
+  if (!data?.currentUser) return <div>No user found</div>;
   return (
     <div>
       <UserContext.Provider value={data?.currentUser}>
@@ -232,6 +234,115 @@ function AppearanceSettingsTab() {
           </RadioGroup>
         </Setting.Content>
       </Setting.Root>
+    </fieldset>
+  );
+}
+
+export function SettingsSkeleton() {
+  return (
+    <div>
+      <Tabs defaultValue="Account" className="items-center bg-transparent">
+        <div className="space-y-6">
+          <div className="px-10 pt-6">
+            <h1 className="text-4xl">Settings</h1>
+          </div>
+          <TabsList className="h-auto w-full justify-start gap-4 rounded-none border-b bg-transparent py-1 pl-10 pr-0 text-foreground">
+            {tabs.map((tab) => (
+              <TabsTrigger
+                key={tab.name}
+                value={tab.name}
+                className="relative font-normal text-text-tertiary after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:after:bg-primary"
+              >
+                {tab.name}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </div>
+        <TabsContent value="Account">
+          <AccountSettingsTabSkeleton />
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}
+
+function AccountSettingsTabSkeleton() {
+  return (
+    <div>
+      {/* Profile Picture Setting */}
+      <div className="border-b px-10 py-6">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+          <div className="space-y-1">
+            <Skeleton className="h-5 w-32" />
+            <Skeleton className="h-4 w-64" />
+          </div>
+          <div className="sm:w-[60%]">
+            <Skeleton className="h-24 w-24 rounded-full" />
+          </div>
+        </div>
+      </div>
+
+      {/* Name & Email Setting */}
+      <div className="border-b px-10 py-6">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+          <div className="space-y-1">
+            <Skeleton className="h-5 w-40" />
+            <Skeleton className="h-4 w-64" />
+          </div>
+          <div className="space-y-4 sm:w-[60%]">
+            <div className="flex items-center gap-2">
+              <div className="w-full space-y-2">
+                <Skeleton className="h-4 w-16" />
+                <Skeleton className="h-10 w-full" />
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-full space-y-2">
+                <Skeleton className="h-4 w-16" />
+                <Skeleton className="h-10 w-full" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Timezone Setting */}
+      <div className="border-b px-10 py-6">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+          <div className="space-y-1">
+            <Skeleton className="h-5 w-24" />
+            <Skeleton className="h-4 w-48" />
+          </div>
+          <div className="sm:w-[60%]">
+            <Skeleton className="h-10 w-full" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AppearanceSettingsTabSkeleton() {
+  return (
+    <fieldset className="space-y-4">
+      <div className="border-b px-10 py-6">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+          <div className="space-y-1">
+            <Skeleton className="h-5 w-16" />
+            <Skeleton className="h-4 w-64" />
+          </div>
+          <div className="flex gap-6">
+            {Array(3)
+              .fill(null)
+              .map((_, i) => (
+                <div key={i} className="flex flex-col items-center gap-2">
+                  <Skeleton className="h-32 w-48 rounded-md" />
+                  <Skeleton className="h-5 w-16" />
+                </div>
+              ))}
+          </div>
+        </div>
+      </div>
     </fieldset>
   );
 }

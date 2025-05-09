@@ -102,7 +102,11 @@ export default function TasksColumn({
           />
           Add Task
         </Button> */}
-        <CreateTaskDialog />
+        <CreateTaskDialog>
+          <Button variant="outline" className="w-full gap-1 text-text-muted">
+            Add Task
+          </Button>
+        </CreateTaskDialog>
       </div>
     </div>
   );

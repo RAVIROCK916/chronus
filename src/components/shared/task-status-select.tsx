@@ -66,19 +66,19 @@ export default function TaskStatusSelect({
       <SelectContent>
         <SelectItem value="TODO">
           <span className="flex items-center gap-2">
-            <StatusDot className="text-amber-500" />
+            <StatusDot className="text-amber-400" />
             <span className="truncate">To Do</span>
           </span>
         </SelectItem>
         <SelectItem value="IN_PROGRESS">
           <span className="flex items-center gap-2">
-            <StatusDot className="text-blue-500" />
+            <StatusDot className="text-sky-400" />
             <span className="truncate">In Progress</span>
           </span>
         </SelectItem>
         <SelectItem value="DONE">
           <span className="flex items-center gap-2">
-            <StatusDot className="text-emerald-500" />
+            <StatusDot className="text-emerald-400" />
             <span className="truncate">Done</span>
           </span>
         </SelectItem>

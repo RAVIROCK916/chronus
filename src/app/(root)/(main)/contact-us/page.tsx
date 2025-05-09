@@ -16,6 +16,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { MailIcon } from "lucide-react";
+import Footer from "@/components/main/footer";
 
 const contactUsFormSchema = z.object({
   name: z.string().min(3, "Name should be at least 3 characters"),
@@ -39,8 +40,8 @@ export default function ContactUsPage() {
   };
 
   return (
-    <div>
-      <div className="flex h-screen justify-center p-10">
+    <div className="flex min-h-screen flex-col justify-between">
+      <div className="flex justify-center p-10">
         <div className="flex flex-col items-center gap-y-10">
           <div className="flex flex-col items-center space-y-2">
             <h1 className="text-4xl font-semibold">Contact Us</h1>
@@ -149,6 +150,7 @@ export default function ContactUsPage() {
           </Form>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

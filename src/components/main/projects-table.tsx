@@ -104,7 +104,7 @@ const columns: ColumnDef<ProjectType>[] = [
     header: "Name",
     accessorKey: "name",
     cell: ({ row }) => (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 font-medium">
         <span
           className={cn(
             "inline-block size-4 rounded-full",
@@ -122,9 +122,7 @@ const columns: ColumnDef<ProjectType>[] = [
     header: "Summary",
     accessorKey: "summary",
     cell: ({ row }) => (
-      <div className="line-clamp-1 font-medium text-muted-foreground">
-        {row.getValue("summary")}
-      </div>
+      <div className="line-clamp-1">{row.getValue("summary")}</div>
     ),
     size: 200,
   },
@@ -132,9 +130,7 @@ const columns: ColumnDef<ProjectType>[] = [
     header: "Description",
     accessorKey: "description",
     cell: ({ row }) => (
-      <div className="line-clamp-1 font-medium text-muted-foreground">
-        {row.getValue("description")}
-      </div>
+      <div className="line-clamp-1">{row.getValue("description")}</div>
     ),
     size: 200,
   },
@@ -142,11 +138,11 @@ const columns: ColumnDef<ProjectType>[] = [
     header: "Due Date",
     accessorKey: "due_date",
     cell: ({ row }) => (
-      <span className="text-muted-foreground">
+      <span>
         {row.getValue("due_date") ? (
           new Date(Number(row.getValue("due_date"))).toLocaleDateString()
         ) : (
-          <CalendarPlus size={16} />
+          <CalendarPlus size={16} strokeWidth={1.75} />
         )}
       </span>
     ),
@@ -155,7 +151,7 @@ const columns: ColumnDef<ProjectType>[] = [
     header: "Created At",
     accessorKey: "created_at",
     cell: ({ row }) => (
-      <span className="text-muted-foreground">
+      <span>
         {new Date(Number(row.getValue("created_at"))).toLocaleDateString()}
       </span>
     ),
@@ -169,7 +165,7 @@ type ProjectsTableProps = {
 export default function ProjectsTable({ projects }: ProjectsTableProps) {
   const id = useId();
 
-  const pageSize = 5;
+  const pageSize = 10;
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});

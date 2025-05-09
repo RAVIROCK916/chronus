@@ -13,6 +13,8 @@ import ProjectsTable, {
 } from "@/components/main/projects-table";
 import PaddingContainer from "@/components/shared/padding-container";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardHeader } from "@/components/ui/card";
+import { File, Folder, Plus } from "lucide-react";
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -62,6 +64,23 @@ export default function ProjectsPage() {
           projects={projects}
           handleAddProject={handleAddProject}
         />
+      </div>
+      <div className="grid grid-cols-4 gap-4">
+        {new Array(4).fill(0).map((_, index) => (
+          <Card className="cursor-pointer transition-colors hover:bg-background-secondary dark:hover:bg-background-tertiary">
+            <CardHeader className="p-4">
+              <div className="flex justify-between">
+                <div className="flex flex-col items-start gap-1">
+                  <div className="rounded-lg bg-background-quaternary p-2">
+                    <Folder className="h-4 w-4" />
+                  </div>
+                  <h3 className="font-medium">Projects</h3>
+                </div>
+                <Plus className="h-4 w-4" />
+              </div>
+            </CardHeader>
+          </Card>
+        ))}
       </div>
       {/* <BreadCrumb /> */}
       {loading ? (
