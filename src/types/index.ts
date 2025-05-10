@@ -62,7 +62,7 @@ export type Notification = {
   id: string;
   title: string;
   message: string;
-  category: string;
+  category: NotificationCategory;
   isRead: boolean;
   created_at: string;
 };

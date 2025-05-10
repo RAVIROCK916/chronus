@@ -537,6 +537,19 @@ async function deleteEvent(_: any, { id }: { id: string }) {
 
 /* Notifications */
 
+async function createWelcomeNotification(userId: string) {
+  const notification = await db
+    .insert(notificationTable)
+    .values({
+      user_id: userId,
+      title: "Welcome to Chronus",
+      message: "You've successfully signed up to Chronus!",
+      category: "general",
+    })
+    .returning();
+  return notification[0];
+}
+
 async function updateNotification(
   _: any,
   {

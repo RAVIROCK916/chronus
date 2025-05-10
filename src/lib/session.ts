@@ -1,7 +1,9 @@
 "use server";
 
+import { SERVER_URL } from "@/constants";
 import db from "@/db";
 import { sessionTable } from "@/db/schema";
+import axios from "axios";
 import { eq } from "drizzle-orm";
 
 import { SignJWT, jwtVerify } from "jose";
@@ -39,6 +41,33 @@ export async function createSession(userId: string) {
   console.log("Session cookie set successfully");
 
   return sessionId;
+}
+
+export async function verifySession() {
+  try {
+    const response = await fetch(SERVER_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `
+					mutation {
+						verifyUser() {
+							id
+							name
+							created_at
+							updated_at
+						}
+					}
+				`,
+      }),
+      credentials: "include",
+    });
+  } catch (error) {
+    console.error("Error verifying session:", error);
+    throw new Error("Session verification failed");
+  }
 }
 
 export async function encryptSession(payload: any) {

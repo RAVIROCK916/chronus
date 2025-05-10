@@ -4,7 +4,7 @@ import PaddingContainer from "@/components/shared/padding-container";
 
 export default function Page() {
   return (
-    <PaddingContainer>
+    <PaddingContainer className="pt-0">
       <div className="flex h-full w-full flex-col justify-center gap-6 pt-2">
         <h1 className="text-4xl font-bold">Calendar</h1>
         {/* <CalendarApp /> */}

@@ -5,16 +5,13 @@ import { gql, useQuery } from "@apollo/client";
 
 import { Project } from "@/types";
 
-import BreadCrumb from "@/components/shared/breadcrumb";
-import UserProjects from "@/components/main/user-projects";
 import CreateProjectDialog from "@/components/main/create-project-dialog";
 import ProjectsTable, {
   ProjectsTableSkeleton,
 } from "@/components/main/projects-table";
 import PaddingContainer from "@/components/shared/padding-container";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardHeader } from "@/components/ui/card";
-import { File, Folder, Plus } from "lucide-react";
+import { Calendar, Check, Folder, Plus } from "lucide-react";
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -22,6 +19,29 @@ export default function ProjectsPage() {
     projects,
     (projects, project) => [...projects, project],
   );
+
+  const creators = [
+    {
+      id: "1",
+      name: "Project",
+      icon: Folder,
+    },
+    {
+      id: "2",
+      name: "Task",
+      icon: Check,
+    },
+    {
+      id: "3",
+      name: "Event",
+      icon: Calendar,
+    },
+    {
+      id: "4",
+      name: "Create",
+      icon: Plus,
+    },
+  ];
 
   const { data, loading, error } = useQuery(gql`
     query {
@@ -58,23 +78,26 @@ export default function ProjectsPage() {
 
   return (
     <PaddingContainer className="space-y-4">
-      <div className="flex items-center justify-between">
+      {/* <div className="flex items-center justify-between">
         <h6 className="">Projects</h6>
         <CreateProjectDialog
           projects={projects}
           handleAddProject={handleAddProject}
         />
-      </div>
+      </div> */}
       <div className="grid grid-cols-4 gap-4">
-        {new Array(4).fill(0).map((_, index) => (
-          <Card className="cursor-pointer transition-colors hover:bg-background-secondary dark:hover:bg-background-tertiary">
+        {creators.map((item) => (
+          <Card
+            key={item.id}
+            className="cursor-pointer transition-colors hover:bg-background-secondary dark:hover:bg-background-tertiary"
+          >
             <CardHeader className="p-4">
               <div className="flex justify-between">
-                <div className="flex flex-col items-start gap-1">
-                  <div className="rounded-lg bg-background-quaternary p-2">
-                    <Folder className="h-4 w-4" />
+                <div className="flex flex-col items-start gap-2">
+                  <div className="rounded-md bg-foreground p-1.5">
+                    <item.icon className="h-4 w-4 stroke-background" />
                   </div>
-                  <h3 className="font-medium">Projects</h3>
+                  <h3 className="font-medium">New {item.name}</h3>
                 </div>
                 <Plus className="h-4 w-4" />
               </div>

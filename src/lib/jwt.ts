@@ -3,7 +3,7 @@ import { jwtVerify } from "jose";
 const secretKey = process.env.SESSION_SECRET!;
 const secret = new TextEncoder().encode(secretKey);
 
-export async function decryptSession(token: string) {
+export async function decryptToken(token: string) {
   try {
     const { payload } = await jwtVerify(token, secret);
     return payload as { userId: string; sessionId: string };

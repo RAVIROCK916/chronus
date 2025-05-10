@@ -1,18 +1,15 @@
-import Sidebar from "@/components/main/side-bar";
-import Header from "@/components/main/header";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AuthProvider } from "@/components/providers/auth-provider";
+import MainContent from "@/components/main/main-content";
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <AuthProvider>
       <SidebarProvider>
-        <div className="flex w-screen">
-          <Sidebar />
-          <main className="flex-1">{children}</main>
-        </div>
+        <MainContent>{children}</MainContent>
       </SidebarProvider>
     </AuthProvider>
   );
 };
+
 export default RootLayout;

@@ -115,21 +115,6 @@ export default function Page() {
     {},
   );
 
-  // Function to get time of day greeting
-  const getTimeOfDay = () => {
-    const currentHour = new Date().getHours();
-
-    if (currentHour >= 5 && currentHour < 12) {
-      return "Morning";
-    } else if (currentHour >= 12 && currentHour < 17) {
-      return "Afternoon";
-    } else if (currentHour >= 17 && currentHour < 21) {
-      return "Evening";
-    } else {
-      return "Night";
-    }
-  };
-
   if (loading)
     return (
       <PaddingContainer className="space-y-4">
@@ -172,18 +157,18 @@ export default function Page() {
 
   return (
     <PaddingContainer className="space-y-4">
-      <Header>
+      {/* <Header>
         <p className="text-sm uppercase text-text-muted">
           Good{" "}
           <span className="text-3xl tracking-wider text-foreground">
             {getTimeOfDay()}
           </span>
         </p>
-      </Header>
+      </Header> */}
       {/* Total Tasks */}
       <div className="grid grid-cols-4 gap-4">
         <Card>
-          <CardHeader>
+          <CardHeader className="pb-3">
             <CardTitle className="flex gap-2">
               <ClipboardCheck size={16} strokeWidth={1.5} />
               <span>Tasks</span>
@@ -199,7 +184,7 @@ export default function Page() {
         </Card>
         {/* Time spent */}
         <Card>
-          <CardHeader>
+          <CardHeader className="pb-3">
             <CardTitle className="flex gap-2">
               <Clock3 size={16} strokeWidth={1.5} />
               <span>Time</span>
@@ -217,7 +202,7 @@ export default function Page() {
         </Card>
         {/* Tasks Streak */}
         <Card>
-          <CardHeader>
+          <CardHeader className="pb-3">
             <CardTitle className="flex gap-2">
               <ChartNoAxesCombined size={16} strokeWidth={1.5} />
               <span>Streak</span>
@@ -233,7 +218,7 @@ export default function Page() {
         </Card>
         {/* Task completion percentage */}
         <Card>
-          <CardHeader>
+          <CardHeader className="pb-3">
             <CardTitle className="flex gap-2">
               <Percent size={16} strokeWidth={1.5} />
               <span>Percentage</span>

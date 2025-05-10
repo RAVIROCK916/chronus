@@ -104,7 +104,7 @@ const columns: ColumnDef<ProjectType>[] = [
     header: "Name",
     accessorKey: "name",
     cell: ({ row }) => (
-      <div className="flex items-center gap-2 font-medium">
+      <div className="flex items-center gap-2 font-medium text-foreground">
         <span
           className={cn(
             "inline-block size-4 rounded-full",
@@ -122,7 +122,7 @@ const columns: ColumnDef<ProjectType>[] = [
     header: "Summary",
     accessorKey: "summary",
     cell: ({ row }) => (
-      <div className="line-clamp-1">{row.getValue("summary")}</div>
+      <div className="line-clamp-1">{row.getValue("summary") || "--"}</div>
     ),
     size: 200,
   },
@@ -130,7 +130,7 @@ const columns: ColumnDef<ProjectType>[] = [
     header: "Description",
     accessorKey: "description",
     cell: ({ row }) => (
-      <div className="line-clamp-1">{row.getValue("description")}</div>
+      <div className="line-clamp-1">{row.getValue("description") || "--"}</div>
     ),
     size: 200,
   },
@@ -466,7 +466,7 @@ export default function ProjectsTable({ projects }: ProjectsTableProps) {
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="text-text-tertiary">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),

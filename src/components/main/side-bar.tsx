@@ -11,7 +11,7 @@ import Link from "next/link";
 import { Command, LucideIcon, PanelLeft, Settings } from "lucide-react";
 import { IconType } from "react-icons/lib";
 import { NavUser } from "../shared/nav-user";
-import { useState } from "react";
+import { useSidebar } from "@/components/ui/sidebar";
 import { useSelector } from "react-redux";
 import { RootState } from "@/state/store";
 
@@ -27,15 +27,14 @@ const SidebarItem = ({ name, href, Icon }: SidebarItemProps) => {
   return (
     <div
       className={cn(
-        "rounded-md transition-colors hover:bg-background-secondary",
-        isActive &&
-          "hover:bg-current/90 border bg-color-background dark:border-none dark:bg-background-tertiary",
+        "rounded transition-colors hover:bg-background-hover",
+        isActive && "hover:bg-current/90 bg-background-tertiary",
       )}
     >
       <Link
         href={href}
         className={cn(
-          "flex items-center gap-x-2.5 px-3 py-2 text-sm text-text-secondary transition-colors",
+          "flex items-center gap-x-2.5 px-3 py-2 text-sm text-text-tertiary transition-colors",
           isActive && "text-primary",
         )}
       >
@@ -47,16 +46,14 @@ const SidebarItem = ({ name, href, Icon }: SidebarItemProps) => {
 };
 
 const Sidebar = () => {
-  const location = usePathname();
-  const [isExpanded, setIsExpanded] = useState(true);
-
+  const { state, toggleSidebar } = useSidebar();
   const profile = useSelector((state: RootState) => state.profile);
 
   return (
     <div
       className={cn(
         "sticky top-0 hidden h-screen w-64 space-y-4 border-r py-4 transition-transform duration-500 xl:block",
-        isExpanded ? "translate-x-0" : "-translate-x-full",
+        state === "expanded" ? "translate-x-0" : "-translate-x-full",
       )}
     >
       <div className="flex h-full flex-col justify-between gap-y-4">
@@ -75,10 +72,12 @@ const Sidebar = () => {
               </div>
               <div
                 className={cn(
-                  "cursor-pointer rounded-lg p-2 transition-all duration-500 hover:bg-background-secondary",
-                  !isExpanded && "translate-x-[200%] rotate-180",
+                  "cursor-pointer rounded-lg p-2 transition-opacity duration-500 hover:bg-background-secondary",
+                  state !== "expanded"
+                    ? "pointer-events-none opacity-0"
+                    : "opacity-100",
                 )}
-                onClick={() => setIsExpanded(!isExpanded)}
+                onClick={toggleSidebar}
               >
                 <PanelLeft className="size-4" />
               </div>

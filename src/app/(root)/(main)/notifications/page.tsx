@@ -49,7 +49,7 @@ export default function NotificationsPage() {
   console.log("notifications", data);
 
   return (
-    <ResizablePanelGroup direction="horizontal">
+    <ResizablePanelGroup direction="horizontal" className="border-t">
       <ResizablePanel minSize={30}>
         <Tabs defaultValue="all">
           <div className="flex items-center px-4 py-2">
