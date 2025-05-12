@@ -93,15 +93,15 @@ export default function ProjectOverview() {
     },
     low: {
       label: "Low",
-      color: "hsl(var(--green-500))",
+      color: "hsl(var(--chart-3))",
     },
     medium: {
       label: "Medium",
-      color: "hsl(var(--yellow-500))",
+      color: "hsl(var(--chart-4))",
     },
     high: {
       label: "High",
-      color: "hsl(var(--red-500))",
+      color: "hsl(var(--chart-5))",
     },
   } satisfies ChartConfig;
 
@@ -156,9 +156,7 @@ export default function ProjectOverview() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className={`text-3xl font-bold text-${TODO_COLOR}`}>
-              {todoTasks}
-            </div>
+            <div className={`text-3xl font-bold`}>{todoTasks}</div>
             <p className="mt-1 text-xs text-muted-foreground">
               {totalTasks > 0
                 ? `${Math.round((todoTasks / totalTasks) * 100)}% of all tasks`
@@ -184,9 +182,7 @@ export default function ProjectOverview() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className={`text-3xl font-bold text-${IN_PROGRESS_COLOR}`}>
-              {inProgressTasks}
-            </div>
+            <div className={`text-3xl font-bold`}>{inProgressTasks}</div>
             <p className="mt-1 text-xs text-muted-foreground">
               {totalTasks > 0
                 ? `${Math.round((inProgressTasks / totalTasks) * 100)}% of all tasks`
@@ -212,9 +208,7 @@ export default function ProjectOverview() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className={`text-3xl font-bold text-${DONE_COLOR}`}>
-              {completedTasks}
-            </div>
+            <div className={`text-3xl font-bold`}>{completedTasks}</div>
             <p className="mt-1 text-xs text-muted-foreground">
               {totalTasks > 0
                 ? `${Math.round((completedTasks / totalTasks) * 100)}% of all tasks`
@@ -246,13 +240,8 @@ export default function ProjectOverview() {
             </div>
             <Progress
               value={completionPercentage}
-              indicatorColor={
-                completionPercentage <= 25
-                  ? "bg-red-500"
-                  : completionPercentage <= 75
-                    ? "bg-orange-500"
-                    : "bg-green-500"
-              }
+              indicatorColor="bg-foreground"
+              style={{ opacity: completionPercentage / 100 }}
               className="h-2"
             />
           </div>
@@ -261,7 +250,7 @@ export default function ProjectOverview() {
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {/* Task Status Distribution */}
+        {/* Task Status Distribution - Pie Chart */}
         <Card>
           <CardHeader>
             <CardTitle>Task Status Distribution</CardTitle>

@@ -116,10 +116,7 @@ export default function ProjectPage({
     <ProjectPageContext.Provider
       value={{ project, addTask, updateTask, deleteTask, deleteTasks }}
     >
-      <PaddingContainer className="space-y-6">
-        <Header>
-          <BreadCrumb paths={breadcrumbPaths} />
-        </Header>
+      <PaddingContainer className="space-y-6 pt-0">
         <div className="space-y-2">
           <h1 className="text-4xl">{name}</h1>
           {/* <p className="line-clamp-1 max-w-xl text-text-muted">

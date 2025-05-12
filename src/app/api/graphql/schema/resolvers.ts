@@ -38,7 +38,9 @@ export const resolvers = {
     updateUser,
     verifyUser,
     createProject,
+    updateProject,
     deleteProject,
+    deleteProjects,
     createTask,
     updateTask,
     deleteTask,
@@ -373,7 +375,7 @@ async function createProject(
     priority,
     color,
     picture,
-    dueDate,
+    due_date,
   }: {
     name: string;
     summary?: string;
@@ -381,7 +383,7 @@ async function createProject(
     priority: TaskPriority;
     color: string;
     picture?: string;
-    dueDate?: string;
+    due_date?: string;
   },
   context: ContextType,
 ) {
@@ -395,8 +397,43 @@ async function createProject(
       priority,
       color,
       picture,
-      due_date: dueDate ? new Date(dueDate) : undefined,
+      due_date: due_date ? new Date(due_date) : undefined,
     })
+    .returning();
+  return project[0];
+}
+
+async function updateProject(
+  _: any,
+  {
+    id,
+    name,
+    summary,
+    description,
+    color,
+    due_date,
+    picture,
+  }: {
+    id: string;
+    name?: string;
+    summary?: string;
+    description?: string;
+    color?: string;
+    due_date?: string;
+    picture?: string;
+  },
+) {
+  const project = await db
+    .update(projectTable)
+    .set({
+      name,
+      summary,
+      description,
+      color,
+      due_date: due_date ? new Date(due_date) : undefined,
+      picture,
+    })
+    .where(eq(projectTable.id, id))
     .returning();
   return project[0];
 }
@@ -409,6 +446,14 @@ async function deleteProject(_: any, { id }: { id: string }) {
   return project[0];
 }
 
+async function deleteProjects(_: any, { ids }: { ids: string[] }) {
+  const projects = await db
+    .delete(projectTable)
+    .where(inArray(projectTable.id, ids))
+    .returning();
+  return projects;
+}
+
 /* Tasks */
 
 async function createTask(
@@ -419,7 +464,7 @@ async function createTask(
     status: TaskStatus;
     priority: TaskPriority;
     labels: string[];
-    dueDate?: string;
+    due_date?: string;
     projectId: string;
   },
   context: ContextType,
@@ -432,7 +477,7 @@ async function createTask(
     .insert(taskTable)
     .values({
       ...task,
-      due_date: task.dueDate ? new Date(task.dueDate) : undefined,
+      due_date: task.due_date ? new Date(task.due_date) : undefined,
       user_id: userId,
       project_id: task.projectId,
     })
@@ -483,7 +528,7 @@ async function createEvent(
     description?: string;
     start: string;
     end: string;
-    allDay: boolean;
+    all_day: boolean;
     color: string;
     location?: string;
   },
@@ -509,7 +554,7 @@ async function updateEvent(
     description?: string;
     start?: string;
     end?: string;
-    allDay?: boolean;
+    all_day?: boolean;
     color?: string;
     location?: string;
   },
@@ -557,13 +602,13 @@ async function updateNotification(
     title,
     message,
     category,
-    isRead,
+    is_read,
   }: {
     id: string;
     title: string;
     message: string;
     category: NotificationCategory;
-    isRead: boolean;
+    is_read: boolean;
   },
   context: ContextType,
 ) {
@@ -573,7 +618,7 @@ async function updateNotification(
       title,
       message,
       category,
-      isRead,
+      is_read,
       user_id: context.userId,
     })
     .where(eq(notificationTable.id, id))

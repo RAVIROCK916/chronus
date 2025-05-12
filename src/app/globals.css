@@ -309,6 +309,11 @@
     --rose-900: 341.5 75.5% 30.4%;
     --rose-950: 343.1 87.7% 15.9%;
 
+    /* Status colors */
+    --color-status-todo: 43.3 96.4% 56.3%;
+    --color-status-in-progress: 198.4 93.2% 59.6%;
+    --color-status-done: 158.1 64.4% 51.6%;
+
     /* Priority colors */
     --color-priority-low: 214 95% 93%;
     --color-priority-medium: 55 97% 88%;

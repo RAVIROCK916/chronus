@@ -37,7 +37,7 @@ export type Task = {
   status: TaskStatus;
   priority: TaskPriority;
   labels?: string[];
-  dueDate?: string;
+  due_date?: string;
   comments?: TaskComment[];
   project: Project;
   user: User;
@@ -51,7 +51,7 @@ export type Event = {
   title: string;
   start: string;
   end: string;
-  allDay: boolean;
+  all_day: boolean;
   created_at: string;
   updated_at: string;
 };
@@ -63,6 +63,6 @@ export type Notification = {
   title: string;
   message: string;
   category: NotificationCategory;
-  isRead: boolean;
+  is_read: boolean;
   created_at: string;
 };

@@ -20,12 +20,12 @@ import {
 import { useTasksContext } from "@/state/context";
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  todo: {
+    label: "To Do",
     color: "hsl(var(--chart-1))",
   },
-  mobile: {
-    label: "Mobile",
+  done: {
+    label: "Done",
     color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig;
@@ -41,25 +41,25 @@ export function TasksBarChart() {
         if (!acc[month]) {
           acc[month] = {
             label: month,
-            desktop: 0,
-            mobile: 0,
+            todo: 0,
+            done: 0,
           };
         }
-        acc[month].desktop += 1;
+        acc[month].todo += 1;
         if (task.status === "DONE") {
-          acc[month].mobile += 1;
+          acc[month].done += 1;
         }
         return acc;
       },
-      {} as Record<string, { label: string; desktop: number; mobile: number }>,
+      {} as Record<string, { label: string; todo: number; done: number }>,
     ),
   );
 
   // Convert to chart format
   const chartData = last7Months.map((month) => ({
     month: month.label,
-    desktop: month.desktop,
-    mobile: month.mobile,
+    todo: month.todo,
+    done: month.done,
   }));
 
   return (
@@ -86,8 +86,8 @@ export function TasksBarChart() {
               cursor={false}
               content={<ChartTooltipContent indicator="dashed" />}
             />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-            <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
+            <Bar dataKey="todo" fill="var(--color-todo)" radius={4} />
+            <Bar dataKey="done" fill="var(--color-done)" radius={4} />
           </BarChart>
         </ChartContainer>
       </CardContent>

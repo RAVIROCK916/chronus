@@ -47,6 +47,13 @@ const config: Config = {
           muted: "hsl(var(--background-muted))",
           hover: "hsl(var(--background-hover))",
         },
+        status: {
+          todo: "hsl(var(--color-status-todo))",
+          in_progress: "hsl(var(--color-status-in-progress))",
+          done: "hsl(var(--color-status-done))",
+          blocked: "hsl(var(--color-status-blocked))",
+          review: "hsl(var(--color-status-review))",
+        },
         priority: {
           low: "hsl(var(--color-priority-low))",
           medium: "hsl(var(--color-priority-medium))",

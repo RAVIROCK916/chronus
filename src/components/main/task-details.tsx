@@ -26,7 +26,7 @@ export default function TaskDetails({ task }: TaskDetailsProps) {
       {/* <Separator /> */}
       <div className="space-y-2">
         <h6 className="text-sm">Comments</h6>
-        <Input placeholder="Add a comment" />
+        <Textarea placeholder="Add a comment" />
         {task.comments && (
           <div className="space-y-4">
             {task.comments.map((comment) => (

@@ -27,7 +27,7 @@ export default function BreadCrumb({ paths }: BreadCrumbProps) {
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem key="home">
-          <BreadcrumbLink href="/dashboard">Home</BreadcrumbLink>
+          <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         {paths.map((path, index) => {

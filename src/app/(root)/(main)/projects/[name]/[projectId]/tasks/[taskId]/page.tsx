@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Calendar } from "@/components/ui/calendar";
 import DatePicker from "@/components/shared/date-picker";
+import PaddingContainer from "@/components/shared/padding-container";
 
 type TaskPageProps = {
   params: { projectId: string; taskId: string };
@@ -70,8 +71,8 @@ export default function TaskPage({ params }: TaskPageProps) {
   }
 
   return (
-    <div className="mx-auto max-w-screen-lg space-y-6 pr-4 pt-4">
-      <BreadCrumb paths={breadcrumbs} />
+    <PaddingContainer className="mx-auto space-y-6">
+      {/* <BreadCrumb paths={breadcrumbs} /> */}
       {task && (
         <div className="flex justify-between gap-6">
           <div className="min-w-[600px]">
@@ -140,6 +141,6 @@ export default function TaskPage({ params }: TaskPageProps) {
           </div>
         </div>
       )}
-    </div>
+    </PaddingContainer>
   );
 }

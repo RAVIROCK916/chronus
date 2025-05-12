@@ -15,8 +15,8 @@ export const GET_DASHBOARD_QUERY = gql`
         labels
         due_date
         created_at
-				updated_at
-				completed_at
+        updated_at
+        completed_at
       }
     }
     lastWeekTasks {
@@ -36,7 +36,7 @@ export const GET_DASHBOARD_QUERY = gql`
       description
       start
       end
-      allDay
+      all_day
       color
       location
       created_at

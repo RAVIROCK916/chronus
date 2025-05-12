@@ -136,7 +136,7 @@ async function main() {
           description: `Description for event ${i + 1}`,
           start,
           end,
-          allDay: [true, false][Math.floor(Math.random() * 2)],
+          all_day: [true, false][Math.floor(Math.random() * 2)],
           color: ["sky", "amber", "rose"][Math.floor(Math.random() * 3)],
           location: ["Home", "Work", "School"][Math.floor(Math.random() * 3)],
           user_id: user.id,
@@ -154,7 +154,7 @@ async function main() {
           category: (["general", "reminder"] as const)[
             Math.floor(Math.random() * 2)
           ],
-          isRead: [true, false][Math.floor(Math.random() * 2)],
+          is_read: [true, false][Math.floor(Math.random() * 2)],
           user_id: user.id,
           created_at: new Date(
             Date.now() - Math.floor(Math.random() * 10) * 24 * 60 * 60 * 1000,

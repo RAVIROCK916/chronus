@@ -6,7 +6,7 @@ const EVENT_REQUEST = `
 	description
 	start
 	end
-	allDay
+	all_day
 	color
 	location
 `;
@@ -20,16 +20,16 @@ export const GET_EVENTS = gql`
 `;
 
 export const CREATE_EVENT = gql`
-	mutation createEvent($title: String!, $description: String, $start: String!, $end: String!, $allDay: Boolean!, $color: String!, $location: String) {
-		createEvent(title: $title, description: $description, start: $start, end: $end, allDay: $allDay, color: $color, location: $location) {
+	mutation createEvent($title: String!, $description: String, $start: String!, $end: String!, $all_day: Boolean!, $color: String!, $location: String) {
+		createEvent(title: $title, description: $description, start: $start, end: $end, all_day: $all_day, color: $color, location: $location) {
 			${EVENT_REQUEST}
 		}
 	}
 `;
 
 export const UPDATE_EVENT = gql`
-	mutation updateEvent($id: ID!, $title: String, $description: String, $start: String, $end: String, $allDay: Boolean, $color: String, $location: String) {
-		updateEvent(id: $id, title: $title, description: $description, start: $start, end: $end, allDay: $allDay, color: $color, location: $location) {
+	mutation updateEvent($id: ID!, $title: String, $description: String, $start: String, $end: String, $all_day: Boolean, $color: String, $location: String) {
+		updateEvent(id: $id, title: $title, description: $description, start: $start, end: $end, all_day: $all_day, color: $color, location: $location) {
 			${EVENT_REQUEST}
 		}
 	}

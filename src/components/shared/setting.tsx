@@ -23,7 +23,7 @@ import {
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CircleCheck } from "lucide-react";
+import { CircleCheck, CircleCheckBig } from "lucide-react";
 
 function Root({ children }: { children: React.ReactNode }) {
   return (
@@ -124,7 +124,9 @@ function SettingInput({
                   </FormControl>
                   <div className="text-sm text-muted-foreground transition">
                     {saving && <Loader />}
-                    {saved && <CircleCheck size={16} />}
+                    {saved && (
+                      <CircleCheckBig size={16} className="text-status-done" />
+                    )}
                   </div>
                 </div>
                 <FormMessage />

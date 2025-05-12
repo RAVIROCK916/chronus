@@ -49,7 +49,7 @@ export default function NotificationsPage() {
   console.log("notifications", data);
 
   return (
-    <ResizablePanelGroup direction="horizontal" className="border-t">
+    <ResizablePanelGroup direction="horizontal" className="mt-[1.5px] border-t">
       <ResizablePanel minSize={30}>
         <Tabs defaultValue="all">
           <div className="flex items-center px-4 py-2">
@@ -65,7 +65,7 @@ export default function NotificationsPage() {
           </TabsContent>
           <TabsContent value="unread">
             <NotificationList
-              items={notifications.filter((val) => !val.isRead)}
+              items={notifications.filter((val) => !val.is_read)}
             />
           </TabsContent>
         </Tabs>

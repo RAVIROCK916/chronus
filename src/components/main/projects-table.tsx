@@ -76,87 +76,9 @@ import {
 import { Project as ProjectType } from "@/types";
 import Link from "next/link";
 import { useId } from "react";
-
-const columns: ColumnDef<ProjectType>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all rows"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    size: 28,
-    enableSorting: false,
-  },
-  {
-    header: "Name",
-    accessorKey: "name",
-    cell: ({ row }) => (
-      <div className="flex items-center gap-2 font-medium text-foreground">
-        <span
-          className={cn(
-            "inline-block size-4 rounded-full",
-            `bg-${row.original.color}-400`,
-          )}
-        ></span>
-        <Link href={`/projects/${row.getValue("name")}/${row.original.id}`}>
-          {row.getValue("name")}
-        </Link>
-      </div>
-    ),
-    size: 180,
-  },
-  {
-    header: "Summary",
-    accessorKey: "summary",
-    cell: ({ row }) => (
-      <div className="line-clamp-1">{row.getValue("summary") || "--"}</div>
-    ),
-    size: 200,
-  },
-  {
-    header: "Description",
-    accessorKey: "description",
-    cell: ({ row }) => (
-      <div className="line-clamp-1">{row.getValue("description") || "--"}</div>
-    ),
-    size: 200,
-  },
-  {
-    header: "Due Date",
-    accessorKey: "due_date",
-    cell: ({ row }) => (
-      <span>
-        {row.getValue("due_date") ? (
-          new Date(Number(row.getValue("due_date"))).toLocaleDateString()
-        ) : (
-          <CalendarPlus size={16} strokeWidth={1.75} />
-        )}
-      </span>
-    ),
-  },
-  {
-    header: "Created At",
-    accessorKey: "created_at",
-    cell: ({ row }) => (
-      <span>
-        {new Date(Number(row.getValue("created_at"))).toLocaleDateString()}
-      </span>
-    ),
-  },
-];
+import DatePicker from "../shared/date-picker";
+import { useMutation } from "@apollo/client";
+import { UPDATE_PROJECT } from "@/lib/apollo/client/project";
 
 type ProjectsTableProps = {
   projects: ProjectType[];
@@ -165,7 +87,106 @@ type ProjectsTableProps = {
 export default function ProjectsTable({ projects }: ProjectsTableProps) {
   const id = useId();
 
+  const [updateProject] = useMutation(UPDATE_PROJECT);
+
   const pageSize = 10;
+  const columns: ColumnDef<ProjectType>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all rows"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      size: 28,
+      enableSorting: false,
+    },
+    {
+      header: "Name",
+      accessorKey: "name",
+      cell: ({ row }) => (
+        <div className="flex items-center gap-2 font-medium text-foreground">
+          <span
+            className={cn(
+              "inline-block size-4 rounded-full",
+              `bg-${row.original.color}-400`,
+            )}
+          ></span>
+          <Link href={`/projects/${row.getValue("name")}/${row.original.id}`}>
+            {row.getValue("name")}
+          </Link>
+        </div>
+      ),
+      size: 180,
+    },
+    {
+      header: "Summary",
+      accessorKey: "summary",
+      cell: ({ row }) => (
+        <div className="line-clamp-1">{row.getValue("summary") || "--"}</div>
+      ),
+      size: 200,
+    },
+    {
+      header: "Description",
+      accessorKey: "description",
+      cell: ({ row }) => (
+        <div className="line-clamp-1">
+          {row.getValue("description") || "--"}
+        </div>
+      ),
+      size: 200,
+    },
+    {
+      header: "Due Date",
+      accessorKey: "due_date",
+      cell: ({ row }) => (
+        <span>
+          {row.getValue("due_date") ? (
+            new Date(Number(row.getValue("due_date"))).toLocaleDateString()
+          ) : (
+            <DatePicker
+              onChange={(date) =>
+                updateProject({
+                  variables: {
+                    id: row.original.id,
+                    due_date: date,
+                  },
+                })
+              }
+            >
+              <CalendarPlus
+                size={16}
+                strokeWidth={1.75}
+                className="cursor-pointer transition-colors hover:text-foreground"
+              />
+            </DatePicker>
+          )}
+        </span>
+      ),
+    },
+    {
+      header: "Created At",
+      accessorKey: "created_at",
+      cell: ({ row }) => (
+        <span>
+          {new Date(Number(row.getValue("created_at"))).toLocaleDateString()}
+        </span>
+      ),
+    },
+  ];
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});

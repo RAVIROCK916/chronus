@@ -16,7 +16,7 @@ const Header = ({ children }: HeaderProps) => {
   const isCollapsed = state !== "expanded";
 
   return (
-    <header className="sticky top-0 z-10 h-16 bg-background">
+    <header className="sticky top-0 z-10 h-16 bg-background/80 backdrop-blur-md">
       <PaddingContainer className="flex items-center">
         <div>
           <button
@@ -34,12 +34,13 @@ const Header = ({ children }: HeaderProps) => {
           <div className="flex items-center gap-x-8">
             <Searchbar className="w-80" />
             <div className="flex gap-x-6 *:cursor-pointer *:rounded">
-              <div>
+              {/* // TODO: Add a popup when clicked on the notifications icon */}
+              <Link href="/notifications">
                 <Bell
                   size={18}
                   className="text-text-muted transition-colors hover:text-foreground"
                 />
-              </div>
+              </Link>
               <Link href="/settings">
                 <SettingsIcon
                   size={18}

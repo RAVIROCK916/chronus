@@ -79,7 +79,7 @@ export const eventTable = pgTable("events", {
   description: text("description"),
   start: timestamp("start_time").notNull(),
   end: timestamp("end_time").notNull(),
-  allDay: boolean("all_day").default(false).notNull(),
+  all_day: boolean("all_day").default(false).notNull(),
   color: text("color").default("sky"),
   location: text("location"),
   user_id: uuid("user_id")
@@ -97,7 +97,7 @@ export const notificationTable = pgTable("notifications", {
   title: text("title").notNull(),
   message: text("message").notNull(),
   category: text("type").$type<"general" | "reminder">().default("general"),
-  isRead: boolean("is_read").default(false).notNull(),
+  is_read: boolean("is_read").default(false).notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
 });
 

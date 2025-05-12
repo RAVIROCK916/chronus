@@ -27,15 +27,16 @@ const SidebarItem = ({ name, href, Icon }: SidebarItemProps) => {
   return (
     <div
       className={cn(
-        "rounded transition-colors hover:bg-background-hover",
-        isActive && "hover:bg-current/90 bg-background-tertiary",
+        "rounded transition-colors hover:bg-background-secondary dark:hover:bg-background-tertiary",
+        isActive &&
+          "hover:bg-current/90 bg-background-tertiary dark:bg-foreground dark:hover:bg-foreground/90",
       )}
     >
       <Link
         href={href}
         className={cn(
-          "flex items-center gap-x-2.5 px-3 py-2 text-sm text-text-tertiary transition-colors",
-          isActive && "text-primary",
+          "flex items-center gap-x-2.5 px-3 py-2 text-sm text-text-secondary transition-colors",
+          isActive && "text-primary dark:text-background",
         )}
       >
         <Icon size={18} aria-hidden="true" />
@@ -52,7 +53,7 @@ const Sidebar = () => {
   return (
     <div
       className={cn(
-        "sticky top-0 hidden h-screen w-64 space-y-4 border-r py-4 transition-transform duration-500 xl:block",
+        "sticky top-0 hidden h-screen w-64 space-y-4 border-r bg-background-hover py-4 transition-transform duration-500 xl:block",
         state === "expanded" ? "translate-x-0" : "-translate-x-full",
       )}
     >

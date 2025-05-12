@@ -26,6 +26,7 @@ export const typeDefs = gql`
     summary: String
     description: String
     color: String!
+    due_date: String
     picture: String
     created_at: String!
     updated_at: String!
@@ -35,8 +36,6 @@ export const typeDefs = gql`
 
   type Task {
     id: ID!
-    project_id: ID!
-    user_id: ID!
     title: String!
     description: String
     status: String!
@@ -47,6 +46,8 @@ export const typeDefs = gql`
     created_at: String!
     updated_at: String!
     completed_at: String
+    project_id: ID!
+    user_id: ID!
     project: Project
   }
 
@@ -64,7 +65,7 @@ export const typeDefs = gql`
     description: String
     start: String!
     end: String!
-    allDay: Boolean!
+    all_day: Boolean!
     color: String!
     location: String
     created_at: String!
@@ -76,7 +77,7 @@ export const typeDefs = gql`
     title: String!
     message: String!
     category: String!
-    isRead: Boolean!
+    is_read: Boolean!
     created_at: String!
   }
 
@@ -127,13 +128,23 @@ export const typeDefs = gql`
       description: String
       color: String!
     ): Project
+    updateProject(
+      id: ID!
+      name: String
+      summary: String
+      description: String
+      color: String
+      due_date: String
+      picture: String
+    ): Project
     deleteProject(id: ID!): Project
+    deleteProjects(ids: [ID!]!): [Project]
     createTask(
       title: String!
       description: String
       status: String
       priority: String
-      dueDate: String
+      due_date: String
       labels: [String]
       projectId: ID!
     ): Task
@@ -152,7 +163,7 @@ export const typeDefs = gql`
       description: String
       start: String!
       end: String!
-      allDay: Boolean!
+      all_day: Boolean!
       color: String!
       location: String
     ): Event
@@ -162,7 +173,7 @@ export const typeDefs = gql`
       description: String
       start: String
       end: String
-      allDay: Boolean
+      all_day: Boolean
       color: String
       location: String
     ): Event
@@ -171,14 +182,14 @@ export const typeDefs = gql`
       title: String!
       message: String!
       category: String!
-      isRead: Boolean!
+      is_read: Boolean!
     ): Notification
     updateNotification(
       id: ID!
       title: String
       message: String
       category: String
-      isRead: Boolean
+      is_read: Boolean
     ): Notification
     deleteNotification(id: ID!): Notification
   }

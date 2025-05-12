@@ -1,8 +1,6 @@
 "use client";
 
 import Setting from "@/components/shared/setting";
-import ThemeSelect from "@/components/shared/theme-select";
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useMutation, useQuery } from "@apollo/client";
@@ -20,10 +18,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const tabs = [
   { name: "Account", href: "#account" },
-  { name: "Billing", href: "#billing" },
-  { name: "Integrations", href: "#integrations" },
-  { name: "Appearance", href: "#appearance" },
   { name: "Accessibility", href: "#accessibility" },
+  { name: "Integrations", href: "#integrations" },
+  { name: "Preferences", href: "#preferences" },
 ];
 
 export default function SettingsPage() {
@@ -35,7 +32,7 @@ export default function SettingsPage() {
       <UserContext.Provider value={data?.currentUser}>
         <Tabs defaultValue="Account" className="items-center bg-transparent">
           <div className="space-y-6">
-            <div className="px-10 pt-6">
+            <div className="px-10">
               <h1 className="text-4xl">Settings</h1>
             </div>
             <TabsList className="h-auto w-full justify-start gap-4 rounded-none border-b bg-transparent py-1 pl-10 pr-0 text-foreground">
@@ -53,22 +50,17 @@ export default function SettingsPage() {
           <TabsContent value="Account">
             <AccountSettingsTab />
           </TabsContent>
-          <TabsContent value="Billing">
+          <TabsContent value="Accessibility">
             <p className="p-4 text-center text-xs text-muted-foreground">
-              Content for Tab 4
+              Content for Tab 7
             </p>
+          </TabsContent>
+          <TabsContent value="Preferences">
+            <PreferencesSettingsTab />
           </TabsContent>
           <TabsContent value="Integrations">
             <p className="p-4 text-center text-xs text-muted-foreground">
               Content for Tab 5
-            </p>
-          </TabsContent>
-          <TabsContent value="Appearance">
-            <AppearanceSettingsTab />
-          </TabsContent>
-          <TabsContent value="Accessibility">
-            <p className="p-4 text-center text-xs text-muted-foreground">
-              Content for Tab 7
             </p>
           </TabsContent>
         </Tabs>
@@ -173,7 +165,7 @@ function AccountSettingsTab() {
   );
 }
 
-function AppearanceSettingsTab() {
+function PreferencesSettingsTab() {
   const items = [
     { value: "light", label: "Light", image: "/ui-light.png" },
     { value: "dark", label: "Dark", image: "/ui-dark.png" },
@@ -261,6 +253,9 @@ export function SettingsSkeleton() {
         <TabsContent value="Account">
           <AccountSettingsTabSkeleton />
         </TabsContent>
+        <TabsContent value="Preferences">
+          <PreferencesSettingsTabSkeleton />
+        </TabsContent>
       </Tabs>
     </div>
   );
@@ -322,7 +317,7 @@ function AccountSettingsTabSkeleton() {
   );
 }
 
-function AppearanceSettingsTabSkeleton() {
+function PreferencesSettingsTabSkeleton() {
   return (
     <fieldset className="space-y-4">
       <div className="border-b px-10 py-6">

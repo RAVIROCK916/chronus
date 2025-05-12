@@ -23,6 +23,7 @@ export default function MainContent({
           state === "expanded" ? "xl:ml-0" : "xl:ml-[-16rem]", // 16rem = 64 (w-64 of sidebar)
         )}
       >
+        {/* //?: Render different content based on the page */}
         <Header>
           {/* {location === "/dashboard" ? (
             <p className="text-sm uppercase text-text-muted">

@@ -7,6 +7,7 @@ const PROJECT_REQUEST = `
 	color
 	description
 	picture
+	due_date
 	created_at
 	user {
 		id
@@ -50,8 +51,8 @@ export const CREATE_PROJECT = gql`
 `;
 
 export const UPDATE_PROJECT = gql`
-  mutation UpdateProject($id: ID!, $name: String, $description: String) {
-    updateProject(id: $id, name: $name, description: $description) {
+  mutation UpdateProject($id: ID!, $name: String, $summary: String, $description: String, $color: String, $due_date: String) {
+    updateProject(id: $id, name: $name, summary: $summary, description: $description, color: $color, due_date: $due_date) {
       ${PROJECT_REQUEST}
     }
   }
@@ -60,6 +61,14 @@ export const UPDATE_PROJECT = gql`
 export const DELETE_PROJECT = gql`
   mutation DeleteProject($id: ID!) {
     deleteProject(id: $id) {
+      id
+    }
+  }
+`;
+
+export const DELETE_PROJECTS = gql`
+  mutation DeleteProjects($ids: [ID!]!) {
+    deleteProjects(ids: $ids) {
       id
     }
   }
