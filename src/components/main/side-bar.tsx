@@ -1,7 +1,7 @@
 "use client";
 
-import Logo from "../shared/logo";
-import AddButton from "../shared/add-button";
+import Logo from "@/components/shared/logo";
+import AddButton from "@/components/shared/add-button";
 import { Separator } from "@/components/ui/separator";
 import Searchbar from "@/components/main/search-bar";
 import { sidebarItems } from "@/constants/data";
@@ -10,10 +10,11 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Command, LucideIcon, PanelLeft, Settings } from "lucide-react";
 import { IconType } from "react-icons/lib";
-import { NavUser } from "../shared/nav-user";
+import { NavUser } from "@/components/shared/nav-user";
 import { useSidebar } from "@/components/ui/sidebar";
 import { useSelector } from "react-redux";
 import { RootState } from "@/state/store";
+import { HighlightNotificationCard } from "@/components/main/highlight-notification-card";
 
 type SidebarItemProps = {
   name: string;
@@ -99,8 +100,8 @@ const Sidebar = () => {
             </div>
           </SideBarContainer>
         </div>
-        <div className="space-y-4">
-          <SideBarContainer className="space-y-1">
+        <SideBarContainer className="space-y-4">
+          <div className="space-y-1">
             {sidebarItems.bottom.map((item) => (
               <SidebarItem
                 key={item.name}
@@ -109,12 +110,13 @@ const Sidebar = () => {
                 Icon={item.icon}
               />
             ))}
-          </SideBarContainer>
+          </div>
+          <HighlightNotificationCard />
           <Separator />
           <SideBarContainer>
             <NavUser user={profile} />
           </SideBarContainer>
-        </div>
+        </SideBarContainer>
       </div>
     </div>
   );

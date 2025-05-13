@@ -23,7 +23,9 @@ const Header = ({ children }: HeaderProps) => {
             onClick={toggleSidebar}
             className={cn(
               "mr-4 rounded-lg p-2 transition-opacity duration-300 hover:bg-background-secondary",
-              isCollapsed ? "opacity-100" : "opacity-0 xl:pointer-events-none",
+              isCollapsed
+                ? "block opacity-100"
+                : "hidden opacity-0 xl:pointer-events-none",
             )}
           >
             <PanelLeft className={cn("size-4", isCollapsed && "rotate-180")} />

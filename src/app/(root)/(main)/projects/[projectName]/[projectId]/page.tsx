@@ -10,20 +10,19 @@ import { Project } from "@/types";
 import { DELETE_TASK, DELETE_TASKS } from "@/lib/apollo/client/task";
 import PaddingContainer from "@/components/shared/padding-container";
 import { ProjectPageContext } from "@/state/context";
-import Header from "@/components/main/header";
 import Loader from "@/components/shared/loader";
 
 type ProjectPageProps = {
   params: {
-    name: string;
+    projectName: string;
     projectId: string;
   };
 };
 
 export default function ProjectPage({
-  params: { name, projectId },
+  params: { projectName, projectId },
 }: ProjectPageProps) {
-  name = decodeURIComponent(name);
+  projectName = decodeURIComponent(projectName);
 
   const [project, setProject] = useState<Project | null>(null);
 
@@ -118,7 +117,7 @@ export default function ProjectPage({
     >
       <PaddingContainer className="space-y-6 pt-0">
         <div className="space-y-2">
-          <h1 className="text-4xl">{name}</h1>
+          <h1 className="text-4xl">{projectName}</h1>
           {/* <p className="line-clamp-1 max-w-xl text-text-muted">
             {data?.project?.description}
           </p> */}

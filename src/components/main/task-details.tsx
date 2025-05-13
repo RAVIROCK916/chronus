@@ -1,32 +1,40 @@
 "use client";
 
 import { Task } from "@/types";
-import { useState } from "react";
 import { Avatar } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { EditableText } from "@/components/shared/Editable-Text";
 
 type TaskDetailsProps = {
   task: Task;
 };
 
+const EditableInput = EditableText(Input);
+const EditableTextarea = EditableText(Textarea);
+
 export default function TaskDetails({ task }: TaskDetailsProps) {
   return (
     <div className="space-y-6">
-      <div className="space-y-4">
-        <Input
+      <div className="space-y-2">
+        <EditableInput
           value={task.title}
-          className="border-0 p-0 text-4xl shadow-none focus-visible:ring-0"
+          taskId={task.id}
+          fieldName="title"
+          className="border-0 px-4 py-6 text-3xl shadow-none transition-colors hover:bg-background-secondary focus-visible:ring-0"
         />
-        <Textarea
-          value={task.description}
-          className="min-h-48 resize-none border-0 p-0 text-base text-text-muted focus-visible:ring-0"
+        <EditableTextarea
+          value={task.description || ""}
+          taskId={task.id}
+          fieldName="description"
+          className="min-h-96 resize-none border-0 px-4 py-2 text-base text-text-tertiary transition-colors hover:bg-background-secondary focus-visible:ring-0"
+          style={{ fieldSizing: "content" }}
         />
       </div>
       {/* <Separator /> */}
       <div className="space-y-2">
         <h6 className="text-sm">Comments</h6>
-        <Textarea placeholder="Add a comment" />
+        <Textarea placeholder="Add a comment" className="h-28" />
         {task.comments && (
           <div className="space-y-4">
             {task.comments.map((comment) => (

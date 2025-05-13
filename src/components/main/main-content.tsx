@@ -5,6 +5,8 @@ import { useSidebar } from "@/components/ui/sidebar";
 import Sidebar from "@/components/main/side-bar";
 import Header from "@/components/main/header";
 import { usePathname } from "next/navigation";
+import BreadCrumb from "@/components/shared/breadcrumb";
+import { Icon } from "@phosphor-icons/react";
 
 export default function MainContent({
   children,
@@ -13,6 +15,78 @@ export default function MainContent({
 }) {
   const { state } = useSidebar();
   const location = usePathname();
+
+  const breadcrumbs: { name: string; url: string; icon?: Icon }[] = [];
+
+  function getHeaderContent() {
+    // Handle root routes
+    if (location === "/dashboard") {
+      return (
+        <p className="text-sm uppercase text-text-muted">
+          Good{" "}
+          <span className="text-3xl tracking-wider text-foreground">
+            {getTimeOfDay()}
+          </span>
+        </p>
+      );
+    }
+
+    // Handle tasks routes
+    if (location === "/tasks") {
+      return <BreadCrumb paths={breadcrumbs} />;
+    }
+
+    // Handle projects routes
+    if (location === "/projects") {
+      return <p className="text-xl">Projects</p>;
+    }
+
+    if (location.match(/^\/projects\/[^/]+\/[^/]+$/)) {
+      const projectName = decodeURIComponent(location.split("/")[2]);
+      console.log("projectName", projectName);
+      breadcrumbs.push({
+        name: projectName,
+        url: `/projects/${projectName}`,
+      });
+      return <BreadCrumb paths={breadcrumbs} />;
+    }
+
+    if (location.match(/^\/projects\/[^/]+\/[^/]+\/tasks\/[^/]+\/[^/]+$/)) {
+      const projectName = decodeURIComponent(location.split("/")[2]);
+      const projectId = decodeURIComponent(location.split("/")[3]);
+      const taskName = decodeURIComponent(location.split("/")[5]);
+      const taskId = decodeURIComponent(location.split("/")[6]);
+
+      console.log("projectName", projectName);
+      breadcrumbs.push({
+        name: projectName,
+        url: `/projects/${projectName}/${projectId}`,
+      });
+      breadcrumbs.push({
+        name: taskName,
+        url: `/projects/${projectName}/tasks/${taskName}/${taskId}`,
+      });
+      return <BreadCrumb paths={breadcrumbs} />;
+    }
+
+    // Handle notifications route
+    if (location === "/notifications") {
+      return <p className="text-lg font-semibold">Notifications</p>;
+    }
+
+    // Handle calendar route
+    if (location === "/calendar") {
+      return <p className="text-lg font-semibold">Calendar</p>;
+    }
+
+    // Handle settings route
+    if (location === "/settings") {
+      return <p className="text-lg font-semibold">Settings</p>;
+    }
+
+    // Default case
+    return null;
+  }
 
   return (
     <div className="flex w-screen">
@@ -24,16 +98,7 @@ export default function MainContent({
         )}
       >
         {/* //?: Render different content based on the page */}
-        <Header>
-          {/* {location === "/dashboard" ? (
-            <p className="text-sm uppercase text-text-muted">
-              Good{" "}
-              <span className="text-3xl tracking-wider text-foreground">
-                {getTimeOfDay()}
-              </span>
-            </p>
-          ) : null} */}
-        </Header>
+        <Header>{getHeaderContent()}</Header>
         <main className="flex-1 overflow-auto">{children}</main>
       </div>
     </div>
