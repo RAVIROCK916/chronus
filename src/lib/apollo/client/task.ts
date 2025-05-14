@@ -22,16 +22,16 @@ export const GET_TASK = gql`
 `;
 
 export const CREATE_TASK = gql`
-	mutation createTask($title: String!, $description: String, $status: String, $priority: String, $due_date: String, $labels: [String], $projectId: ID!) {
-		createTask(title: $title, description: $description, status: $status, priority: $priority, due_date: $due_date, labels: $labels, projectId: $projectId) {
+	mutation createTask($title: String!, $description: String, $status: String, $priority: String, $labels: [String], $due_date: String, $projectId: ID!) {
+		createTask(title: $title, description: $description, status: $status, priority: $priority, labels: $labels, due_date: $due_date, projectId: $projectId) {
 			${TASK_REQUEST}
 		}
 	}
 `;
 
 export const UPDATE_TASK = gql`
-	mutation updateTask($id: ID!, $title: String, $description: String, $status: String, $priority: String, $labels: [String]) {
-		updateTask(id: $id, title: $title, description: $description, status: $status, priority: $priority, labels: $labels) {
+	mutation updateTask($id: ID!, $title: String, $description: String, $status: String, $priority: String, $labels: [String], $due_date: String) {
+		updateTask(id: $id, title: $title, description: $description, status: $status, priority: $priority, labels: $labels, due_date: $due_date) {
 			${TASK_REQUEST}
 		}
 	}

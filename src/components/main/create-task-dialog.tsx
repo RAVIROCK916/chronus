@@ -102,7 +102,7 @@ export default function CreateTaskDialog({
     defaultValues: {
       title: task?.title || "",
       description: task?.description || "",
-      dueDate: task?.dueDate ? new Date(task?.dueDate) : undefined,
+      due_date: task?.due_date ? new Date(task?.due_date) : undefined,
       priority: task?.priority || "LOW",
       status: task?.status || "TODO",
       labels: task?.labels || [],
@@ -270,7 +270,7 @@ export default function CreateTaskDialog({
                 </div>
                 <FormField
                   control={form.control}
-                  name="dueDate"
+                  name="due_date"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
                       <FormLabel htmlFor={`${id}-due-date`}>
@@ -354,7 +354,7 @@ export const EditTaskDialog = ({ task, handleClose }: EditTaskDialogProps) => {
     defaultValues: {
       title: task.title || "",
       description: task.description || "",
-      dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
+      due_date: task.due_date ? new Date(task.due_date) : undefined,
       priority: task.priority || "LOW",
       status: task.status || "TODO",
       labels: task.labels || [],
@@ -529,7 +529,7 @@ export const EditTaskDialog = ({ task, handleClose }: EditTaskDialogProps) => {
               </div>
               <FormField
                 control={form.control}
-                name="dueDate"
+                name="due_date"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel htmlFor={`${id}-due-date`}>

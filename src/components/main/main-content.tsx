@@ -43,7 +43,6 @@ export default function MainContent({
 
     if (location.match(/^\/projects\/[^/]+\/[^/]+$/)) {
       const projectName = decodeURIComponent(location.split("/")[2]);
-      console.log("projectName", projectName);
       breadcrumbs.push({
         name: projectName,
         url: `/projects/${projectName}`,
@@ -57,7 +56,6 @@ export default function MainContent({
       const taskName = decodeURIComponent(location.split("/")[5]);
       const taskId = decodeURIComponent(location.split("/")[6]);
 
-      console.log("projectName", projectName);
       breadcrumbs.push({
         name: projectName,
         url: `/projects/${projectName}/${projectId}`,

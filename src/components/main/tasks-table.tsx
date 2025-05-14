@@ -236,10 +236,10 @@ const columns: ColumnDef<Task>[] = [
     header: "Due Date",
     accessorKey: "due_date",
     cell: ({ row }) => {
-      const dueDate = row.getValue("due_date") as string;
+      const due_date = row.getValue("due_date") as string;
       return (
         <div className="text-sm text-muted-foreground">
-          {dueDate ? new Date(Number(dueDate)).toLocaleDateString() : "N/A"}
+          {due_date ? new Date(Number(due_date)).toLocaleDateString() : "N/A"}
         </div>
       );
     },

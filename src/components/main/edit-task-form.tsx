@@ -37,7 +37,7 @@ function Root({ taskId, children }: EditTaskDialogProps) {
     defaultValues: {
       title: task.title || "",
       description: task.description || "",
-      dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
+      due_date: task.due_date ? new Date(task.due_date) : undefined,
       priority: task.priority || "LOW",
       status: task.status || "TODO",
       labels: task.labels || [],

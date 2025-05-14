@@ -494,12 +494,20 @@ async function updateTask(
     status?: TaskStatus;
     priority?: TaskPriority;
     labels?: string[];
+    due_date?: string;
   },
 ) {
-  const { id, title, description, status, priority, labels } = task;
+  const { id, title, description, status, priority, labels, due_date } = task;
   const updatedTask = await db
     .update(taskTable)
-    .set({ title, description, status, priority, labels })
+    .set({
+      title,
+      description,
+      status,
+      priority,
+      labels,
+      due_date: due_date ? new Date(due_date) : undefined,
+    })
     .where(eq(taskTable.id, id))
     .returning();
   return updatedTask[0];

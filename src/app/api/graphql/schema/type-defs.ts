@@ -155,6 +155,7 @@ export const typeDefs = gql`
       status: String
       priority: String
       labels: [String]
+      due_date: String
     ): Task
     deleteTask(id: ID!): Task
     deleteTasks(ids: [ID!]!): [Task]

@@ -13,6 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { FaRegCommentAlt } from "react-icons/fa";
 import Link from "next/link";
 import { useProjectPageContext } from "@/state/context";
+import { toast } from "sonner";
 // import { useProject } from "./kanban-board";
 
 type TaskCardProps = {
@@ -86,11 +87,14 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
             <SheetTrigger onClick={(e) => e.stopPropagation()}>
               <CiEdit
                 size="16"
-                // onClick={(e) => e.stopPropagation()}
                 className="text-neutral-500 outline-none transition-all hover:text-neutral-200"
               />
             </SheetTrigger>
-            <TaskSheet task={task} onClose={() => setIsSheetOpen(false)} />
+            <TaskSheet
+              task={task}
+              onSuccess={() => toast.success("Task updated successfully")}
+              onClose={() => setIsSheetOpen(false)}
+            />
           </Sheet>
           <DotsSixVertical
             {...attributes}

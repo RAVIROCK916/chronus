@@ -27,7 +27,7 @@ type TaskSheetProps = {
     status?: string;
     priority?: string;
     labels?: string[];
-    dueDate?: string;
+    due_date?: string;
   };
   projectId?: string;
   onClose: () => void;
@@ -47,10 +47,13 @@ export default function TaskSheet({
   const status = task?.status || "TODO";
   const priority = task?.priority || "LOW";
   const labels = task?.labels;
-  const dueDate = task?.dueDate || null;
+  const due_date = task?.due_date || null;
 
-  const { addTask: createTaskInContext, updateTask: updateTaskInContext } =
-    useProjectPageContext();
+  const {
+    project,
+    addTask: createTaskInContext,
+    updateTask: updateTaskInContext,
+  } = useProjectPageContext();
 
   // Initialize state with task data or empty values
   const [formData, setFormData] = useState<{
@@ -59,14 +62,14 @@ export default function TaskSheet({
     status: string;
     priority: string;
     labels?: string[];
-    dueDate: string | null;
+    due_date: string | null;
   }>({
     title,
     description,
     status,
     priority,
     labels,
-    dueDate,
+    due_date,
   });
 
   // Update form data when task changes
@@ -78,7 +81,7 @@ export default function TaskSheet({
         status,
         priority,
         labels,
-        dueDate,
+        due_date,
       });
     }
   }, [task]);
@@ -100,7 +103,6 @@ export default function TaskSheet({
   });
 
   const handleInputChange = (field: string, value: any) => {
-    console.log("handleInputChange", field, value);
     setFormData((prev) => ({
       ...prev,
       [field]: value,
@@ -118,7 +120,7 @@ export default function TaskSheet({
         status: formData.status,
         priority: formData.priority,
         labels: formData.labels,
-        dueDate: formData.dueDate,
+        due_date: formData.due_date,
       };
       updateTaskInContext(taskToUpdate);
       updateTask({
@@ -131,8 +133,8 @@ export default function TaskSheet({
         status: formData.status,
         priority: formData.priority,
         labels: formData.labels,
+        due_date: formData.due_date,
         projectId: projectId,
-        dueDate: formData.dueDate,
       };
       createTaskInContext(taskToCreate);
       createTask({
@@ -148,15 +150,15 @@ export default function TaskSheet({
     >
       {/* Header */}
       <SheetHeader className="px-6 py-4">
-        <SheetTitle className="text-sm font-medium">
-          {isEditMode ? "Edit Task" : "New Task"}
+        <SheetTitle className="text-sm font-normal text-text-muted">
+          {isEditMode ? "Edit Task" : `${project.name} / New task`}
         </SheetTitle>
       </SheetHeader>
       <Separator />
       <div className="space-y-4 px-6 py-4">
         {/* Task Name */}
         <div className="space-y-1">
-          <Label className="text-sm text-text-muted">Name</Label>
+          <Label className="text-sm">Name</Label>
           <Input
             value={formData.title}
             onChange={(e) => handleInputChange("title", e.target.value)}
@@ -165,7 +167,7 @@ export default function TaskSheet({
         </div>
         <div className="flex items-center justify-center gap-4">
           <div className="flex-1 space-y-1">
-            <Label className="text-sm text-text-muted">Status</Label>
+            <Label className="text-sm">Status</Label>
             <TaskStatusSelect
               id={task?.id}
               taskStatus={formData.status}
@@ -173,7 +175,7 @@ export default function TaskSheet({
             />
           </div>
           <div className="flex-1 space-y-1">
-            <Label className="text-sm text-text-muted">Priority</Label>
+            <Label className="text-sm">Priority</Label>
             <TaskPrioritySelect
               id={task?.id}
               taskPriority={formData.priority}
@@ -182,7 +184,7 @@ export default function TaskSheet({
           </div>
         </div>
         <div className="space-y-1">
-          <Label className="text-text-muted">Labels</Label>
+          <Label>Labels</Label>
           <TaskLabelInput
             labels={formData.labels || []}
             onChange={(labels) => handleInputChange("labels", labels)}
@@ -190,12 +192,17 @@ export default function TaskSheet({
         </div>
         {/* Due Date */}
         <div className="flex flex-col space-y-2">
-          <Label className="text-text-muted">Due Date</Label>
-          <DatePicker />
+          <Label>Due Date</Label>
+          <DatePicker
+            value={task?.due_date}
+            onChange={(date) =>
+              setFormData({ ...formData, due_date: date.toISOString() })
+            }
+          />
         </div>
         {/* Task Description */}
         <div className="space-y-1">
-          <Label className="text-text-muted">Description</Label>
+          <Label>Description</Label>
           {/* <TextEditor
             value={formData.description}
             onChange={(value) => handleInputChange("description", value)}

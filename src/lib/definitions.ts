@@ -52,5 +52,5 @@ export const createTaskFormSchema = z.object({
   status: z.string().default("todo"),
   priority: z.string().default("low"),
   labels: z.string().array().optional(),
-  dueDate: z.date().nullable().optional(),
+  due_date: z.date().nullable().optional(),
 });

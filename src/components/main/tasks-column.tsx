@@ -12,6 +12,7 @@ import TaskSheet from "../shared/task-sheet";
 import { cn } from "@/lib/utils";
 import { useProjectPageContext } from "@/state/context";
 import CreateTaskDialog from "./create-task-dialog";
+import { toast } from "sonner";
 
 type TaskColumnProps = {
   column: any;
@@ -62,7 +63,7 @@ export default function TasksColumn({
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <Sheet>
+            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
               <SheetTrigger>
                 <Plus size={16} strokeWidth={2} aria-hidden="true" />
               </SheetTrigger>
@@ -71,6 +72,7 @@ export default function TasksColumn({
                   status: column.id,
                 }}
                 projectId={project.id}
+                onSuccess={() => toast.success("Task created successfully")}
                 onClose={() => setIsSheetOpen(false)}
               />
             </Sheet>
