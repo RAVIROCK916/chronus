@@ -282,12 +282,12 @@ export default function ProjectsTable({ projects }: ProjectsTableProps) {
               type="text"
               aria-label="Filter by name or description"
             />
-            <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
+            <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 peer-disabled:opacity-50">
               <ListFilterIcon size={16} aria-hidden="true" />
             </div>
             {Boolean(table.getColumn("title")?.getFilterValue()) && (
               <button
-                className="absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-md text-muted-foreground/80 outline-none transition-[color,box-shadow] hover:text-foreground focus:z-10 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
+                className="absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-md outline-none transition-[color,box-shadow] hover:text-foreground focus:z-10 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
                 aria-label="Clear filter"
                 onClick={() => {
                   table.getColumn("title")?.setFilterValue("");
@@ -306,12 +306,8 @@ export default function ProjectsTable({ projects }: ProjectsTableProps) {
             defaultValue={selectedStatuses[0]}
           >
             <SelectTrigger className="w-[120px]">
-              <div className="mr-2 flex items-center gap-2">
-                <FilterIcon
-                  className="-ms-1 opacity-60"
-                  size={16}
-                  aria-hidden="true"
-                />
+              <div className="flex items-center gap-2 text-foreground">
+                <FilterIcon className="-ms-1" size={16} aria-hidden="true" />
                 Status
               </div>
             </SelectTrigger>
@@ -327,15 +323,8 @@ export default function ProjectsTable({ projects }: ProjectsTableProps) {
           {/* Toggle columns visibility */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                className="font-normal text-muted-foreground"
-              >
-                <Columns3Icon
-                  className="-ms-1 opacity-60"
-                  size={16}
-                  aria-hidden="true"
-                />
+              <Button variant="outline" className="font-normal">
+                <Columns3Icon className="-ms-1" size={16} aria-hidden="true" />
                 View
               </Button>
             </DropdownMenuTrigger>

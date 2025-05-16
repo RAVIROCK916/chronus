@@ -23,12 +23,13 @@ export default function MainContent({
     // Handle root routes
     if (location === "/dashboard") {
       return (
-        <p className="text-sm uppercase text-text-muted">
-          Good{" "}
-          <span className="text-3xl tracking-wider text-foreground">
-            {getTimeOfDay()}
-          </span>
-        </p>
+        // <p className="text-sm uppercase text-text-muted">
+        //   Good{" "}
+        //   <span className="text-3xl tracking-wider text-foreground">
+        //     {getTimeOfDay()}
+        //   </span>
+        // </p>
+        <h1 className="text-4xl">Dashboard</h1>
       );
     }
 
@@ -74,18 +75,18 @@ export default function MainContent({
 
     // Handle notifications route
     if (location === "/notifications") {
-      return <p className="text-lg font-semibold">Notifications</p>;
+      return <p className="text-xl font-medium">Notifications</p>;
     }
 
     // Handle calendar route
-    if (location === "/calendar") {
-      return <p className="text-lg font-semibold">Calendar</p>;
-    }
+    // if (location === "/calendar") {
+    //   return <p className="text-lg font-semibold">Calendar</p>;
+    // }
 
     // Handle settings route
-    if (location === "/settings") {
-      return <p className="text-lg font-semibold">Settings</p>;
-    }
+    // if (location === "/settings") {
+    //   return <p className="text-lg font-semibold">Settings</p>;
+    // }
 
     // Default case
     return null;

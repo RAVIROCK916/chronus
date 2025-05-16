@@ -13,7 +13,7 @@ import { CheckIcon, ChevronRightIcon } from "lucide-react";
 export function HighlightNotificationCard() {
   const [isOpen, setIsOpen] = useState(true);
   return (
-    <Card>
+    <Card className="hidden lg:block">
       <CardHeader className="space-y-0.5 p-3">
         <CardDescription className="text-xs">Work in progress</CardDescription>
         <CardTitle className="text-lg font-medium">Stay tuned</CardTitle>
@@ -30,9 +30,9 @@ export function HighlightNotificationCard() {
             Follow
             <ChevronRightIcon className="ml-1 size-4 transition-transform duration-300 group-hover:translate-x-1" />
           </span>
-          <span className="group inline-flex items-center text-green-500">
-            <CheckIcon className="mr-2 size-4" />
+          <span className="group inline-flex items-center text-green-600">
             Subscribed
+            <CheckIcon className="ml-1 size-4" />
           </span>
         </AnimatedSubscribeButton>
       </CardFooter>

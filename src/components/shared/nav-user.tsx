@@ -39,7 +39,7 @@ export function NavUser({
           <DropdownMenuTrigger asChild className="focus-visible:ring-0">
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="flex h-fit justify-center p-0 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground lg:p-2"
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage
@@ -49,13 +49,13 @@ export function NavUser({
                 />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
+              <div className="hidden flex-1 text-left text-sm leading-tight lg:grid">
                 <span className="truncate font-semibold">{user.name}</span>
                 <span className="truncate text-xs text-text-muted">
                   {user.email}
                 </span>
               </div>
-              <CaretSortIcon className="ml-auto size-4" />
+              <CaretSortIcon className="ml-auto hidden size-4 lg:block" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent

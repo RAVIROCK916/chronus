@@ -143,7 +143,11 @@ export default function ContactUsPage() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="mx-auto block">
+              <Button
+                type="submit"
+                variant="secondary"
+                className="mx-auto block"
+              >
                 Submit
               </Button>
             </form>

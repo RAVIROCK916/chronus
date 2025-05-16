@@ -12,6 +12,7 @@ import ProjectsTable, {
 import PaddingContainer from "@/components/shared/padding-container";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Calendar, Check, Folder, Plus } from "lucide-react";
+import Loader from "@/components/shared/loader";
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -107,7 +108,9 @@ export default function ProjectsPage() {
       </div>
       {/* <BreadCrumb /> */}
       {loading ? (
-        <ProjectsTableSkeleton />
+        <div className="flex h-[75vh] items-center justify-center">
+          <Loader />
+        </div>
       ) : projects.length > 0 ? (
         // <UserProjects
         //   projects={optimisticProjects}

@@ -36,12 +36,12 @@ const SidebarItem = ({ name, href, Icon }: SidebarItemProps) => {
       <Link
         href={href}
         className={cn(
-          "flex items-center gap-x-2.5 px-3 py-2 text-sm text-text-secondary transition-colors",
+          "flex items-center gap-x-2.5 px-2.5 py-2 text-sm text-text-secondary transition-colors lg:px-3",
           isActive && "text-primary dark:text-background",
         )}
       >
         <Icon size={18} aria-hidden="true" />
-        <span>{name}</span>
+        <span className="hidden lg:block">{name}</span>
       </Link>
     </div>
   );
@@ -54,7 +54,7 @@ const Sidebar = () => {
   return (
     <div
       className={cn(
-        "sticky top-0 hidden h-screen w-64 space-y-4 border-r bg-background-hover py-4 transition-transform duration-500 xl:block",
+        "sticky top-0 hidden h-screen space-y-4 border-r bg-background-hover py-4 transition-transform duration-500 sm:block lg:w-64",
         state === "expanded" ? "translate-x-0" : "-translate-x-full",
       )}
     >
@@ -62,19 +62,19 @@ const Sidebar = () => {
         <div className="space-y-4">
           {/* <Logo /> */}
           <SideBarContainer>
-            <div className="relative flex items-center justify-between">
+            <div className="relative flex items-center justify-center lg:justify-between">
               <div className="flex gap-x-2">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                   <Command className="size-4" />
                 </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
+                <div className="hidden flex-1 text-left text-sm leading-tight lg:grid">
                   <span className="truncate font-semibold">Acme Inc</span>
                   <span className="truncate text-xs">Enterprise</span>
                 </div>
               </div>
               <div
                 className={cn(
-                  "cursor-pointer rounded-lg p-2 transition-opacity duration-500 hover:bg-background-secondary",
+                  "hidden cursor-pointer rounded-lg p-2 transition-opacity duration-500 hover:bg-background-secondary lg:block",
                   state !== "expanded"
                     ? "pointer-events-none opacity-0"
                     : "opacity-100",
@@ -87,8 +87,8 @@ const Sidebar = () => {
           </SideBarContainer>
           <Separator />
           {/* Sidebar items */}
-          <SideBarContainer className="space-y-6">
-            <div className="space-y-1">
+          <SideBarContainer>
+            <div className="space-y-3 lg:space-y-1">
               {sidebarItems.top.map((item) => (
                 <SidebarItem
                   key={item.name}
@@ -101,7 +101,7 @@ const Sidebar = () => {
           </SideBarContainer>
         </div>
         <SideBarContainer className="space-y-4">
-          <div className="space-y-1">
+          <div className="space-y-3 lg:space-y-1">
             {sidebarItems.bottom.map((item) => (
               <SidebarItem
                 key={item.name}
@@ -113,9 +113,7 @@ const Sidebar = () => {
           </div>
           <HighlightNotificationCard />
           <Separator />
-          <SideBarContainer>
-            <NavUser user={profile} />
-          </SideBarContainer>
+          <NavUser user={profile} />
         </SideBarContainer>
       </div>
     </div>
