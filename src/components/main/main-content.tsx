@@ -1,6 +1,7 @@
 "use client";
 
-import { cn, getTimeOfDay } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { getTimeOfDay } from "@/utils/date";
 import { useSidebar } from "@/components/ui/sidebar";
 import Sidebar from "@/components/main/side-bar";
 import Header from "@/components/main/header";
@@ -43,6 +44,10 @@ export default function MainContent({
 
     if (location.match(/^\/projects\/[^/]+\/[^/]+$/)) {
       const projectName = decodeURIComponent(location.split("/")[2]);
+      breadcrumbs.push({
+        name: "Projects",
+        url: "/projects",
+      });
       breadcrumbs.push({
         name: projectName,
         url: `/projects/${projectName}`,

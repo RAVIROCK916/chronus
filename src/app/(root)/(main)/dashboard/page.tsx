@@ -157,14 +157,6 @@ export default function Page() {
 
   return (
     <PaddingContainer className="space-y-4">
-      {/* <Header>
-        <p className="text-sm uppercase text-text-muted">
-          Good{" "}
-          <span className="text-3xl tracking-wider text-foreground">
-            {getTimeOfDay()}
-          </span>
-        </p>
-      </Header> */}
       {/* Total Tasks */}
       <div className="grid grid-cols-4 gap-4">
         <Card>

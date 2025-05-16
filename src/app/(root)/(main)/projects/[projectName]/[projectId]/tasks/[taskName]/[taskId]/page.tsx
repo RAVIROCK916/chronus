@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from "react";
 
-import { GET_TASK } from "@/lib/apollo/client/task";
+import {
+  GET_TASK,
+  UPDATE_TASK_PRIORITY,
+  UPDATE_TASK_STATUS,
+} from "@/lib/apollo/client/task";
 import TaskDetails from "@/components/main/task-details";
 import TaskLabelInput from "@/components/shared/task-label-input";
 import TaskPrioritySelect from "@/components/shared/task-priority-select";
@@ -10,7 +14,7 @@ import TaskStatusSelect from "@/components/shared/task-status-select";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Task as TaskType } from "@/types";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import DatePicker from "@/components/shared/date-picker";
 import PaddingContainer from "@/components/shared/padding-container";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -40,6 +44,9 @@ export default function TaskPage({ params }: TaskPageProps) {
     variables: { id: taskId },
   });
 
+  const [updateTaskStatus] = useMutation(UPDATE_TASK_STATUS);
+  const [updateTaskPriority] = useMutation(UPDATE_TASK_PRIORITY);
+
   console.log("data", task);
 
   useEffect(() => {
@@ -47,6 +54,24 @@ export default function TaskPage({ params }: TaskPageProps) {
       setTask(data.task);
     }
   }, [data]);
+
+  function handleStatusChange(newStatus: string) {
+    updateTaskStatus({
+      variables: {
+        id: taskId,
+        status: newStatus,
+      },
+    });
+  }
+
+  function handlePriorityChange(newPriority: string) {
+    updateTaskPriority({
+      variables: {
+        id: taskId,
+        priority: newPriority,
+      },
+    });
+  }
 
   if (loading) {
     return <TaskPageSkeleton />;
@@ -74,11 +99,19 @@ export default function TaskPage({ params }: TaskPageProps) {
             <div className="space-y-4">
               <div>
                 <Label className="text-text-tertiary">Status</Label>
-                <TaskStatusSelect id={taskId} taskStatus={task.status} />
+                <TaskStatusSelect
+                  id={taskId}
+                  value={task.status}
+                  onChange={handleStatusChange}
+                />
               </div>
               <div>
                 <Label className="text-text-tertiary">Priority</Label>
-                <TaskPrioritySelect id={taskId} taskPriority={task.priority} />
+                <TaskPrioritySelect
+                  id={taskId}
+                  value={task.priority}
+                  onChange={handlePriorityChange}
+                />
               </div>
               {task.labels && (
                 <div>

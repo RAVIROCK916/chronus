@@ -156,7 +156,9 @@ const columns: ColumnDef<Task>[] = [
     header: "Description",
     accessorKey: "description",
     cell: ({ row }) => (
-      <div className="line-clamp-1">{row.getValue("description")}</div>
+      <div className="line-clamp-1 text-muted-foreground">
+        {row.getValue("description") || "--"}
+      </div>
     ),
     size: 220,
   },

@@ -48,6 +48,7 @@ export default function ProjectPage({
         ...project,
         tasks: project.tasks.map((t) => {
           if (t.id === task.id) {
+            console.log("updating task", task);
             return task;
           }
           return t;

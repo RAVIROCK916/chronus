@@ -18,30 +18,19 @@ import {
 
 type TaskPrioritySelectProps = {
   id?: string;
-  taskPriority: string;
+  value: string;
   onChange?: (priority: string) => void;
 };
 
 export default function TaskPrioritySelect({
   id,
-  taskPriority,
+  value,
   onChange,
 }: TaskPrioritySelectProps) {
-  const [priority, setPriority] = useState<string>(taskPriority);
-
-  const [updateTaskPriority] = useMutation(UPDATE_TASK_PRIORITY);
+  const [priority, setPriority] = useState<string>(value);
 
   const handleValueChange = (value: string) => {
-    console.log("value", value);
     setPriority(value);
-    if (id) {
-      updateTaskPriority({
-        variables: {
-          id,
-          priority: value,
-        },
-      });
-    }
 
     // Call the onChange prop if provided
     onChange?.(value);

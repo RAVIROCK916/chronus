@@ -12,12 +12,6 @@ import { TaskStatus } from "@/types";
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
 
-type TaskStatusSelectProps = {
-  id?: string;
-  taskStatus: string;
-  onChange?: (status: string) => void;
-};
-
 function StatusDot({ className }: { className?: string }) {
   return (
     <svg
@@ -34,25 +28,21 @@ function StatusDot({ className }: { className?: string }) {
   );
 }
 
+type TaskStatusSelectProps = {
+  id?: string;
+  value: string;
+  onChange?: (status: string) => void;
+};
+
 export default function TaskStatusSelect({
   id,
-  taskStatus,
+  value,
   onChange,
 }: TaskStatusSelectProps) {
-  const [status, setStatus] = useState<string>(taskStatus);
-
-  const [updateTaskStatus] = useMutation(UPDATE_TASK_STATUS);
+  const [status, setStatus] = useState<string>(value);
 
   const handleStatusChange = (newStatus: string) => {
     setStatus(newStatus);
-    if (id) {
-      updateTaskStatus({
-        variables: {
-          id,
-          status: newStatus,
-        },
-      });
-    }
 
     // Call the onChange prop if provided
     onChange?.(newStatus);

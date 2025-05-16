@@ -25,7 +25,7 @@ export default function DatePicker({
   children,
 }: DatePickerProps) {
   const [open, setOpen] = useState(false);
-  const [date, setDate] = useState(value ? new Date(Number(value)) : undefined);
+  const [date, setDate] = useState(value ? new Date(value) : undefined);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

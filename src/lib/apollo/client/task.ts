@@ -1,3 +1,5 @@
+import { Task } from "@/types";
+import { getDateFromMilliseconds } from "@/utils/date";
 import { gql } from "@apollo/client";
 
 const TASK_REQUEST = `
@@ -76,3 +78,10 @@ export const DELETE_TASKS = gql`
     }
   }
 `;
+
+export function getRefinedTask(task: Task) {
+  return {
+    ...task,
+    due_date: task.due_date ? getDateFromMilliseconds(task.due_date) : null,
+  };
+}

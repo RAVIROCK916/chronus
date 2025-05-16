@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 
 import TasksColumn from "./tasks-column";
 import TaskCard from "./task-card";
@@ -30,10 +30,14 @@ const COLUMNS = [
 export default function KanbanBoard() {
   const { project } = useProjectPageContext();
 
-  const [tasks, setTasks] = useState<TaskType[]>(project.tasks || []);
+  const [tasks, setTasks] = useState<TaskType[]>(project.tasks);
   const [activeTask, setActiveTask] = useState<TaskType | null>(null);
 
   const user = useSelector((state: RootState) => state.profile);
+
+  useEffect(() => {
+    setTasks(project.tasks);
+  }, [project.tasks]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {

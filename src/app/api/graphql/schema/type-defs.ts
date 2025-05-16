@@ -1,6 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const typeDefs = gql`
+  scalar DateTime
+
   type User {
     id: String!
     google_id: String
@@ -8,7 +10,7 @@ export const typeDefs = gql`
     email: String!
     password_hash: String!
     profile_picture: String
-    created_at: String!
+    created_at: DateTime!
     projects: [Project]
     events: [Event]
   }
@@ -16,8 +18,8 @@ export const typeDefs = gql`
   type Session {
     id: ID!
     user_id: ID!
-    expires_at: String!
-    created_at: String!
+    expires_at: DateTime!
+    created_at: DateTime!
   }
 
   type Project {
@@ -26,10 +28,10 @@ export const typeDefs = gql`
     summary: String
     description: String
     color: String!
-    due_date: String
+    due_date: DateTime
     picture: String
-    created_at: String!
-    updated_at: String!
+    created_at: DateTime!
+    updated_at: DateTime!
     user: User!
     tasks: [Task]!
   }
@@ -41,11 +43,11 @@ export const typeDefs = gql`
     status: String!
     priority: String!
     labels: [String]
-    due_date: String
+    due_date: DateTime
     comments: [TaskComment]
-    created_at: String!
-    updated_at: String!
-    completed_at: String
+    created_at: DateTime!
+    updated_at: DateTime!
+    completed_at: DateTime
     project_id: ID!
     user_id: ID!
     project: Project
@@ -54,7 +56,7 @@ export const typeDefs = gql`
   type TaskComment {
     id: ID!
     content: String!
-    created_at: String!
+    created_at: DateTime!
     user: User!
   }
 
@@ -68,8 +70,8 @@ export const typeDefs = gql`
     all_day: Boolean!
     color: String!
     location: String
-    created_at: String!
-    updated_at: String!
+    created_at: DateTime!
+    updated_at: DateTime!
   }
 
   type Notification {
@@ -78,7 +80,7 @@ export const typeDefs = gql`
     message: String!
     category: String!
     is_read: Boolean!
-    created_at: String!
+    created_at: DateTime!
   }
 
   type Query {

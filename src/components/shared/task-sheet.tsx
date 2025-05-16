@@ -170,7 +170,7 @@ export default function TaskSheet({
             <Label className="text-sm">Status</Label>
             <TaskStatusSelect
               id={task?.id}
-              taskStatus={formData.status}
+              value={formData.status}
               onChange={(status) => handleInputChange("status", status)}
             />
           </div>
@@ -178,7 +178,7 @@ export default function TaskSheet({
             <Label className="text-sm">Priority</Label>
             <TaskPrioritySelect
               id={task?.id}
-              taskPriority={formData.priority}
+              value={formData.priority}
               onChange={(priority) => handleInputChange("priority", priority)}
             />
           </div>
