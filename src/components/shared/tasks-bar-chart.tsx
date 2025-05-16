@@ -36,7 +36,7 @@ export function TasksBarChart() {
   const last7Months = Object.values(
     tasks.reduce(
       (acc, task) => {
-        const createdDate = new Date(Number(task.created_at));
+        const createdDate = new Date(task.created_at);
         const month = createdDate.toLocaleString("default", { month: "short" });
         if (!acc[month]) {
           acc[month] = {

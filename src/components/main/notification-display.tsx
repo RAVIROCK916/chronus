@@ -216,7 +216,7 @@ export function NotificationDisplay({
             </div>
             {notification.created_at && (
               <div className="ml-auto text-xs text-muted-foreground">
-                {format(new Date(Number(notification.created_at)), "PPpp")}
+                {format(new Date(notification.created_at), "PPpp")}
               </div>
             )}
           </div>

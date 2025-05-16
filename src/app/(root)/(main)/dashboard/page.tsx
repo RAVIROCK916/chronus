@@ -27,7 +27,7 @@ import {
 import Link from "next/link";
 import { format } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
-import Header from "@/components/main/header";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Page() {
   const { data, loading } = useQuery(GET_DASHBOARD_QUERY);
@@ -47,7 +47,7 @@ export default function Page() {
     // Add all completed task dates to the map
     tasks.forEach((task) => {
       if (task.status === "DONE" && task.completed_at) {
-        const completedDate = new Date(+task.completed_at);
+        const completedDate = new Date(task.completed_at);
         const dateKey = format(completedDate, "yyyy-MM-dd");
         completedDates.set(dateKey, true);
       }
@@ -96,10 +96,11 @@ export default function Page() {
   const totalTime = tasks.reduce((acc, task) => {
     if (task.status === "DONE" && task.completed_at) {
       tasksCompleted += 1;
-      return (
-        acc +
-        (Number(task.completed_at) - Number(task.updated_at)) / 60 / 60 / 1000
-      );
+      const completedDate = new Date(task.completed_at);
+      const createdDate = new Date(task.created_at);
+      const timeDiff =
+        (completedDate.getTime() - createdDate.getTime()) / 1000 / 60 / 60 / 24;
+      return acc + timeDiff;
     }
     return acc;
   }, 0);
@@ -107,7 +108,7 @@ export default function Page() {
   const heatmapData = tasks.reduce(
     (acc: Record<string, number>, task: Task) => {
       if (!task.completed_at) return acc;
-      const date = new Date(Number(task.completed_at));
+      const date = new Date(task.completed_at);
       const key = format(date, "yyyy-MM-dd");
       acc[key] = (acc[key] || 0) + 1;
       return acc;
@@ -157,15 +158,42 @@ export default function Page() {
 
   return (
     <PaddingContainer className="space-y-4">
+      <Tabs defaultValue="tab-1" className="items-center">
+        <TabsList>
+          <TabsTrigger value="tab-1">Last Week</TabsTrigger>
+          <TabsTrigger value="tab-2">1 month</TabsTrigger>
+          <TabsTrigger value="tab-3">3 months</TabsTrigger>
+        </TabsList>
+        {/* <TabsContent value="tab-1">
+          <p className="p-4 text-center text-xs text-muted-foreground">
+            Content for Tab 1
+          </p>
+        </TabsContent>
+        <TabsContent value="tab-2">
+          <p className="p-4 text-center text-xs text-muted-foreground">
+            Content for Tab 2
+          </p>
+        </TabsContent>
+        <TabsContent value="tab-3">
+          <p className="p-4 text-center text-xs text-muted-foreground">
+            Content for Tab 3
+          </p>
+        </TabsContent> */}
+      </Tabs>
       {/* Total Tasks */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="flex gap-2">
               <ClipboardCheck size={16} strokeWidth={1.5} />
               <span>Tasks</span>
             </CardTitle>
-            <CardDescription>Total number of tasks</CardDescription>
+            <CardDescription
+              title="Total number of tasks"
+              className="line-clamp-1"
+            >
+              Total number of tasks
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-4xl font-semibold">
@@ -181,7 +209,12 @@ export default function Page() {
               <Clock3 size={16} strokeWidth={1.5} />
               <span>Time</span>
             </CardTitle>
-            <CardDescription>Total time spent on tasks</CardDescription>
+            <CardDescription
+              title="Total time spent on tasks"
+              className="line-clamp-1"
+            >
+              Total time spent on tasks
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-4xl font-semibold">
@@ -199,7 +232,12 @@ export default function Page() {
               <ChartNoAxesCombined size={16} strokeWidth={1.5} />
               <span>Streak</span>
             </CardTitle>
-            <CardDescription>Tasks completed in a row</CardDescription>
+            <CardDescription
+              title="Tasks completed in a row"
+              className="line-clamp-1"
+            >
+              Tasks completed in a row
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-4xl font-semibold">
@@ -215,7 +253,12 @@ export default function Page() {
               <Percent size={16} strokeWidth={1.5} />
               <span>Percentage</span>
             </CardTitle>
-            <CardDescription>Overall completed tasks</CardDescription>
+            <CardDescription
+              title="Overall completed tasks"
+              className="line-clamp-1"
+            >
+              Overall completed tasks
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-4xl font-semibold">
@@ -230,7 +273,7 @@ export default function Page() {
         </Card>
       </div>
       {tasks.length > 0 ? (
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <TasksContext.Provider value={tasks}>
             <TasksBarChart />
             <TasksPieChart />

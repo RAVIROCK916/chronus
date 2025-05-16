@@ -24,7 +24,7 @@ export default function NotificationsPage() {
         title
         message
         category
-        isRead
+        is_read
         created_at
       }
     }
@@ -39,8 +39,7 @@ export default function NotificationsPage() {
       const newNotifications = [...data.notifications];
       newNotifications.sort(
         (a: Notification, b: Notification) =>
-          new Date(Number(b.created_at)).getTime() -
-          new Date(Number(a.created_at)).getTime(),
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
       );
       setNotifications(newNotifications);
     }
@@ -53,7 +52,7 @@ export default function NotificationsPage() {
       <ResizablePanel minSize={30}>
         <Tabs defaultValue="all">
           <div className="flex items-center px-4 py-2">
-            <h1 className="text-xl font-bold">Notifications</h1>
+            {/* <h1 className="text-xl font-bold">Notifications</h1> */}
             <TabsList className="ml-auto h-auto bg-background-tertiary p-1">
               <TabsTrigger value="all">All</TabsTrigger>
               <TabsTrigger value="unread">Unread</TabsTrigger>

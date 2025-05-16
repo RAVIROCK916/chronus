@@ -46,9 +46,7 @@ export function TasksAreaChart() {
 
   // Count tasks created and completed
   for (const task of tasks) {
-    const createdDate = parseISO(
-      new Date(Number(task.created_at)).toISOString(),
-    );
+    const createdDate = parseISO(new Date(task.created_at).toISOString());
 
     for (const day of last7Days) {
       if (isSameDay(createdDate, day.date)) {

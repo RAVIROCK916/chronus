@@ -153,20 +153,20 @@ export function NotificationList({ items }: NotificationListProps) {
       $title: String
       $message: String
       $category: String
-      $isRead: Boolean
+      $is_read: Boolean
     ) {
       updateNotification(
         id: $id
         title: $title
         message: $message
         category: $category
-        isRead: $isRead
+        is_read: $is_read
       ) {
         id
         title
         message
         category
-        isRead
+        is_read
         created_at
       }
     }
@@ -187,17 +187,17 @@ export function NotificationList({ items }: NotificationListProps) {
             key={item.id}
             className={cn(
               "flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-background-hover",
-              // !item.isRead &&
+              // !item.is_read &&
               //   "bg-background-tertiary hover:bg-background-tertiary/90",
               notification.selected === item.id && "bg-muted hover:bg-muted/90",
             )}
             onClick={() => {
               dispatch(setCurrentNotification(item.id));
-              if (!item.isRead) {
+              if (!item.is_read) {
                 updateNotification({
                   variables: {
                     id: item.id,
-                    isRead: true,
+                    is_read: true,
                   },
                 });
               }
@@ -207,7 +207,7 @@ export function NotificationList({ items }: NotificationListProps) {
               <div className="flex items-center">
                 <div className="flex items-center gap-2">
                   <div className="font-semibold">{item.title}</div>
-                  {!item.isRead && (
+                  {!item.is_read && (
                     <span className="flex h-2 w-2 rounded-full bg-blue-600" />
                   )}
                 </div>
@@ -219,7 +219,7 @@ export function NotificationList({ items }: NotificationListProps) {
                       : "text-muted-foreground",
                   )}
                 >
-                  {formatDistanceToNow(new Date(Number(item.created_at)), {
+                  {formatDistanceToNow(new Date(item.created_at), {
                     addSuffix: true,
                   })}
                 </div>
