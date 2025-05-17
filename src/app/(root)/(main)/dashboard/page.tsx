@@ -159,7 +159,7 @@ export default function Page() {
   return (
     <PaddingContainer className="space-y-4">
       <Tabs defaultValue="tab-1" className="items-center">
-        <TabsList>
+        <TabsList className="bg-background-tertiary dark:bg-background-quaternary">
           <TabsTrigger value="tab-1">Last Week</TabsTrigger>
           <TabsTrigger value="tab-2">1 month</TabsTrigger>
           <TabsTrigger value="tab-3">3 months</TabsTrigger>

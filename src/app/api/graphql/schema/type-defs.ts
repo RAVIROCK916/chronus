@@ -87,7 +87,7 @@ export const typeDefs = gql`
     hello: String
     user(id: ID!): User
     currentUser: User
-    googleUser(googleId: String!): User
+    googleUser(google_id: String!): User
     users: [User]
     projects: [Project]
     project(id: ID!): Project
@@ -100,18 +100,18 @@ export const typeDefs = gql`
 
   type Mutation {
     getUser(id: ID!): User
-    createUser(email: String!, password: String!, googleId: String): User
+    createUser(email: String!, password: String!, google_id: String): User
     createGoogleUser(
-      googleId: String!
+      google_id: String!
       name: String!
       email: String!
-      profilePicture: String
+      profile_picture: String
     ): User
     updateGoogleUser(
-      googleId: String!
+      google_id: String!
       name: String!
       email: String!
-      profilePicture: String
+      profile_picture: String
     ): User
     loginUser(email: String!, password: String!): User
     logoutUser: Boolean

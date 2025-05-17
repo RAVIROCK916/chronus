@@ -53,7 +53,7 @@ export default function NotificationsPage() {
         <Tabs defaultValue="all">
           <div className="flex items-center px-4 py-2">
             {/* <h1 className="text-xl font-bold">Notifications</h1> */}
-            <TabsList className="ml-auto h-auto bg-background-tertiary p-1">
+            <TabsList className="ml-auto h-auto bg-background-tertiary p-1 dark:bg-background-quaternary">
               <TabsTrigger value="all">All</TabsTrigger>
               <TabsTrigger value="unread">Unread</TabsTrigger>
             </TabsList>

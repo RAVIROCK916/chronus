@@ -8,7 +8,7 @@ const USER_REQUEST = `
 	profile_picture
 `;
 
-export const getGoogleUser = async (id: string) => {
+export const getGoogleUserFromDB = async (id: string) => {
   const {
     data: { googleUser },
   } = await fetch(SERVER_URL, {
@@ -19,7 +19,7 @@ export const getGoogleUser = async (id: string) => {
     body: JSON.stringify({
       query: `
 					query($id: String!) {
-						googleUser(googleId: $id) {
+						googleUser(google_id: $id) {
 								${USER_REQUEST}
 							}
 						}
@@ -34,10 +34,10 @@ export const getGoogleUser = async (id: string) => {
 };
 
 export const createGoogleUser = async (
-  googleId: string,
+  google_id: string,
   name: string,
   email: string,
-  profilePicture?: string,
+  profile_picture?: string,
 ) => {
   const {
     data: { createGoogleUser: createdGoogleUser },
@@ -48,17 +48,17 @@ export const createGoogleUser = async (
     },
     body: JSON.stringify({
       query: `
-					mutation($googleId: String!, $name: String!, $email: String!, $profilePicture: String) {
-						createGoogleUser(googleId: $googleId, name: $name, email: $email, profilePicture: $profilePicture) {
+					mutation($google_id: String!, $name: String!, $email: String!, $profile_picture: String) {
+						createGoogleUser(google_id: $google_id, name: $name, email: $email, profile_picture: $profile_picture) {
 							${USER_REQUEST}
 						}
 					}
 				`,
       variables: {
-        googleId,
+        google_id,
         name,
         email,
-        profilePicture,
+        profile_picture,
       },
     }),
   }).then((res) => res.json());
@@ -70,7 +70,7 @@ export const updateGoogleUser = async (
   id: string,
   name: string,
   email: string,
-  profilePicture?: string,
+  profile_picture?: string,
 ) => {
   const {
     data: { updateGoogleUser: updatedGoogleUser },
@@ -81,17 +81,17 @@ export const updateGoogleUser = async (
     },
     body: JSON.stringify({
       query: `
-					mutation ($googleId: String!, $name: String!, $email: String!, $profilePicture: String) {
-						updateGoogleUser(googleId: $googleId, name: $name, email: $email, profilePicture: $profilePicture) {
+					mutation ($google_id: String!, $name: String!, $email: String!, $profile_picture: String) {
+						updateGoogleUser(google_id: $google_id, name: $name, email: $email, profile_picture: $profile_picture) {
 							${USER_REQUEST}
 						}
 					}
 				`,
       variables: {
-        googleId: id,
+        google_id: id,
         name,
         email,
-        profilePicture,
+        profile_picture,
       },
     }),
   }).then((res) => res.json());

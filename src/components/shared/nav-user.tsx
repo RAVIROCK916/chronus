@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/sidebar";
 import { CaretSortIcon, ComponentPlaceholderIcon } from "@radix-ui/react-icons";
 import { signOut } from "@/lib/auth";
+import { toast } from "sonner";
 
 export function NavUser({
   user,
@@ -31,6 +32,15 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+
+  function handleLogout() {
+    toast.promise(signOut(), {
+      loading: "Logging out...",
+      success: "Logged out successfully!",
+      error: "Failed to log out!",
+    });
+    signOut();
+  }
 
   return (
     <SidebarMenu>
@@ -101,7 +111,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => signOut()}>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut />
               Log out
             </DropdownMenuItem>

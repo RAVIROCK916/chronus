@@ -83,11 +83,11 @@ async function getCurrentUser(_: any, __: any, context: ContextType) {
   return user[0];
 }
 
-async function getGoogleUser(_: any, { googleId }: { googleId: string }) {
+async function getGoogleUser(_: any, { google_id }: { google_id: string }) {
   const user = await db
     .select()
     .from(userTable)
-    .where(eq(userTable.google_id, googleId));
+    .where(eq(userTable.google_id, google_id));
   return user[0];
 }
 
@@ -217,19 +217,24 @@ async function createUser(
 async function createGoogleUser(
   _: any,
   {
-    googleId,
+    google_id,
     name,
     email,
-    profilePicture,
-  }: { googleId: string; name: string; email: string; profilePicture: string },
+    profile_picture,
+  }: {
+    google_id: string;
+    name: string;
+    email: string;
+    profile_picture: string;
+  },
 ) {
   const user = await db
     .insert(userTable)
     .values({
-      google_id: googleId,
+      google_id,
       name,
       email,
-      profile_picture: profilePicture,
+      profile_picture,
     })
     .returning();
   return user[0];
@@ -238,20 +243,25 @@ async function createGoogleUser(
 async function updateGoogleUser(
   _: any,
   {
-    googleId,
+    google_id,
     name,
     email,
-    profilePicture,
-  }: { googleId: string; name: string; email: string; profilePicture?: string },
+    profile_picture,
+  }: {
+    google_id: string;
+    name: string;
+    email: string;
+    profile_picture?: string;
+  },
 ) {
   const user = await db
     .update(userTable)
     .set({
       name,
       email,
-      profile_picture: profilePicture,
+      profile_picture,
     })
-    .where(eq(userTable.google_id, googleId))
+    .where(eq(userTable.google_id, google_id))
     .returning();
   return user[0];
 }

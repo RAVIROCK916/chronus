@@ -5,7 +5,7 @@ import {
 } from "@/constants/google-oauth";
 import {
   createGoogleUser,
-  getGoogleUser,
+  getGoogleUserFromDB,
   updateGoogleUser,
 } from "@/lib/apollo/server/user";
 
@@ -86,7 +86,7 @@ export async function upsertGoogleUser(user: {
   email: string;
   picture?: string;
 }) {
-  const googleUser = await getGoogleUser(user.id);
+  const googleUser = await getGoogleUserFromDB(user.id);
 
   if (googleUser) {
     const updatedGoogleUser = await updateGoogleUser(
