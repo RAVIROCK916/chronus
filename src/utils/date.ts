@@ -12,8 +12,3 @@ export function getTimeOfDay() {
     return "Night";
   }
 }
-
-export function getDateFromMilliseconds(milliseconds: string) {
-  const date = new Date(Number(milliseconds));
-  return date;
-}

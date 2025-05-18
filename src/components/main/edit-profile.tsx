@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { useId, useState } from "react"
-import { CheckIcon, ImagePlusIcon, XIcon } from "lucide-react"
+import { useId, useState } from "react";
+import { CheckIcon, ImagePlusIcon, XIcon } from "lucide-react";
 
-import { useCharacterLimit } from "@/hooks/use-character-limit"
-import { useImageUpload } from "@/hooks/use-image-upload"
-import { Button } from "@/components/ui/button"
+import { useCharacterLimit } from "@/hooks/use-character-limit";
+import { useImageUpload } from "@/hooks/use-image-upload";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -15,15 +15,16 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import Image from "next/image";
 
 export default function Component() {
-  const id = useId()
+  const id = useId();
 
-  const maxLength = 180
+  const maxLength = 180;
   const {
     value,
     characterCount,
@@ -33,7 +34,7 @@ export default function Component() {
     maxLength,
     initialValue:
       "Hey, I am Margaret, a web developer who loves turning ideas into amazing websites!",
-  })
+  });
 
   return (
     <Dialog>
@@ -53,7 +54,7 @@ export default function Component() {
         <div className="overflow-y-auto">
           <ProfileBg defaultImage="/profile-bg.jpg" />
           <Avatar defaultImage="/avatar-72-01.jpg" />
-          <div className="px-6 pt-4 pb-6">
+          <div className="px-6 pb-6 pt-4">
             <form className="space-y-4">
               <div className="flex flex-col gap-4 sm:flex-row">
                 <div className="flex-1 space-y-2">
@@ -88,7 +89,7 @@ export default function Component() {
                     type="text"
                     required
                   />
-                  <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 peer-disabled:opacity-50">
+                  <div className="pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-muted-foreground/80 peer-disabled:opacity-50">
                     <CheckIcon
                       size={16}
                       className="text-emerald-500"
@@ -99,8 +100,8 @@ export default function Component() {
               </div>
               <div className="*:not-first:mt-2">
                 <Label htmlFor={`${id}-website`}>Website</Label>
-                <div className="flex rounded-md shadow-xs">
-                  <span className="border-input bg-background text-muted-foreground -z-10 inline-flex items-center rounded-s-md border px-3 text-sm">
+                <div className="shadow-xs flex rounded-md">
+                  <span className="-z-10 inline-flex items-center rounded-s-md border border-input bg-background px-3 text-sm text-muted-foreground">
                     https://
                   </span>
                   <Input
@@ -124,7 +125,7 @@ export default function Component() {
                 />
                 <p
                   id={`${id}-description`}
-                  className="text-muted-foreground mt-2 text-right text-xs"
+                  className="mt-2 text-right text-xs text-muted-foreground"
                   role="status"
                   aria-live="polite"
                 >
@@ -147,31 +148,31 @@ export default function Component() {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 
 function ProfileBg({ defaultImage }: { defaultImage?: string }) {
-  const [hideDefault, setHideDefault] = useState(false)
+  const [hideDefault, setHideDefault] = useState(false);
   const {
     previewUrl,
     fileInputRef,
     handleThumbnailClick,
     handleFileChange,
     handleRemove,
-  } = useImageUpload()
+  } = useImageUpload();
 
-  const currentImage = previewUrl || (!hideDefault ? defaultImage : null)
+  const currentImage = previewUrl || (!hideDefault ? defaultImage : null);
 
   const handleImageRemove = () => {
-    handleRemove()
-    setHideDefault(true)
-  }
+    handleRemove();
+    setHideDefault(true);
+  };
 
   return (
     <div className="h-32">
-      <div className="bg-muted relative flex h-full w-full items-center justify-center overflow-hidden">
+      <div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-muted">
         {currentImage && (
-          <img
+          <Image
             className="h-full w-full object-cover"
             src={currentImage}
             alt={
@@ -186,7 +187,7 @@ function ProfileBg({ defaultImage }: { defaultImage?: string }) {
         <div className="absolute inset-0 flex items-center justify-center gap-2">
           <button
             type="button"
-            className="focus-visible:border-ring focus-visible:ring-ring/50 z-50 flex size-10 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-[color,box-shadow] outline-none hover:bg-black/80 focus-visible:ring-[3px]"
+            className="z-50 flex size-10 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white outline-none transition-[color,box-shadow] hover:bg-black/80 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
             onClick={handleThumbnailClick}
             aria-label={currentImage ? "Change image" : "Upload image"}
           >
@@ -195,7 +196,7 @@ function ProfileBg({ defaultImage }: { defaultImage?: string }) {
           {currentImage && (
             <button
               type="button"
-              className="focus-visible:border-ring focus-visible:ring-ring/50 z-50 flex size-10 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-[color,box-shadow] outline-none hover:bg-black/80 focus-visible:ring-[3px]"
+              className="z-50 flex size-10 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white outline-none transition-[color,box-shadow] hover:bg-black/80 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
               onClick={handleImageRemove}
               aria-label="Remove image"
             >
@@ -213,20 +214,20 @@ function ProfileBg({ defaultImage }: { defaultImage?: string }) {
         aria-label="Upload image file"
       />
     </div>
-  )
+  );
 }
 
 function Avatar({ defaultImage }: { defaultImage?: string }) {
   const { previewUrl, fileInputRef, handleThumbnailClick, handleFileChange } =
-    useImageUpload()
+    useImageUpload();
 
-  const currentImage = previewUrl || defaultImage
+  const currentImage = previewUrl || defaultImage;
 
   return (
     <div className="-mt-10 px-6">
-      <div className="border-background bg-muted relative flex size-20 items-center justify-center overflow-hidden rounded-full border-4 shadow-xs shadow-black/10">
+      <div className="shadow-xs relative flex size-20 items-center justify-center overflow-hidden rounded-full border-4 border-background bg-muted shadow-black/10">
         {currentImage && (
-          <img
+          <Image
             src={currentImage}
             className="h-full w-full object-cover"
             width={80}
@@ -236,7 +237,7 @@ function Avatar({ defaultImage }: { defaultImage?: string }) {
         )}
         <button
           type="button"
-          className="focus-visible:border-ring focus-visible:ring-ring/50 absolute flex size-8 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-[color,box-shadow] outline-none hover:bg-black/80 focus-visible:ring-[3px]"
+          className="absolute flex size-8 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white outline-none transition-[color,box-shadow] hover:bg-black/80 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
           onClick={handleThumbnailClick}
           aria-label="Change profile picture"
         >
@@ -252,5 +253,5 @@ function Avatar({ defaultImage }: { defaultImage?: string }) {
         />
       </div>
     </div>
-  )
+  );
 }

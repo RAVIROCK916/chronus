@@ -2,6 +2,7 @@ import Link from "next/link";
 import SignupForm from "@/components/main/signup-form";
 import Logo from "@/components/shared/logo";
 import { GalleryVerticalEnd } from "lucide-react";
+import Image from "next/image";
 
 export default function SignupPage() {
   return (
@@ -22,8 +23,10 @@ export default function SignupPage() {
         </div>
       </div>
       <div className="relative hidden bg-muted lg:block">
-        <img
+        <Image
           src="/placeholder.svg"
+          width={80}
+          height={80}
           alt="Image"
           className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
         />

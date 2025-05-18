@@ -1,7 +1,15 @@
+import Image from "next/image";
+
 const Logo = () => {
   return (
     <figure>
-      <img src="/favicon.ico" className="h-6 w-6" />
+      <Image
+        src="/favicon.ico"
+        width={24}
+        height={24}
+        className="h-6 w-6"
+        alt="logo"
+      />
     </figure>
   );
 };

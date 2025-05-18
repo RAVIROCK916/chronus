@@ -3,13 +3,16 @@ import Logo from "@/components/shared/logo";
 import Link from "next/link";
 
 import { GalleryVerticalEnd } from "lucide-react";
+import Image from "next/image";
 
 export default function LoginPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="relative hidden bg-muted lg:block">
-        <img
+        <Image
           src="/placeholder.svg"
+          width={80}
+          height={80}
           alt="Image"
           className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
         />

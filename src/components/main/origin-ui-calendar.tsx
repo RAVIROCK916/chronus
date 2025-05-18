@@ -149,8 +149,8 @@ export default function Calendar() {
       if (data?.events) {
         let newEvents = structuredClone(data.events);
         newEvents.map((event: any) => {
-          event.start = new Date(Number(event.start));
-          event.end = new Date(Number(event.end));
+          event.start = new Date(event.start);
+          event.end = new Date(event.end);
           return event;
         });
         console.log("inside data events", newEvents);

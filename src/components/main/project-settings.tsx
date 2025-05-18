@@ -129,8 +129,9 @@ export default function ProjectSettings() {
                     >
                       {colorOptions.map((colorOption) => (
                         <RadioGroupItem
-                          value={colorOption.value}
+                          key={colorOption.value}
                           id={`${id}-color-${colorOption}`}
+                          value={colorOption.value}
                           className={cn(
                             "size-6 shadow-none",
                             colorOption.bgClass,
