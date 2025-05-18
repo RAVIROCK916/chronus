@@ -5,11 +5,8 @@ import { SortableContext } from "@dnd-kit/sortable";
 import { Button } from "../ui/button";
 import { EllipsisVertical, Plus } from "lucide-react";
 import { useRef, useState } from "react";
-import TaskInputCard from "./task-input-card";
-import useClickOutside from "@/hooks/useClickOutside";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import TaskSheet from "../shared/task-sheet";
-import { cn } from "@/lib/utils";
 import { useProjectPageContext } from "@/state/context";
 import CreateTaskDialog from "./create-task-dialog";
 import { toast } from "sonner";
@@ -17,23 +14,17 @@ import { toast } from "sonner";
 type TaskColumnProps = {
   column: any;
   tasks: TaskType[];
-  createTask: (status: TaskStatus, title: string, description?: string) => void;
   deleteTask: (id: string) => void;
 };
 
 export default function TasksColumn({
   column,
   tasks,
-  createTask,
   deleteTask,
 }: TaskColumnProps) {
-  const inputTaskRef = useRef<HTMLDivElement>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const [isTaskInputOpen, setIsTaskInputOpen] = useState(false);
 
   const { project } = useProjectPageContext();
-
-  useClickOutside(inputTaskRef, () => setIsTaskInputOpen(false));
 
   const { setNodeRef } = useDroppable({
     id: column.id,

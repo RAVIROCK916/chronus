@@ -1,9 +1,9 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import TasksColumn from "./tasks-column";
 import TaskCard from "./task-card";
 
-import { TaskStatus, Task as TaskType } from "@/types";
+import { Task as TaskType } from "@/types";
 
 import {
   DndContext,
@@ -16,10 +16,11 @@ import {
   PointerSensor,
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useSelector } from "react-redux";
 import { RootState } from "@/state/store";
 import { useProjectPageContext } from "@/state/context";
+import { DELETE_TASK, UPDATE_TASK } from "@/lib/apollo/client/task";
 
 const COLUMNS = [
   { id: "TODO", title: "To Do", color: "amber-500" },
@@ -47,31 +48,13 @@ export default function KanbanBoard() {
     }),
   );
 
-  const [updateTask] = useMutation(gql`
-    mutation UpdateTask($id: ID!, $status: String!) {
-      updateTask(id: $id, status: $status) {
-        id
-        status
-      }
-    }
-  `);
+  const [updateTaskFromDB] = useMutation(UPDATE_TASK);
 
-  function createTask(status: TaskStatus, title: string, description?: string) {
-    const task = {
-      id: crypto.randomUUID(),
-      title,
-      description,
-      status,
-      priority: "LOW",
-      project_id: project.id,
-      user_id: user.id,
-      created_at: new Date().toISOString(),
-    };
-    setTasks((prevTasks) => [...prevTasks, task] as TaskType[]);
-  }
+  const [deleteTaskFromDB] = useMutation(DELETE_TASK);
 
   function deleteTask(id: string) {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+    deleteTaskFromDB({ variables: { id } });
   }
 
   function handleDragStart(event: DragStartEvent) {
@@ -123,7 +106,7 @@ export default function KanbanBoard() {
     const newTaskStatus = event.over?.data.current?.task.status;
     if (currentTaskStatus !== newTaskStatus) {
       console.log("Task is already in the correct column.");
-      updateTask({
+      updateTaskFromDB({
         variables: {
           id: activeTask?.id,
           status: newTaskStatus,
@@ -152,7 +135,6 @@ export default function KanbanBoard() {
                 key={column.id}
                 column={column}
                 tasks={columnTasks}
-                createTask={createTask}
                 deleteTask={deleteTask}
               />
             );

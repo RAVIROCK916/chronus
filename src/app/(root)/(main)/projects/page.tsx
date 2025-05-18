@@ -116,7 +116,10 @@ export default function ProjectsPage() {
         //   projects={optimisticProjects}
         //   handleRemoveProject={handleRemoveProject}
         // />
-        <ProjectsTable projects={optimisticProjects} />
+        <ProjectsTable
+          projects={optimisticProjects}
+          handleAddProject={handleAddProject}
+        />
       ) : (
         <div className="flex h-48 items-center justify-center">
           <div className="flex flex-col items-center justify-center gap-2">

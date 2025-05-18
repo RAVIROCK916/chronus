@@ -69,9 +69,10 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
   return (
     <div
       ref={setNodeRef}
-      style={{ ...style, opacity: isDragging ? 0.2 : 1 }}
+      style={style}
       className={cn(
         "group space-y-2.5 rounded-md border bg-background/60 p-4 backdrop-blur transition-all dark:bg-background/80",
+        isDragging && "opacity-30",
       )}
     >
       <div className="z-50 flex justify-between gap-2">

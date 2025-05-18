@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { useId, useMemo, useRef, useState } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -18,6 +18,7 @@ import {
   VisibilityState,
 } from "@tanstack/react-table";
 import {
+  CalendarPlus,
   ChevronDownIcon,
   ChevronFirstIcon,
   ChevronLastIcon,
@@ -241,7 +242,11 @@ const columns: ColumnDef<Task>[] = [
       const due_date = row.getValue("due_date") as string;
       return (
         <div className="text-sm text-muted-foreground">
-          {due_date ? new Date(Number(due_date)).toLocaleDateString() : "N/A"}
+          {due_date ? (
+            new Date(due_date).toLocaleDateString()
+          ) : (
+            <CalendarPlus size={16} />
+          )}
         </div>
       );
     },
@@ -273,7 +278,7 @@ export default function TasksTable({ tasks }: TasksTableProps) {
 
   const [sorting, setSorting] = useState<SortingState>([
     {
-      id: "title",
+      id: "due_date",
       desc: false,
     },
   ]);

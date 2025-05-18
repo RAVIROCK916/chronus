@@ -79,12 +79,17 @@ import { useId } from "react";
 import DatePicker from "../shared/date-picker";
 import { useMutation } from "@apollo/client";
 import { UPDATE_PROJECT } from "@/lib/apollo/client/project";
+import CreateProjectDialog from "./create-project-dialog";
 
 type ProjectsTableProps = {
   projects: ProjectType[];
+  handleAddProject: (project: any) => void;
 };
 
-export default function ProjectsTable({ projects }: ProjectsTableProps) {
+export default function ProjectsTable({
+  projects,
+  handleAddProject,
+}: ProjectsTableProps) {
   const id = useId();
 
   const [updateProject] = useMutation(UPDATE_PROJECT);
@@ -155,7 +160,7 @@ export default function ProjectsTable({ projects }: ProjectsTableProps) {
       cell: ({ row }) => (
         <span>
           {row.getValue("due_date") ? (
-            new Date(Number(row.getValue("due_date"))).toLocaleDateString()
+            new Date(row.getValue("due_date")).toLocaleDateString()
           ) : (
             <DatePicker
               onChange={(date) =>
@@ -181,9 +186,7 @@ export default function ProjectsTable({ projects }: ProjectsTableProps) {
       header: "Created At",
       accessorKey: "created_at",
       cell: ({ row }) => (
-        <span>
-          {new Date(Number(row.getValue("created_at"))).toLocaleDateString()}
-        </span>
+        <span>{new Date(row.getValue("created_at")).toLocaleDateString()}</span>
       ),
     },
   ];
@@ -351,7 +354,7 @@ export default function ProjectsTable({ projects }: ProjectsTableProps) {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        {/* Delete button */}
+        {/* Create and Delete button */}
         <div className="flex items-center gap-3">
           {/* Delete button */}
           {table.getSelectedRowModel().rows.length > 0 && (
@@ -400,6 +403,11 @@ export default function ProjectsTable({ projects }: ProjectsTableProps) {
               </AlertDialogContent>
             </AlertDialog>
           )}
+          {/* Create button */}
+          <CreateProjectDialog
+            projects={projects}
+            handleAddProject={handleAddProject}
+          />
         </div>
       </div>
 
@@ -476,7 +484,7 @@ export default function ProjectsTable({ projects }: ProjectsTableProps) {
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="text-text-tertiary">
+                    <TableCell key={cell.id} className="text-muted-foreground">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),
