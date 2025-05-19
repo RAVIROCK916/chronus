@@ -10,7 +10,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useId } from "react";
 
@@ -24,12 +24,89 @@ import { useRouter } from "next/navigation";
 import { UPDATE_USER } from "@/lib/apollo/client/user";
 import { useSelector } from "react-redux";
 import { RootState } from "@/state/store";
+import Loader from "@/components/shared/loader";
 
 type OnboardingFormProps = {
   form: UseFormReturn<z.infer<typeof onboardingFormSchema>>;
 };
 
-const OnboardingFormOne = ({ form }: OnboardingFormProps) => {
+const steps = [OnboardingFormOne];
+
+function OnboardingPage() {
+  const { id } = useSelector((state: RootState) => state.profile);
+  const router = useRouter();
+
+  const {
+    currentStep,
+    step: StepComponent,
+    next,
+    back,
+    isFirstStep,
+    isLastStep,
+  } = useMultiStepForm<OnboardingFormProps>(steps);
+
+  const form = useForm<z.infer<typeof onboardingFormSchema>>({
+    resolver: zodResolver(onboardingFormSchema),
+    defaultValues: {
+      name: "",
+    },
+  });
+
+  const [updateUser, { loading }] = useMutation(UPDATE_USER);
+
+  // Handle Form Submission
+  const onSubmit: SubmitHandler<z.infer<typeof onboardingFormSchema>> = async (
+    values,
+  ) => {
+    if (isLastStep) {
+      console.log("Onboarding Complete", values);
+      await updateUser({
+        variables: {
+          id,
+          name: values.name,
+        },
+      });
+      router.push("/dashboard");
+    } else {
+      next();
+    }
+  };
+
+  return (
+    <div className="flex h-screen justify-center pt-20">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 p-10">
+          <StepComponent form={form} />
+          {/* Navigation Buttons */}
+          <div className="mt-6 flex flex-row-reverse">
+            <Button type="submit" variant="outline">
+              {isLastStep ? (
+                loading ? (
+                  <Loader />
+                ) : (
+                  <span>Submit</span>
+                )
+              ) : (
+                <span>
+                  Next <ArrowRight className="ml-2" size={16} />
+                </span>
+              )}
+            </Button>
+            {!isFirstStep && (
+              <Button type="button" variant="secondary" onClick={back}>
+                <ArrowLeft className="mr-2" size={16} /> Back
+              </Button>
+            )}
+          </div>
+        </form>
+      </Form>
+    </div>
+  );
+}
+
+export default OnboardingPage;
+
+function OnboardingFormOne({ form }: OnboardingFormProps) {
   const id = useId();
 
   return (
@@ -65,70 +142,4 @@ const OnboardingFormOne = ({ form }: OnboardingFormProps) => {
       ></FormField>
     </div>
   );
-};
-
-const steps = [OnboardingFormOne];
-
-const OnboardingPage = () => {
-  const { id } = useSelector((state: RootState) => state.profile);
-  const router = useRouter();
-
-  const {
-    currentStep,
-    step: StepComponent,
-    next,
-    back,
-    isFirstStep,
-    isLastStep,
-  } = useMultiStepForm<OnboardingFormProps>(steps);
-
-  const form = useForm<z.infer<typeof onboardingFormSchema>>({
-    resolver: zodResolver(onboardingFormSchema),
-    defaultValues: {
-      name: "",
-    },
-  });
-
-  const [updateUser] = useMutation(UPDATE_USER);
-
-  // Handle Form Submission
-  const onSubmit: SubmitHandler<z.infer<typeof onboardingFormSchema>> = async (
-    values,
-  ) => {
-    if (isLastStep) {
-      console.log("Onboarding Complete", values);
-      await updateUser({
-        variables: {
-          id,
-          name: values.name,
-        },
-      });
-      router.push("/dashboard");
-    } else {
-      next();
-    }
-  };
-
-  return (
-    <div className="flex h-screen justify-center pt-20">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 p-10">
-          <StepComponent form={form} />
-          {/* Navigation Buttons */}
-          <div className="mt-6 flex flex-row-reverse">
-            <Button type="submit" variant="outline">
-              {isLastStep ? "Submit" : "Next"}
-              {!isLastStep && <ArrowRight className="ml-2" size={16} />}
-            </Button>
-            {!isFirstStep && (
-              <Button type="button" variant="secondary" onClick={back}>
-                <ArrowLeft className="mr-2" size={16} /> Back
-              </Button>
-            )}
-          </div>
-        </form>
-      </Form>
-    </div>
-  );
-};
-export default OnboardingPage;
+}

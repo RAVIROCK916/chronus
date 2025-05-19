@@ -1,6 +1,6 @@
 import { LoaderCircle } from "lucide-react";
 
-const loader = () => {
+const Loader = () => {
   return (
     <LoaderCircle
       className="animate-spin"
@@ -11,4 +11,4 @@ const loader = () => {
   );
 };
 
-export default loader;
+export default Loader;

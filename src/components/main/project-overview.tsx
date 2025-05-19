@@ -1,7 +1,6 @@
 import { useProjectPageContext } from "@/state/context";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { CalendarIcon, ClockIcon } from "lucide-react";
 import {
   ChartConfig,
   ChartContainer,
@@ -10,8 +9,12 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Pie, PieChart, Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import { TODO_COLOR, IN_PROGRESS_COLOR, DONE_COLOR } from "@/constants/colors";
+import { ProjectPieChart } from "@/components/shared/project-pie-chart";
+import { useMemo } from "react";
+import CreateTaskDialog from "@/components/main/create-task-dialog";
+import TasksBarChart2 from "@/components/shared/tasks-bar-chart-2";
+import TasksBarChart3 from "@/components/shared/tasks-bar-chart-3";
 
 export default function ProjectOverview() {
   const { project } = useProjectPageContext();
@@ -26,15 +29,27 @@ export default function ProjectOverview() {
 
   // Calculate task statistics
   const totalTasks = project.tasks.length;
-  const todoTasks = project.tasks.filter(
-    (task) => task.status === "TODO",
-  ).length;
-  const inProgressTasks = project.tasks.filter(
-    (task) => task.status === "IN_PROGRESS",
-  ).length;
-  const completedTasks = project.tasks.filter(
-    (task) => task.status === "DONE",
-  ).length;
+  const { todoTasks, inProgressTasks, completedTasks } = useMemo(
+    () =>
+      project.tasks.reduce(
+        (acc, curr) => {
+          if (curr.status === "TODO") {
+            acc.todoTasks++;
+          } else if (curr.status === "IN_PROGRESS") {
+            acc.inProgressTasks++;
+          } else if (curr.status === "DONE") {
+            acc.completedTasks++;
+          }
+          return acc;
+        },
+        {
+          todoTasks: 0,
+          inProgressTasks: 0,
+          completedTasks: 0,
+        },
+      ),
+    [project.tasks],
+  );
 
   const completionPercentage =
     totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
@@ -145,7 +160,7 @@ export default function ProjectOverview() {
       </div> */}
 
       {/* Project Stats */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center text-sm font-medium">
@@ -223,116 +238,53 @@ export default function ProjectOverview() {
             )}
           </CardContent>
         </Card>
-      </div>
+      </div> */}
+      {project.tasks.length > 0 ? (
+        <div className="space-y-6">
+          {/* Project Progress */}
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle>Project Progress</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">
+                    Overall Completion
+                  </span>
+                  <span className="text-sm font-medium">
+                    {completionPercentage}%
+                  </span>
+                </div>
+                <Progress
+                  value={completionPercentage}
+                  indicatorColor="bg-foreground"
+                  style={{ opacity: completionPercentage / 100 }}
+                  className="h-2"
+                />
+              </div>
+            </CardContent>
+          </Card>
 
-      {/* Project Progress */}
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle>Project Progress</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">Overall Completion</span>
-              <span className="text-sm font-medium">
-                {completionPercentage}%
-              </span>
-            </div>
-            <Progress
-              value={completionPercentage}
-              indicatorColor="bg-foreground"
-              style={{ opacity: completionPercentage / 100 }}
-              className="h-2"
-            />
+          {/* Charts Section */}
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            {/* Task Status Distribution - Pie Chart */}
+            <ProjectPieChart tasks={project.tasks} />
+
+            {/* Task Priority Distribution - Bar Chart */}
+            <TasksBarChart2 tasks={project.tasks} />
+
+            <TasksBarChart3 tasks={project.tasks} className="col-span-2" />
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {/* Task Status Distribution - Pie Chart */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Task Status Distribution</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {totalTasks > 0 ? (
-              <ChartContainer
-                config={statusChartConfig}
-                className="mx-auto aspect-square max-h-[250px]"
-              >
-                <PieChart>
-                  <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent hideLabel />}
-                  />
-                  <Pie
-                    data={statusChartData}
-                    dataKey="tasks"
-                    nameKey="status"
-                  />
-                  <ChartLegend
-                    content={<ChartLegendContent nameKey="status" />}
-                    iconSize={64}
-                    className="text-sm"
-                  />
-                </PieChart>
-              </ChartContainer>
-            ) : (
-              <div className="flex h-[250px] items-center justify-center text-muted-foreground">
-                No tasks available to display
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Task Priority Distribution - Bar Chart */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Task Priority Distribution</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {totalTasks > 0 ? (
-              <ChartContainer
-                config={priorityChartConfig}
-                className="h-[250px] w-full"
-              >
-                <BarChart
-                  accessibilityLayer
-                  data={priorityChartData}
-                  margin={{
-                    left: 12,
-                    right: 12,
-                  }}
-                >
-                  <CartesianGrid vertical={false} />
-                  <XAxis
-                    dataKey="priority"
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={8}
-                  />
-                  <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent />}
-                  />
-                  <Bar
-                    dataKey="count"
-                    radius={4}
-                    // Use CSS custom properties for colors
-                    fill="currentColor"
-                    className="fill-primary"
-                  />
-                </BarChart>
-              </ChartContainer>
-            ) : (
-              <div className="flex h-[250px] items-center justify-center text-muted-foreground">
-                No tasks available to display
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
+        </div>
+      ) : (
+        <div className="flex h-[250px] items-center justify-center text-muted-foreground">
+          <div className="flex flex-col items-center justify-center gap-2">
+            <p>Create a task to get started.</p>
+            <CreateTaskDialog />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

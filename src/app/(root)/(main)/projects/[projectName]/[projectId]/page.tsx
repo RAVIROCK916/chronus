@@ -116,16 +116,18 @@ export default function ProjectPage({
     <ProjectPageContext.Provider
       value={{ project, addTask, updateTask, deleteTask, deleteTasks }}
     >
-      <PaddingContainer className="space-y-6 pt-0">
-        <div className="space-y-2">
-          <h1 className="text-4xl">{projectName}</h1>
-          {/* <p className="line-clamp-1 max-w-xl text-text-muted">
+      <div className="pb-4">
+        <PaddingContainer className="space-y-6 pt-0">
+          <div className="space-y-2">
+            <h1 className="text-4xl">{projectName}</h1>
+            {/* <p className="line-clamp-1 max-w-xl text-text-muted">
             {data?.project?.description}
-          </p> */}
-          {/* <AddButton text="Add task" /> */}
-        </div>
-      </PaddingContainer>
-      <ProjectHeader />
+						</p> */}
+            {/* <AddButton text="Add task" /> */}
+          </div>
+        </PaddingContainer>
+        <ProjectHeader />
+      </div>
     </ProjectPageContext.Provider>
   );
 }

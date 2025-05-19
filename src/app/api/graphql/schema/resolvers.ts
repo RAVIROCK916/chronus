@@ -10,9 +10,15 @@ import {
 import { and, eq, gte, inArray, or } from "drizzle-orm";
 import bcrypt from "bcrypt";
 import { ContextType } from "@/types/graphql";
-import { NotificationCategory, TaskPriority, TaskStatus } from "@/types";
+import {
+  NotificationCategory,
+  TaskPriority,
+  TaskStatus as TaskStatusType,
+} from "@/types";
 import { getRandomAvatar } from "@/utils/avatar";
 import { sub } from "date-fns";
+import { setupUser } from "@/app/api/graphql/utils";
+import { TaskStatus } from "@/constants/task";
 
 export const resolvers = {
   Query: {
@@ -211,6 +217,7 @@ async function createUser(
     .insert(userTable)
     .values({ name, email, password_hash, profile_picture })
     .returning();
+  setupUser(user[0].id);
   return user[0];
 }
 
@@ -471,7 +478,7 @@ async function createTask(
   task: {
     title: string;
     description?: string;
-    status: TaskStatus;
+    status: TaskStatusType;
     priority: TaskPriority;
     labels: string[];
     due_date?: string;
@@ -501,7 +508,7 @@ async function updateTask(
     id: string;
     title?: string;
     description?: string;
-    status?: TaskStatus;
+    status?: TaskStatusType;
     priority?: TaskPriority;
     labels?: string[];
     due_date?: string;
@@ -517,6 +524,7 @@ async function updateTask(
       priority,
       labels,
       due_date: due_date ? new Date(due_date) : undefined,
+      completed_at: status === TaskStatus.DONE ? new Date() : undefined,
     })
     .where(eq(taskTable.id, id))
     .returning();

@@ -9,6 +9,7 @@ const TASK_REQUEST = `
 		priority
 		labels
 		due_date
+		created_at
 		project {
 		  name
 		}
