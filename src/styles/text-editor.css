@@ -1,0 +1,63 @@
+/* Text Editor Shadcn Styling */
+.text-editor-container .quill {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.text-editor-container .ql-toolbar {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  border: 1px solid hsl(var(--input)) !important;
+  border-bottom: none;
+  background-color: hsl(var(--background-tertiary));
+  padding: 0.5rem;
+}
+
+.text-editor-container .ql-container {
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  border: 1px solid hsl(var(--input)) !important;
+  border-top: none;
+  background-color: hsl(var(--background));
+  font-size: 0.875rem;
+  min-height: 150px;
+}
+
+.text-editor-container .ql-editor {
+  min-height: 150px;
+  font-family: var(--font-sans);
+}
+
+.text-editor-container .ql-editor.ql-blank::before {
+  color: hsl(var(--muted-foreground));
+  font-style: normal;
+}
+
+.text-editor-container .ql-snow .ql-stroke {
+  stroke: hsl(var(--foreground));
+}
+
+.text-editor-container .ql-snow .ql-fill {
+  fill: hsl(var(--foreground));
+}
+
+.text-editor-container .ql-snow.ql-toolbar button:hover,
+.text-editor-container .ql-snow .ql-toolbar button:hover,
+.text-editor-container .ql-snow.ql-toolbar button.ql-active,
+.text-editor-container .ql-snow .ql-toolbar button.ql-active {
+  background-color: hsl(var(--accent));
+}
+
+.text-editor-container .ql-snow.ql-toolbar button:hover .ql-stroke,
+.text-editor-container .ql-snow .ql-toolbar button:hover .ql-stroke,
+.text-editor-container .ql-snow.ql-toolbar button.ql-active .ql-stroke,
+.text-editor-container .ql-snow .ql-toolbar button.ql-active .ql-stroke {
+  stroke: hsl(var(--accent-foreground));
+}
+
+.text-editor-container .ql-snow.ql-toolbar button:hover .ql-fill,
+.text-editor-container .ql-snow .ql-toolbar button:hover .ql-fill,
+.text-editor-container .ql-snow.ql-toolbar button.ql-active .ql-fill,
+.text-editor-container .ql-snow .ql-toolbar button.ql-active .ql-fill {
+  fill: hsl(var(--accent-foreground));
+}

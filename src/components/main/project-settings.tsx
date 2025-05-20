@@ -66,7 +66,7 @@ export default function ProjectSettings() {
         className="mx-auto my-8 max-w-md space-y-4"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <div className="overflow-y-auto px-4">
+        <div className="overflow-y-auto">
           <div className="flex flex-col items-center gap-4">
             <div className="space-y-1">
               <Avatar className="size-16">

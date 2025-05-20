@@ -1,6 +1,8 @@
 import { randomUUID } from "crypto";
 import bcrypt from "bcrypt";
 import db from "./index";
+import * as schema from "./schema";
+import { reset } from "drizzle-seed";
 import {
   eventTable,
   notificationTable,
@@ -14,10 +16,12 @@ import { getRandomStyledAvatar } from "@/utils/avatar";
 async function main() {
   console.log("Seeding...");
 
+  await reset(db, schema);
+
   // Create users
   const users = await Promise.all(
     Array.from({ length: 2 }, async (_, i) => {
-      const password_hash = await bcrypt.hash("testtest", 10);
+      const password_hash = await bcrypt.hash("12345678", 10);
       const user = await db
         .insert(userTable)
         .values({
@@ -47,8 +51,7 @@ async function main() {
             color: ["sky", "amber", "rose"][Math.floor(Math.random() * 3)],
             picture,
             created_at: new Date(
-              Date.now() -
-                Math.floor(Math.random() * 100 * 24 * 60 * 60 * 1000),
+              Date.now() - Math.floor(Math.random() * 90 * 24 * 60 * 60 * 1000),
             ),
             user_id: user.id,
           })
@@ -60,7 +63,7 @@ async function main() {
     // Create tasks for each project
     for (const project of projects) {
       await Promise.all(
-        Array.from({ length: 50 }, async (_, i) => {
+        Array.from({ length: 150 }, async (_, i) => {
           const priorities = ["LOW", "MEDIUM", "HIGH"] as const;
           const statuses = ["TODO", "IN_PROGRESS", "DONE"] as const;
 
@@ -89,7 +92,7 @@ async function main() {
             },
           ];
           const created_at = new Date(
-            Date.now() - Math.floor(Math.random() * 100 * 24 * 60 * 60 * 1000),
+            Date.now() - Math.floor(Math.random() * 90 * 24 * 60 * 60 * 1000),
           );
           const updated_at = new Date(
             created_at.getTime() +

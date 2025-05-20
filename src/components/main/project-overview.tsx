@@ -29,26 +29,22 @@ export default function ProjectOverview() {
 
   // Calculate task statistics
   const totalTasks = project.tasks.length;
-  const { todoTasks, inProgressTasks, completedTasks } = useMemo(
-    () =>
-      project.tasks.reduce(
-        (acc, curr) => {
-          if (curr.status === "TODO") {
-            acc.todoTasks++;
-          } else if (curr.status === "IN_PROGRESS") {
-            acc.inProgressTasks++;
-          } else if (curr.status === "DONE") {
-            acc.completedTasks++;
-          }
-          return acc;
-        },
-        {
-          todoTasks: 0,
-          inProgressTasks: 0,
-          completedTasks: 0,
-        },
-      ),
-    [project.tasks],
+  const { todoTasks, inProgressTasks, completedTasks } = project.tasks.reduce(
+    (acc, curr) => {
+      if (curr.status === "TODO") {
+        acc.todoTasks++;
+      } else if (curr.status === "IN_PROGRESS") {
+        acc.inProgressTasks++;
+      } else if (curr.status === "DONE") {
+        acc.completedTasks++;
+      }
+      return acc;
+    },
+    {
+      todoTasks: 0,
+      inProgressTasks: 0,
+      completedTasks: 0,
+    },
   );
 
   const completionPercentage =

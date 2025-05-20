@@ -53,28 +53,28 @@ const SignupForm = () => {
   });
 
   async function handleSubmit(values: z.infer<typeof SignupFormSchema>) {
-    await createUser({
-      variables: {
-        email: values.email,
-        password: values.password,
-      },
-    })
-      .then(async (res) => {
-        const signedUpUser = res.data.createUser;
-
-        // set user profile in state and redirect to onboarding
-        dispatch(setProfile(signedUpUser));
-        toast.success("User created successfully");
-
-        await createSession(signedUpUser.id);
-        router.push("/onboarding");
-      })
-      .catch((err) => {
-        toast.error("Something went wrong.", {
-          description: "Please try again",
-        });
-        console.log("error", err);
+    try {
+      const res = await createUser({
+        variables: {
+          email: values.email,
+          password: values.password,
+        },
       });
+
+      const signedUpUser = res.data.createUser;
+
+      // set user profile in state and redirect to onboarding
+      dispatch(setProfile(signedUpUser));
+      toast.success("User created successfully");
+
+      await createSession(signedUpUser.id);
+      router.push("/onboarding");
+    } catch (err: any) {
+      toast.error("Something went wrong.", {
+        description: "Please try again",
+      });
+      console.log("error", err);
+    }
   }
 
   return (

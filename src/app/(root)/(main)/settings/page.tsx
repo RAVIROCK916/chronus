@@ -25,8 +25,8 @@ const tabs = [
 
 export default function SettingsPage() {
   const { data, loading } = useQuery(GET_USER);
-  if (loading) return <SettingsSkeleton />;
-  if (!data?.currentUser) return <div>No user found</div>;
+  // if (loading) return <SettingsSkeleton />;
+  // if (!data?.currentUser) return <div>No user found</div>;
   return (
     <div>
       <UserContext.Provider value={data?.currentUser}>
@@ -230,36 +230,36 @@ function PreferencesSettingsTab() {
   );
 }
 
-export function SettingsSkeleton() {
-  return (
-    <div>
-      <Tabs defaultValue="Account" className="items-center bg-transparent">
-        <div className="space-y-6">
-          <div className="px-10 pt-6">
-            <h1 className="text-4xl">Settings</h1>
-          </div>
-          <TabsList className="h-auto w-full justify-start gap-4 rounded-none border-b bg-transparent py-1 pl-10 pr-0 text-foreground">
-            {tabs.map((tab) => (
-              <TabsTrigger
-                key={tab.name}
-                value={tab.name}
-                className="relative font-normal text-text-tertiary after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:after:bg-primary"
-              >
-                {tab.name}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </div>
-        <TabsContent value="Account">
-          <AccountSettingsTabSkeleton />
-        </TabsContent>
-        <TabsContent value="Preferences">
-          <PreferencesSettingsTabSkeleton />
-        </TabsContent>
-      </Tabs>
-    </div>
-  );
-}
+// export function SettingsSkeleton() {
+//   return (
+//     <div>
+//       <Tabs defaultValue="Account" className="items-center bg-transparent">
+//         <div className="space-y-6">
+//           <div className="px-10 pt-6">
+//             <h1 className="text-4xl">Settings</h1>
+//           </div>
+//           <TabsList className="h-auto w-full justify-start gap-4 rounded-none border-b bg-transparent py-1 pl-10 pr-0 text-foreground">
+//             {tabs.map((tab) => (
+//               <TabsTrigger
+//                 key={tab.name}
+//                 value={tab.name}
+//                 className="relative font-normal text-text-tertiary after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 hover:text-foreground data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:after:bg-primary"
+//               >
+//                 {tab.name}
+//               </TabsTrigger>
+//             ))}
+//           </TabsList>
+//         </div>
+//         <TabsContent value="Account">
+//           <AccountSettingsTabSkeleton />
+//         </TabsContent>
+//         <TabsContent value="Preferences">
+//           <PreferencesSettingsTabSkeleton />
+//         </TabsContent>
+//       </Tabs>
+//     </div>
+//   );
+// }
 
 function AccountSettingsTabSkeleton() {
   return (
