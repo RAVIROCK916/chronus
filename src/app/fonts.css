@@ -53,7 +53,7 @@
 
 @font-face {
   font-family: "Helvetica Neue";
-  src: url("/fonts/helvetica-neue-5/HelveticaNeueItalic.otf") format("opentype");
+  src: url("/fonts/helvetica-neue-5/HelveticaNeueItalic.ttf") format("truetype");
   font-weight: 400;
   font-style: italic;
 }

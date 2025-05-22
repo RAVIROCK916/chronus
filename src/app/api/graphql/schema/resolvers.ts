@@ -277,6 +277,7 @@ async function loginUser(
   _: any,
   { email, password }: { email: string; password: string },
 ) {
+  console.log("loginUser", email, password);
   const user = await db
     .select()
     .from(userTable)
@@ -353,6 +354,15 @@ async function verifyUser(_: any, __: any, context: ContextType) {
   const userId = context.userId;
   const sessionId = context.sessionId;
   try {
+    const user = await db
+      .select()
+      .from(userTable)
+      .where(eq(userTable.id, userId));
+    if (!user[0]) {
+      console.log("User not found");
+      return null;
+    }
+
     const session = await db
       .select()
       .from(sessionTable)
@@ -361,16 +371,6 @@ async function verifyUser(_: any, __: any, context: ContextType) {
       );
     if (!session[0]) {
       console.log("Session not found");
-      return null;
-    }
-
-    const user = await db
-      .select()
-      .from(userTable)
-      .where(eq(userTable.id, session[0].user_id));
-
-    if (!user[0]) {
-      console.log("User not found");
       return null;
     }
 

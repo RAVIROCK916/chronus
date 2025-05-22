@@ -68,8 +68,10 @@ const Sidebar = () => {
                   <Command className="size-4" />
                 </div>
                 <div className="hidden flex-1 text-left text-sm leading-tight lg:grid">
-                  <span className="truncate font-semibold">Acme Inc</span>
-                  <span className="truncate text-xs">Enterprise</span>
+                  <span className="truncate font-semibold">Chronus Inc</span>
+                  <span className="truncate text-xs text-muted-foreground">
+                    Enterprise
+                  </span>
                 </div>
               </div>
               <div

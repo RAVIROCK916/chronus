@@ -1,5 +1,8 @@
 "use client";
 
+import AnimationContainer from "./main/animation-container";
+import MaxWidthWrapper from "./main/max-width-wrapper";
+
 // Component exports
 export { AgendaView } from "./shared/agenda-view";
 export { DayView } from "./shared/day-view";
@@ -26,3 +29,6 @@ export * from "@/hooks/use-event-visibility";
 
 // Type exports
 export type { CalendarEvent, CalendarView, EventColor } from "./types";
+
+// UI exports
+export { AnimationContainer, MaxWidthWrapper };
