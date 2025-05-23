@@ -21,17 +21,17 @@ export default function MainContent({
 
   function getHeaderContent() {
     // Handle root routes
-    if (location === "/dashboard") {
-      return (
-        // <p className="text-sm uppercase text-text-muted">
-        //   Good{" "}
-        //   <span className="text-3xl tracking-wider text-foreground">
-        //     {getTimeOfDay()}
-        //   </span>
-        // </p>
-        <h1 className="text-4xl">Dashboard</h1>
-      );
-    }
+    // if (location === "/dashboard") {
+    //   return (
+    // <p className="text-sm uppercase text-text-muted">
+    //   Good{" "}
+    //   <span className="text-3xl tracking-wider text-foreground">
+    //     {getTimeOfDay()}
+    //   </span>
+    // </p>
+    // <h1 className="text-4xl">Dashboard</h1>
+    //   );
+    // }
 
     // Handle tasks routes
     if (location === "/tasks") {

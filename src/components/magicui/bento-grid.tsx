@@ -32,24 +32,22 @@ import { Label } from "@/components/ui/label";
 export const CARDS = [
   {
     Icon: Link2Icon,
-    name: "Shorten links",
-    description: "Create short links that are easy to remember and share.",
+    name: "Organize Tasks",
+    description: "Create, track, and organize all your tasks in one place.",
     href: "#",
     cta: "Learn more",
     className: "col-span-3 lg:col-span-1",
     background: (
       <Card className="absolute left-10 top-10 origin-top rounded-none rounded-tl-md border border-r-0 border-border transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_0%,#000_100%)] group-hover:scale-105">
         <CardHeader>
-          <CardTitle>Create short links</CardTitle>
-          <CardDescription>
-            Create short links that are easy to remember and share.
-          </CardDescription>
+          <CardTitle>Create a Task</CardTitle>
+          <CardDescription>Add a new task to your list.</CardDescription>
         </CardHeader>
         <CardContent className="-mt-4">
-          <Label>Paste your link</Label>
+          <Label>Title</Label>
           <Input
             type="text"
-            placeholder="Paste your link here..."
+            placeholder="Enter a title..."
             className="w-full focus-visible:ring-0 focus-visible:ring-transparent"
           />
         </CardContent>
@@ -58,8 +56,8 @@ export const CARDS = [
   },
   {
     Icon: SearchIcon,
-    name: "Search your links",
-    description: "Quickly find the links you need with AI-powered search.",
+    name: "Search your tasks",
+    description: "Quickly find the tasks you need with AI-powered search.",
     href: "#",
     cta: "Learn more",
     className: "col-span-3 lg:col-span-2",
@@ -67,23 +65,15 @@ export const CARDS = [
       <Command className="origin-to absolute right-10 top-10 w-[70%] translate-x-0 border border-border p-2 transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] group-hover:-translate-x-10">
         <Input placeholder="Type to search..." />
         <div className="mt-1 cursor-pointer">
+          <div className="rounded-md px-4 py-2 hover:bg-muted">Do laundry</div>
           <div className="rounded-md px-4 py-2 hover:bg-muted">
-            linkify.io/hdf00c
+            Exercise for 30 minutes
           </div>
           <div className="rounded-md px-4 py-2 hover:bg-muted">
-            linkify.io/sdv0n0
+            Buy groceries
           </div>
           <div className="rounded-md px-4 py-2 hover:bg-muted">
-            linkify.io/03gndo
-          </div>
-          <div className="rounded-md px-4 py-2 hover:bg-muted">
-            linkify.io/09vmmw
-          </div>
-          <div className="rounded-md px-4 py-2 hover:bg-muted">
-            linkify.io/s09vws
-          </div>
-          <div className="rounded-md px-4 py-2 hover:bg-muted">
-            linkify.io/sd8fv5
+            Schedule a meeting with John
           </div>
         </div>
       </Command>

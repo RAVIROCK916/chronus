@@ -27,7 +27,7 @@ const colorScale = [
   "bg-neutral-400 dark:bg-neutral-500",
   "bg-neutral-600 dark:bg-neutral-300",
   "bg-neutral-800 dark:bg-neutral-100",
-  "bg-neutral-950 dark:bg-50",
+  "bg-neutral-950 dark:bg-neutral-50",
 ];
 
 const getColorClass = (count: number) => {
