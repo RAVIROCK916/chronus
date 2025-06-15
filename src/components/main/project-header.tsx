@@ -6,16 +6,16 @@ import {
   ChartLine,
   HouseIcon,
   List,
-  PanelsTopLeftIcon,
   SettingsIcon,
   UsersRoundIcon,
 } from "lucide-react";
-import ClientKanbanBoard from "./client-kanban-board";
-import TasksTable from "./tasks-table";
-import ProjectSettings from "./project-settings";
-import { HorizontalPaddingContainer } from "../shared/padding-container";
+import ClientKanbanBoard from "@/components/main/client-kanban-board";
+import TasksTable from "@/components/main/tasks-table";
+import ProjectSettings from "@/components/main/project-settings";
+import { HorizontalPaddingContainer } from "@/components/shared/padding-container";
 import { useProjectPageContext } from "@/state/context";
-import ProjectOverview from "./project-overview";
+import ProjectOverview from "@/components/main/project-overview";
+import ProjectTasksTable from "@/components/main/project-tasks-table";
 
 export default function ProjectHeader() {
   const { project } = useProjectPageContext();
@@ -116,7 +116,7 @@ export default function ProjectHeader() {
         </TabsContent>
         <TabsContent value="List">
           <div className="pr-6">
-            <TasksTable tasks={project.tasks} />
+            <ProjectTasksTable tasks={project.tasks} />
           </div>
         </TabsContent>
         <TabsContent value="tab-3">

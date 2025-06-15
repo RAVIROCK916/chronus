@@ -54,7 +54,7 @@ const Sidebar = () => {
   return (
     <div
       className={cn(
-        "sticky top-0 hidden h-screen space-y-4 border-r bg-background-hover py-4 transition-transform duration-500 sm:block md:w-48 lg:w-64",
+        "sticky top-0 hidden h-screen space-y-4 border-r bg-background-hover py-4 transition-transform duration-500 dark:bg-transparent sm:block md:w-48 lg:w-64",
         state === "expanded" ? "translate-x-0" : "-translate-x-full",
       )}
     >
@@ -62,7 +62,7 @@ const Sidebar = () => {
         <div className="space-y-4">
           {/* <Logo /> */}
           <SideBarContainer>
-            <div className="relative flex items-center justify-center lg:justify-between">
+            <div className="relative flex items-center justify-center py-1 lg:justify-between">
               <div className="flex gap-x-2">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                   <Command className="size-4" />
@@ -102,21 +102,25 @@ const Sidebar = () => {
             </div>
           </SideBarContainer>
         </div>
-        <SideBarContainer className="space-y-4">
-          <div className="space-y-3 lg:space-y-1">
-            {sidebarItems.bottom.map((item) => (
-              <SidebarItem
-                key={item.name}
-                name={item.name}
-                href={item.href}
-                Icon={item.icon}
-              />
-            ))}
-          </div>
-          <HighlightNotificationCard />
+        <div className="space-y-4">
+          <SideBarContainer className="space-y-4">
+            <div className="space-y-3 lg:space-y-1">
+              {sidebarItems.bottom.map((item) => (
+                <SidebarItem
+                  key={item.name}
+                  name={item.name}
+                  href={item.href}
+                  Icon={item.icon}
+                />
+              ))}
+            </div>
+            <HighlightNotificationCard />
+          </SideBarContainer>
           <Separator />
-          <NavUser user={profile} />
-        </SideBarContainer>
+          <SideBarContainer>
+            <NavUser user={profile} />
+          </SideBarContainer>
+        </div>
       </div>
     </div>
   );

@@ -98,7 +98,7 @@ export default function ProjectPage({
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex h-4/5 items-center justify-center">
         <Loader />
       </div>
     );

@@ -143,7 +143,7 @@ const columns: ColumnDef<Task>[] = [
     accessorKey: "title",
     cell: ({ row }) => (
       <Link
-        href={`tasks/${row.original.title}/${row.original.id}`}
+        href={`/projects/${row.original.project.name}/${row.original.project.id}/tasks/${row.original.title}/${row.original.id}`}
         className="font-medium"
       >
         {row.getValue("title")}

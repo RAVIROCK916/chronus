@@ -15,6 +15,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
+import Loader from "@/components/shared/loader";
 
 const tabs = [
   { name: "Account", href: "#account" },
@@ -25,8 +26,13 @@ const tabs = [
 
 export default function SettingsPage() {
   const { data, loading } = useQuery(GET_USER);
-  // if (loading) return <SettingsSkeleton />;
-  // if (!data?.currentUser) return <div>No user found</div>;
+  if (loading)
+    return (
+      <div className="flex h-3/4 items-center justify-center">
+        <Loader />
+      </div>
+    );
+  if (!data?.currentUser) return <div>No user found</div>;
   return (
     <div>
       <UserContext.Provider value={data?.currentUser}>

@@ -24,6 +24,10 @@ const PROJECT_REQUEST = `
 		due_date
 		created_at
 		completed_at
+		project {
+			id
+			name
+		}
 	}
 `;
 

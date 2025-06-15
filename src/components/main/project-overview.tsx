@@ -252,12 +252,7 @@ export default function ProjectOverview() {
                     {completionPercentage}%
                   </span>
                 </div>
-                <Progress
-                  value={completionPercentage}
-                  indicatorColor="bg-foreground"
-                  style={{ opacity: completionPercentage / 100 }}
-                  className="h-2"
-                />
+                <Progress value={completionPercentage} className="h-2" />
               </div>
             </CardContent>
           </Card>

@@ -1,6 +1,7 @@
 "use client";
 
 import AnimationContainer from "./main/animation-container";
+import Blogs from "./main/blogs";
 import MaxWidthWrapper from "./main/max-width-wrapper";
 
 // Component exports
@@ -31,4 +32,4 @@ export * from "@/hooks/use-event-visibility";
 export type { CalendarEvent, CalendarView, EventColor } from "./types";
 
 // UI exports
-export { AnimationContainer, MaxWidthWrapper };
+export { AnimationContainer, Blogs, MaxWidthWrapper };
