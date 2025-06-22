@@ -5,6 +5,7 @@ import { Avatar } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { EditableText } from "@/components/shared/Editable-Text";
+import TextEditor from "@/components/shared/text-editor";
 
 type TaskDetailsProps = {
   task: Task;
@@ -23,13 +24,14 @@ export default function TaskDetails({ task }: TaskDetailsProps) {
           fieldName="title"
           className="border-0 px-4 py-6 text-3xl shadow-none transition-colors hover:bg-background-secondary focus-visible:ring-0"
         />
-        <EditableTextarea
+        {/* <EditableTextarea
           value={task.description || ""}
           taskId={task.id}
           fieldName="description"
           className="min-h-96 resize-none border-0 px-4 py-2 text-base text-text-tertiary transition-colors hover:bg-background-secondary focus-visible:ring-0"
           style={{ fieldSizing: "content" }}
-        />
+        /> */}
+        <TextEditor value={task.description || ""} onChange={() => {}} />
       </div>
       {/* <Separator /> */}
       <div className="space-y-2">

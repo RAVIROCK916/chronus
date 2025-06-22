@@ -2,6 +2,7 @@ import ReactQuill from "react-quill-new";
 import { useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
 
+import "@/styles/text-editor.css";
 import "react-quill-new/dist/quill.snow.css";
 
 type TextEditorProps = {
@@ -22,20 +23,28 @@ const TextEditor = ({
   const modules = useMemo(
     () => ({
       toolbar: [
-        [{ header: [1, 2, false] }],
         ["bold", "italic", "underline", "strike", "blockquote"],
+				[{ size: [] }],
+				[{ font: [] }],
+				[{ align: ["right", "center", "justify"] }],
         [
           { list: "ordered" },
           { list: "bullet" },
           { indent: "-1" },
           { indent: "+1" },
         ],
-        ["link", "image"],
+        ["link", "image", "code-block"],
         ["clean"],
       ],
     }),
     [],
-  );
+	);
+	
+	const formats = [
+    'header', 'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image'
+  ];
 
   const handleChange = (value: string) => {
     setText(value);
@@ -48,7 +57,8 @@ const TextEditor = ({
         value={text}
         onChange={handleChange}
         theme="snow"
-        modules={modules}
+				modules={modules}
+				formats={formats}
         placeholder={placeholder}
         className="rounded-md border border-input bg-background text-sm ring-offset-background"
       />
