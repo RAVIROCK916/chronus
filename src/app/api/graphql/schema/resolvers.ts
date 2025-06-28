@@ -554,7 +554,7 @@ async function createEvent(
     description?: string;
     start: string;
     end: string;
-    all_day: boolean;
+    all_day?: boolean;
     color: string;
     location?: string;
   },

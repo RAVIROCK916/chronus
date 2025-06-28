@@ -65,9 +65,9 @@ export const typeDefs = gql`
     user_id: ID!
     title: String!
     description: String
-    start: String!
-    end: String!
-    all_day: Boolean!
+    start: DateTime!
+    end: DateTime!
+    all_day: Boolean
     color: String!
     location: String
     created_at: DateTime!
@@ -166,7 +166,7 @@ export const typeDefs = gql`
       description: String
       start: String!
       end: String!
-      all_day: Boolean!
+      all_day: Boolean
       color: String!
       location: String
     ): Event
