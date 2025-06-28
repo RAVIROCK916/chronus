@@ -490,6 +490,9 @@
 }
 
 @layer utilities {
+  .text-sm {
+    line-height: inherit;
+  }
   .rotate-x-90 {
     transform: rotateX(90deg);
   }

@@ -41,7 +41,7 @@ const SidebarItem = ({ name, href, Icon }: SidebarItemProps) => {
         )}
       >
         <Icon size={18} aria-hidden="true" />
-        <span className="hidden lg:block">{name}</span>
+        <span className="hidden md:block">{name}</span>
       </Link>
     </div>
   );
@@ -54,7 +54,7 @@ const Sidebar = () => {
   return (
     <div
       className={cn(
-        "sticky top-0 hidden h-screen space-y-4 border-r bg-background-hover py-4 transition-transform duration-500 dark:bg-transparent sm:block md:w-48 lg:w-64",
+        "sticky top-0 h-screen space-y-4 border-r bg-background-hover py-4 transition-transform duration-500 dark:bg-transparent md:w-48 lg:w-64",
         state === "expanded" ? "translate-x-0" : "-translate-x-full",
       )}
     >
@@ -67,7 +67,7 @@ const Sidebar = () => {
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                   <Command className="size-4" />
                 </div>
-                <div className="hidden flex-1 text-left text-sm leading-tight lg:grid">
+                <div className="hidden flex-1 text-left text-sm leading-tight md:grid">
                   <span className="truncate font-semibold">Chronus Inc</span>
                   <span className="truncate text-xs text-muted-foreground">
                     Enterprise
@@ -76,7 +76,7 @@ const Sidebar = () => {
               </div>
               <div
                 className={cn(
-                  "hidden cursor-pointer rounded-lg p-2 transition-opacity duration-500 hover:bg-background-secondary lg:block",
+                  "hidden cursor-pointer rounded-lg p-2 transition-opacity duration-500 hover:bg-background-secondary md:block",
                   state !== "expanded"
                     ? "pointer-events-none opacity-0"
                     : "opacity-100",

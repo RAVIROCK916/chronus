@@ -59,7 +59,7 @@ export function NavUser({
                 />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
-              <div className="hidden flex-1 text-left text-sm leading-tight lg:grid">
+              <div className="hidden flex-1 text-left text-sm leading-tight md:grid">
                 <span className="truncate font-semibold">{user.name}</span>
                 <span className="truncate text-xs text-text-muted">
                   {user.email}
