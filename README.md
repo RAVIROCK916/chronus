@@ -1,67 +1,111 @@
-### ChatGPT
+# Chronus
 
-https://chatgpt.com/c/6790733d-f3e8-8000-b1d0-333a098f89aa
-
-# Frontend
-
-## Pages
-
-- Overview
-- Dashboard
-- Projects
-- Notifications
-
-# Backend
-
-## Routes
-
-- POST /api/auth/login - Login
-- POST /api/auth/register - Register
-- POST /api/auth/logout - Logout
+Chronus is a modern project and task management platform designed to help teams and individuals organize, track, and complete their work efficiently. With a beautiful UI, real-time updates, and powerful analytics, Chronus makes productivity effortless.
 
 ---
 
-- GET /api/user/getAll - Get all users
-- GET /api/user/get/:id - Get user by id
-- POST /api/user/create - Create user
-- PATCH /api/user/update/:id - Update user by id
-- DELETE /api/user/delete/:id - Delete user by idPOST
+## Features
+
+- 🗂️ **Projects & Tasks:** Create, edit, and manage projects and tasks with ease.
+- 📊 **Dashboards:** Visualize progress with charts, heatmaps, and statistics.
+- 🏷️ **Labels & Priorities:** Categorize and prioritize tasks for better organization.
+- 📅 **Due Dates:** Set deadlines and never miss important milestones.
+- 👥 **Team Collaboration:** Work together with your team on shared projects.
+- 🔔 **Notifications:** Stay updated with real-time notifications.
+- 🎨 **Customizable UI:** Personalize your workspace with themes and colors.
 
 ---
 
-- GET /api/task/getAll - Get all tasks
-- GET /api/task/get/:id - Get task by id
-- POST /api/task/create - Create task
-- PATCH /api/task/update/:id - Update task by id
-- DELETE /api/task/delete/:id - Delete task by id
-
----
-
-- GET /api/project/getAll - Get all projects
-- GET /api/project/get/:id - Get project by id
-- POST /api/project/create - Create project
-- PATCH /api/project/update/:id - Update project by id
-- DELETE /api/project/delete/:id - Delete project by id
-
----
-
-# Tech Stack
+## Tech Stack
 
 ### Frontend
 
-- [Next.js](https://nextjs.org/)
-- [React](https://reactjs.org/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [React Redux](https://react-redux.js.org/)
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- React Redux
 
 ### Backend
 
-- [Bun](https://bun.sh/)
-- [GraphQL](https://graphql.org/)
-- [Apollo Server](https://www.apollographql.com/)
+- Bun
+- GraphQL
+- Apollo Server
 
 ### Database
 
-- [PostgreSQL](https://www.postgresql.org/)
+- PostgreSQL
+- Drizzle ORM
+
+---
+
+## Getting Started
+
+1. **Clone the repository:**
+
+   ```sh
+   git clone https://github.com/your-username/chronus.git
+   cd chronus
+   ```
+
+2. **Install dependencies:**
+
+   ```sh
+   bun install
+   ```
+
+3. **Set up environment variables:**
+
+   - Copy `.env.example` to `.env` and fill in the required values.
+
+4. **Run the development server:**
+
+   ```sh
+   bun run dev
+   ```
+
+5. **Open [http://localhost:3000](http://localhost:3000) in your browser.**
+
+---
+
+## Project Structure
+
+```
+chronus/
+├── src/
+│   ├── app/                # Next.js app directory
+│   ├── components/         # Reusable React components
+│   ├── db/                 # Database schema and seed scripts
+│   ├── lib/                # GraphQL definitions and utilities
+│   ├── state/              # Context and state management
+│   └── utils/              # Utility functions and constants
+├── public/                 # Static assets (fonts, images)
+├── .env                    # Environment variables
+├── package.json
+├── bun.lockb
+└── README.md
+```
+
+---
+
+## Scripts
+
+- `bun run dev` — Start the development server
+- `bun run build` — Build the project for production
+- `bun run start` — Start the production server
+- `bun run lint` — Lint the codebase
+
+---
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+## Acknowledgements
+
+- [Next.js](https://nextjs.org/)
 - [Drizzle ORM](https://www.drizzle.team/)
+- [Apollo GraphQL](https://www.apollographql.com/)
+- [Tailwind CSS](https://tailwindcss.com/)

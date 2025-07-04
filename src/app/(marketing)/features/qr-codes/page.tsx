@@ -76,7 +76,7 @@ const LinkShorteningPage = () => {
                 Powerup your link strategy
               </h2>
               <p className="mx-auto mt-6 max-w-lg text-base text-muted-foreground md:text-lg">
-                Take control of your links with advanced features and real-time
+                Take control of your tasks with advanced features and real-time
                 insights. Simplify your workflow and achieve more.
               </p>
               <div className="mt-6">

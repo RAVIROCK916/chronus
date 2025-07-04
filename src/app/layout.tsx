@@ -7,6 +7,7 @@ import { GeistSans } from "geist/font/sans";
 
 import "./globals.css";
 import "./fonts.css";
+import PostHogPageView from "@/components/shared/posthog-pageview";
 
 export const metadata: Metadata = {
   title: "Chronus",
@@ -31,7 +32,10 @@ export default async function Layout({
         /> */}
       </head>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <PostHogPageView />
+        </Providers>
         <Toaster position="top-right" />
       </body>
     </html>

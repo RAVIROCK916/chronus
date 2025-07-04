@@ -17,6 +17,7 @@ import React, { useEffect, useState } from "react";
 import MaxWidthWrapper from "@/components/main/max-width-wrapper";
 import MobileNavbar from "./mobile-navbar";
 import AnimationContainer from "@/components/main/animation-container";
+import ThemeIcon from "../shared/theme-icon";
 
 const Navbar = () => {
   const [scroll, setScroll] = useState(false);
@@ -48,7 +49,7 @@ const Navbar = () => {
           <div className="flex items-center space-x-12">
             <Link href="/#home">
               <span className="font-heading text-lg font-bold !leading-none">
-                Linkify
+                Chronus
               </span>
             </Link>
 
@@ -85,7 +86,7 @@ const Navbar = () => {
                                       All Features
                                     </h6>
                                     <p className="text-sm leading-tight text-muted-foreground">
-                                      Manage links, track performance, and more.
+                                      Manage tasks, track performance, and more.
                                     </p>
                                   </Link>
                                 </NavigationMenuLink>
@@ -117,6 +118,7 @@ const Navbar = () => {
                 ))}
               </NavigationMenuList>
             </NavigationMenu>
+            <ThemeIcon />
           </div>
 
           <div className="hidden items-center lg:flex">

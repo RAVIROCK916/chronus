@@ -32,11 +32,11 @@ const chartConfig = {
   },
   in_progress: {
     label: "In Progress",
-    color: "hsl(var(--chart-2))",
+    color: "hsl(var(--chart-3))",
   },
   todo: {
     label: "To Do",
-    color: "hsl(var(--chart-3))",
+    color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig;
 

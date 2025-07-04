@@ -46,7 +46,7 @@ export default function TaskDetails({ task }: TaskDetailsProps) {
           value={task.title}
           taskId={task.id}
           fieldName="title"
-          className="border-0 px-4 py-6 text-3xl shadow-none transition-colors hover:bg-background-secondary focus-visible:ring-0"
+          className="border-0 px-0 py-6 text-4xl shadow-none transition-colors hover:bg-background-tertiary focus-visible:ring-0"
         />
         {/* <EditableTextarea
           value={task.description || ""}
@@ -55,13 +55,15 @@ export default function TaskDetails({ task }: TaskDetailsProps) {
           className="min-h-96 resize-none border-0 px-4 py-2 text-base text-text-tertiary transition-colors hover:bg-background-secondary focus-visible:ring-0"
           style={{ fieldSizing: "content" }}
         /> */}
-        {/* <TextEditor value={task.description || ""} onChange={() => {}} /> */}
-        <Tiptap
-          value={description}
-          onChange={(val) => {
-            setDescription(val);
-          }}
-        />
+        <div className="space-y-2">
+          <p>Description</p>
+          <Tiptap
+            value={description}
+            onChange={(val) => {
+              setDescription(val);
+            }}
+          />
+        </div>
       </div>
       {/* <Separator /> */}
       {/* <div className="space-y-2">

@@ -1,3 +1,5 @@
+"use client";
+
 import PricingCards from "@/components/main/pricing-cards";
 import MaxWidthWrapper from "@/components/main/max-width-wrapper";
 import AnimationContainer from "@/components/main/animation-container";
@@ -19,8 +21,10 @@ import { REVIEWS, COMPANIES, PROCESS } from "@/utils/misc";
 import { ArrowRightIcon, CreditCardIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTheme } from "next-themes";
 
-const HomePage = async () => {
+const HomePage = () => {
+  const { theme } = useTheme();
   return (
     <div className="scrollbar-hide size-full overflow-x-hidden">
       {/* Hero Section */}
@@ -69,7 +73,11 @@ const HomePage = async () => {
             <div className="-m-2 rounded-xl bg-opacity-50 p-2 ring-1 ring-inset ring-foreground/20 backdrop-blur-3xl lg:-m-4 lg:rounded-2xl">
               <BorderBeam size={250} duration={12} delay={9} />
               <Image
-                src="/assets/dashboard-dark.png"
+                src={
+                  theme === "dark"
+                    ? "/assets/dashboard-dark.png"
+                    : "/assets/dashboard.png"
+                }
                 alt="Dashboard"
                 width={1200}
                 height={1200}
@@ -102,6 +110,7 @@ const HomePage = async () => {
                         height={80}
                         quality={100}
                         className="h-auto w-28"
+                        style={{ filter: theme === "dark" ? "" : "invert(1)" }}
                       />
                     </li>
                   ))}
@@ -185,7 +194,7 @@ const HomePage = async () => {
               Choose a plan that works for you
             </h2>
             <p className="mt-4 max-w-lg text-center text-lg text-muted-foreground lg:text-center">
-              Get started with Linkify today and enjoy more features with our
+              Get started with Chronus today and enjoy more features with our
               pro plans.
             </p>
           </div>
@@ -214,7 +223,7 @@ const HomePage = async () => {
               What our users are saying
             </h2>
             <p className="mt-4 max-w-lg text-center text-lg text-muted-foreground lg:text-center">
-              Here&apos;s what some of our users have to say about Linkify.
+              Here&apos;s what some of our users have to say about Chronus.
             </p>
           </div>
         </AnimationContainer>

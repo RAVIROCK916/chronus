@@ -47,8 +47,6 @@ export default function TaskPage({ params }: TaskPageProps) {
   const [updateTaskStatus] = useMutation(UPDATE_TASK_STATUS);
   const [updateTaskPriority] = useMutation(UPDATE_TASK_PRIORITY);
 
-  console.log("data", task);
-
   useEffect(() => {
     if (data?.task) {
       setTask(data.task);

@@ -15,11 +15,11 @@ const LinkShorteningPage = () => {
           <div className="mx-auto flex max-w-xl flex-col items-center justify-center py-10">
             <MagicBadge title="Simple" />
             <h1 className="font-heading mt-6 text-center text-2xl font-semibold !leading-tight md:text-4xl lg:text-5xl">
-              Shorten links and track their performance
+              Create tasks and track their performance
             </h1>
             <p className="mt-6 text-center text-base text-muted-foreground md:text-lg">
-              Simplify your workflow with powerful link management tools.
-              Shorten links, track clicks, and optimize your strategy with ease.
+              Simplify your workflow with powerful task management tools.
+              Create, track tasks, and optimize your strategy with ease.
             </p>
             <div className="mt-8 flex items-center justify-center gap-x-4">
               <Button size="sm" asChild>
@@ -35,7 +35,7 @@ const LinkShorteningPage = () => {
           <div className="mx-auto flex w-full max-w-4xl py-10">
             <Image
               src="/assets/shorten-links.svg"
-              alt="Shorten links and track their performance"
+              alt="Create tasks and track their performance"
               width={80}
               height={80}
               className="h-auto w-full"
@@ -73,10 +73,10 @@ const LinkShorteningPage = () => {
           <LampContainer className="mx-auto max-w-2xl">
             <div className="relative flex w-full flex-col items-center justify-center text-center">
               <h2 className="font-heading mt-8 bg-gradient-to-br from-neutral-300 to-neutral-500 bg-clip-text py-4 text-center text-4xl font-semibold tracking-tight text-transparent md:text-7xl">
-                Powerup your link strategy
+                Powerup your task strategy
               </h2>
               <p className="mx-auto mt-6 max-w-lg text-base text-muted-foreground md:text-lg">
-                Take control of your links with advanced features and real-time
+                Take control of your tasks with advanced features and real-time
                 insights. Simplify your workflow and achieve more.
               </p>
               <div className="mt-6">

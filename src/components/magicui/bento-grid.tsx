@@ -36,7 +36,7 @@ export const CARDS = [
     description: "Create, track, and organize all your tasks in one place.",
     href: "#",
     cta: "Learn more",
-    className: "col-span-3 lg:col-span-1",
+    className: "col-span-3 lg:col-span-1 bg-background",
     background: (
       <Card className="absolute left-10 top-10 origin-top rounded-none rounded-tl-md border border-r-0 border-border transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_0%,#000_100%)] group-hover:scale-105">
         <CardHeader>
@@ -60,7 +60,7 @@ export const CARDS = [
     description: "Quickly find the tasks you need with AI-powered search.",
     href: "#",
     cta: "Learn more",
-    className: "col-span-3 lg:col-span-2",
+    className: "col-span-3 lg:col-span-2 bg-background",
     background: (
       <Command className="origin-to absolute right-10 top-10 w-[70%] translate-x-0 border border-border p-2 transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] group-hover:-translate-x-10">
         <Input placeholder="Type to search..." />
@@ -85,7 +85,8 @@ export const CARDS = [
     description: "Integrate with your favorite apps and services.",
     href: "#",
     cta: "Learn more",
-    className: "col-span-3 lg:col-span-2 max-w-full overflow-hidden",
+    className:
+      "col-span-3 lg:col-span-2 max-w-full overflow-hidden bg-background",
     background: (
       <Integrations className="absolute right-2 top-4 h-[300px] w-[600px] border-none pl-28 transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_10%,#000_100%)] group-hover:scale-105 md:pl-0" />
     ),
@@ -93,8 +94,8 @@ export const CARDS = [
   {
     Icon: CalendarIcon,
     name: "Calendar",
-    description: "Keep track of your links with our calendar view.",
-    className: "col-span-3 lg:col-span-1",
+    description: "Keep track of your tasks with our calendar view.",
+    className: "col-span-3 lg:col-span-1 bg-background",
     href: "#",
     cta: "Learn more",
     background: (

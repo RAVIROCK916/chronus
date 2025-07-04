@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import Searchbar from "./search-bar";
 import Link from "next/link";
 import PaddingContainer from "../shared/padding-container";
+import ThemeIcon from "../shared/theme-icon";
 
 type HeaderProps = {
   children?: React.ReactNode;
@@ -16,26 +17,29 @@ const Header = ({ children }: HeaderProps) => {
   const isCollapsed = state !== "expanded";
 
   return (
-    <header className="sticky top-0 z-10 h-16 bg-background/80 backdrop-blur-md">
+    <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md">
       <PaddingContainer className="flex items-center">
-        <div>
+        <div
+          className={cn(
+            "mr-4 transition-all",
+            isCollapsed
+              ? "block translate-x-0 opacity-100"
+              : "hidden -translate-x-4 opacity-0 xl:pointer-events-none",
+          )}
+        >
           <button
             onClick={toggleSidebar}
-            className={cn(
-              "mr-4 rounded-lg p-2 transition-opacity duration-300 hover:bg-background-secondary",
-              isCollapsed
-                ? "block opacity-100"
-                : "hidden opacity-0 xl:pointer-events-none",
-            )}
+            className="rounded-lg p-2 hover:bg-background-secondary"
           >
             <PanelLeft className={cn("size-4", isCollapsed && "rotate-180")} />
           </button>
         </div>
 
-        <div className="flex flex-1 flex-row-reverse items-center justify-between">
+        <div className="flex flex-1 flex-row-reverse items-center justify-between transition-all">
           <div className="flex items-center gap-x-8">
             <Searchbar className="w-80" />
-            <div className="flex gap-x-6 *:cursor-pointer *:rounded">
+            <div className="flex items-center gap-x-6 *:cursor-pointer *:rounded">
+              <ThemeIcon />
               {/* // TODO: Add a popup when clicked on the notifications icon */}
               <Link href="/notifications">
                 <Bell

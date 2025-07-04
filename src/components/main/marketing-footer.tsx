@@ -15,15 +15,15 @@ const Footer = () => {
               <Icons.logo className="h-7 w-7" />
             </div>
             <p className="mt-4 text-start text-sm text-muted-foreground">
-              Manage your links with ease.
+              Manage your tasks with ease.
             </p>
             <span className="mt-4 flex items-center text-sm text-neutral-200">
               Made by{" "}
               <Link
-                href="https://shreyas-sihasane.vercel.app/"
+                href="https://developer-portfolio-ravi-teja-pedapudis-projects.vercel.app/"
                 className="ml-1 font-semibold"
               >
-                Shreyas
+                Ravi Teja Pedapudi
               </Link>
             </span>
           </div>
@@ -37,7 +37,7 @@ const Footer = () => {
                 <ul className="mt-4 text-sm text-muted-foreground">
                   <li className="mt-2">
                     <Link
-                      href=""
+                      href="#"
                       className="transition-all duration-300 hover:text-foreground"
                     >
                       Features
@@ -45,7 +45,7 @@ const Footer = () => {
                   </li>
                   <li className="mt-2">
                     <Link
-                      href=""
+                      href="#"
                       className="transition-all duration-300 hover:text-foreground"
                     >
                       Pricing
@@ -53,7 +53,7 @@ const Footer = () => {
                   </li>
                   <li className="mt-2">
                     <Link
-                      href=""
+                      href="#"
                       className="transition-all duration-300 hover:text-foreground"
                     >
                       Testimonials
@@ -61,7 +61,7 @@ const Footer = () => {
                   </li>
                   <li className="mt-2">
                     <Link
-                      href=""
+                      href="#"
                       className="transition-all duration-300 hover:text-foreground"
                     >
                       Integration
@@ -78,7 +78,7 @@ const Footer = () => {
                 <ul className="mt-4 text-sm text-muted-foreground">
                   <li className="">
                     <Link
-                      href=""
+                      href="#"
                       className="transition-all duration-300 hover:text-foreground"
                     >
                       Facebook
@@ -86,7 +86,7 @@ const Footer = () => {
                   </li>
                   <li className="mt-2">
                     <Link
-                      href=""
+                      href="#"
                       className="transition-all duration-300 hover:text-foreground"
                     >
                       Instagram
@@ -94,7 +94,7 @@ const Footer = () => {
                   </li>
                   <li className="mt-2">
                     <Link
-                      href=""
+                      href="#"
                       className="transition-all duration-300 hover:text-foreground"
                     >
                       Twitter
@@ -102,7 +102,7 @@ const Footer = () => {
                   </li>
                   <li className="mt-2">
                     <Link
-                      href=""
+                      href="#"
                       className="transition-all duration-300 hover:text-foreground"
                     >
                       LinkedIn
@@ -142,7 +142,7 @@ const Footer = () => {
                 <ul className="mt-4 text-sm text-muted-foreground">
                   <li className="">
                     <Link
-                      href=""
+                      href="#"
                       className="transition-all duration-300 hover:text-foreground"
                     >
                       About Us
@@ -174,7 +174,7 @@ const Footer = () => {
       <div className="mt-8 w-full border-t border-border/40 pt-4 md:flex md:items-center md:justify-between md:pt-8">
         <AnimationContainer delay={0.6}>
           <p className="mt-8 text-sm text-muted-foreground md:mt-0">
-            &copy; {new Date().getFullYear()} Linkify INC. All rights reserved.
+            &copy; {new Date().getFullYear()} Chronus INC. All rights reserved.
           </p>
         </AnimationContainer>
       </div>

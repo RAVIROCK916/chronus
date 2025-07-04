@@ -21,17 +21,9 @@ export default function MainContent({
 
   function getHeaderContent() {
     // Handle root routes
-    // if (location === "/dashboard") {
-    //   return (
-    // <p className="text-sm uppercase text-text-muted">
-    //   Good{" "}
-    //   <span className="text-3xl tracking-wider text-foreground">
-    //     {getTimeOfDay()}
-    //   </span>
-    // </p>
-    // <h1 className="text-4xl">Dashboard</h1>
-    //   );
-    // }
+    if (location === "/dashboard") {
+      return <p className="text-4xl">Dashboard</p>;
+    }
 
     // Handle tasks routes
     if (location === "/tasks") {
@@ -40,7 +32,7 @@ export default function MainContent({
 
     // Handle projects routes
     if (location === "/projects") {
-      return <p className="text-xl">Projects</p>;
+      return <p className="text-3xl transition-all">Projects</p>;
     }
 
     if (location.match(/^\/projects\/[^/]+\/[^/]+$/)) {
@@ -98,7 +90,7 @@ export default function MainContent({
       <div
         className={cn(
           "flex flex-1 flex-col transition-all duration-500",
-          state === "expanded" ? "xl:ml-0" : "xl:ml-[-16rem]", // 16rem = 64 (w-64 of sidebar)
+          state === "expanded" ? "ml-0" : "ml-[-16rem]", // 16rem = 64 (w-64 of sidebar)
         )}
       >
         {/* //?: Render different content based on the page */}

@@ -34,21 +34,21 @@ export const COMPANIES = [
 
 export const PROCESS = [
   {
-    title: "Organize Your Links",
+    title: "Organize Your Tasks",
     description:
-      "Efficiently categorize and tag your links for quick access and easy management.",
+      "Efficiently categorize and tag your tasks for quick access and easy management.",
     icon: FolderOpenIcon,
   },
   {
-    title: "Shorten and Customize",
+    title: "Create Branded Tasks",
     description:
-      "Create concise, branded links that are easy to share and track.",
+      "Create concise, branded tasks that are easy to share and track.",
     icon: WandSparklesIcon,
   },
   {
     title: "Analyze and Optimize",
     description:
-      "Gain insights into link performance and optimize for better engagement.",
+      "Gain insights into task performance and optimize for better engagement.",
     icon: BarChart3Icon,
   },
 ] as const;
@@ -56,27 +56,27 @@ export const PROCESS = [
 export const FEATURES = [
   {
     title: "Link shortening",
-    description: "Create short links that are easy to remember and share.",
+    description: "Create short tasks that are easy to remember and share.",
   },
   {
     title: "Advanced analytics",
-    description: "Track and measure the performance of your links.",
+    description: "Track and measure the performance of your tasks.",
   },
   {
     title: "Password protection",
-    description: "Secure your links with a password.",
+    description: "Secure your tasks with a password.",
   },
   {
     title: "Custom QR codes",
-    description: "Generate custom QR codes for your links.",
+    description: "Generate custom QR codes for your tasks.",
   },
   {
     title: "Link expiration",
-    description: "Set an expiration date for your links.",
+    description: "Set an expiration date for your tasks.",
   },
   {
     title: "Team collaboration",
-    description: "Share links with your team and collaborate in real-time.",
+    description: "Share tasks with your team and collaborate in real-time.",
   },
 ] as const;
 
@@ -87,7 +87,7 @@ export const REVIEWS = [
     avatar: "https://randomuser.me/api/portraits/men/1.jpg",
     rating: 5,
     review:
-      "This tool is a lifesaver! Managing and tracking my links has never been easier. A must-have for anyone dealing with numerous links.",
+      "This tool is a lifesaver! Managing and tracking my tasks has never been easier. A must-have for anyone dealing with numerous tasks.",
   },
   {
     name: "Emily Johnson",
@@ -111,7 +111,7 @@ export const REVIEWS = [
     avatar: "https://randomuser.me/api/portraits/women/2.jpg",
     rating: 4,
     review:
-      "This app is fantastic! It offers everything I need to manage my links efficiently.",
+      "This app is fantastic! It offers everything I need to manage my tasks efficiently.",
   },
   {
     name: "James Taylor",
@@ -119,7 +119,7 @@ export const REVIEWS = [
     avatar: "https://randomuser.me/api/portraits/men/3.jpg",
     rating: 5,
     review:
-      "Absolutely love this app! It's intuitive and feature-rich. Has significantly improved how I manage and track links.",
+      "Absolutely love this app! It's intuitive and feature-rich. Has significantly improved how I manage and track tasks.",
   },
   {
     name: "Olivia Martinez",
@@ -135,7 +135,7 @@ export const REVIEWS = [
     avatar: "https://randomuser.me/api/portraits/men/4.jpg",
     rating: 5,
     review:
-      "This app is a game-changer for link management. It's easy to use, extremely powerful and highly recommended!",
+      "This app is a game-changer for task management. It's easy to use, extremely powerful and highly recommended!",
   },
   {
     name: "Mia Rodriguez",
@@ -143,7 +143,7 @@ export const REVIEWS = [
     avatar: "https://randomuser.me/api/portraits/women/4.jpg",
     rating: 4,
     review:
-      "I've tried several link management tools, but this one stands out. It's simple, effective.",
+      "I've tried several task management tools, but this one stands out. It's simple, effective.",
   },
   {
     name: "Henry Lee",
@@ -151,6 +151,6 @@ export const REVIEWS = [
     avatar: "https://randomuser.me/api/portraits/men/5.jpg",
     rating: 5,
     review:
-      "This app has transformed my workflow. Managing and analyzing links is now a breeze. I can't imagine working without it.",
+      "This app has transformed my workflow. Managing and analyzing tasks is now a breeze. I can't imagine working without it.",
   },
 ] as const;

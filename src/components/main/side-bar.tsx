@@ -28,9 +28,9 @@ const SidebarItem = ({ name, href, Icon }: SidebarItemProps) => {
   return (
     <div
       className={cn(
-        "rounded transition-colors hover:bg-background-secondary dark:hover:bg-background-tertiary",
+        "rounded transition-colors hover:bg-background-tertiary dark:hover:bg-background-tertiary",
         isActive &&
-          "hover:bg-current/90 bg-background-tertiary dark:bg-foreground dark:hover:bg-foreground/90",
+          "hover:bg-current/90 bg-background-quaternary dark:bg-foreground dark:hover:bg-foreground/90",
       )}
     >
       <Link
@@ -102,7 +102,7 @@ const Sidebar = () => {
             </div>
           </SideBarContainer>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-3">
           <SideBarContainer className="space-y-4">
             <div className="space-y-3 lg:space-y-1">
               {sidebarItems.bottom.map((item) => (

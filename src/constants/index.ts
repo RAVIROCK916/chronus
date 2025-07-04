@@ -1,4 +1,4 @@
-export const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL as string;
+export const SERVER_URL = `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/graphql`;
 
 export const publicRoutes = ["/login", "/signup", "/"];
 

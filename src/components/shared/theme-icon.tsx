@@ -10,6 +10,7 @@ const ThemeIcon = () => {
   return (
     <Button
       size="icon"
+      variant="ghost"
       onClick={() => {
         setTheme(theme === "dark" ? "light" : "dark");
       }}

@@ -183,8 +183,6 @@ export default function TasksBarChart3({
     );
   }, [tasks]);
 
-  console.log(chartData);
-
   const total = React.useMemo(
     () => ({
       completed: chartData.reduce((acc, curr) => acc + curr.completed, 0),

@@ -18,8 +18,8 @@ const AnalyticsPage = () => {
               Advanced analytics for your business
             </h1>
             <p className="mt-6 text-center text-base text-muted-foreground md:text-lg">
-              Gain deep insights into your link performance with real-time
-              analytics. Track clicks, device usage, and more to optimize your
+              Gain deep insights into your task performance with real-time
+              analytics. Track tasks, device usage, and more to optimize your
               strategy.
             </p>
             <div className="mt-8 flex items-center justify-center gap-x-4">
@@ -74,10 +74,10 @@ const AnalyticsPage = () => {
           <LampContainer className="mx-auto max-w-2xl">
             <div className="relative flex w-full flex-col items-center justify-center text-center">
               <h2 className="font-heading mt-8 bg-gradient-to-br from-neutral-300 to-neutral-500 bg-clip-text py-4 text-center text-4xl font-semibold tracking-tight text-transparent md:text-7xl">
-                Powerup your link strategy
+                Powerup your task strategy
               </h2>
               <p className="mx-auto mt-6 max-w-lg text-base text-muted-foreground md:text-lg">
-                Take control of your links with advanced features and real-time
+                Take control of your tasks with advanced features and real-time
                 insights. Simplify your workflow and achieve more.
               </p>
               <div className="mt-6">

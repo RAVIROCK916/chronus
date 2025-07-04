@@ -118,9 +118,10 @@ export default function TaskCard({ task, deleteTask }: TaskCardProps) {
             {task.title}
           </span>
         </Link>
-        <p className="line-clamp-2 text-xs text-text-muted">
-          {task.description}
-        </p>
+        <div
+          className="line-clamp-2 text-xs text-text-muted"
+          dangerouslySetInnerHTML={{ __html: task.description || "" }}
+        />
       </div>
       <Separator />
       <div className="flex items-center justify-between">

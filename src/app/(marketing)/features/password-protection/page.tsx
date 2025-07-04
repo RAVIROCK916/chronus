@@ -15,7 +15,7 @@ const LinkShorteningPage = () => {
           <div className="mx-auto flex max-w-lg flex-col items-center justify-center py-10">
             <MagicBadge title="Secure" />
             <h1 className="font-heading mt-6 text-center text-2xl font-semibold !leading-tight md:text-4xl lg:text-5xl">
-              Frotify your links with a password
+              Frotify your tasks with much more security
             </h1>
             <p className="mt-6 text-center text-base text-muted-foreground md:text-lg">
               Safeguard sensitive information with robust password protection,
@@ -35,7 +35,7 @@ const LinkShorteningPage = () => {
           <div className="mx-auto flex w-full max-w-4xl py-10">
             <Image
               src="/assets/password-protection.svg"
-              alt="Protect your links with a password"
+              alt="Protect your tasks with a password"
               width={80}
               height={80}
               className="h-auto w-full"
@@ -76,7 +76,7 @@ const LinkShorteningPage = () => {
                 Powerup your link strategy
               </h2>
               <p className="mx-auto mt-6 max-w-lg text-base text-muted-foreground md:text-lg">
-                Take control of your links with advanced features and real-time
+                Take control of your tasks with advanced features and real-time
                 insights. Simplify your workflow and achieve more.
               </p>
               <div className="mt-6">

@@ -133,7 +133,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
 
   return (
     <div className="control-group border-b p-1">
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -209,7 +209,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
           </DropdownMenu>
         </div>
         <Separator orientation="vertical" className="h-6" />
-        <div>
+        <div className="space-x-1">
           <Toggle
             size="sm"
             onClick={() => editor.chain().focus().toggleBold().run()}
@@ -270,7 +270,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                       onClick={() => setTextColor(color.value)}
                       className={`group relative h-8 w-8 rounded-md shadow-sm transition-all duration-200 hover:scale-110 hover:shadow-md ${
                         getCurrentTextColor() === color.value
-                          ? "border-gray-800 ring-2 ring-blue-200"
+                          ? "border-gray-800"
                           : "border-gray-200 hover:border-gray-300"
                       }`}
                       style={{ backgroundColor: color.value }}
@@ -306,17 +306,17 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                 />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-[200px] p-0">
+            <DropdownMenuContent align="start" className="w-[220px] p-0">
               <div className="p-3">
                 <div className="mb-2 text-sm font-medium">Background Color</div>
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid grid-cols-5 gap-2">
                   {HIGHLIGHT_COLORS.map((color) => (
                     <button
                       key={color.value || "none"}
                       onClick={() => setHighlightColor(color.value)}
-                      className={`group relative h-8 w-8 rounded-md border-2 shadow-sm transition-all duration-200 hover:scale-110 hover:shadow-md ${
+                      className={`group relative h-8 w-8 rounded-md shadow-sm transition-all duration-200 hover:scale-110 hover:shadow-md ${
                         getCurrentHighlightColor() === color.value
-                          ? "border-gray-800 ring-2 ring-blue-200"
+                          ? "border-gray-800"
                           : "border-gray-200 hover:border-gray-300"
                       }`}
                       style={{
@@ -447,7 +447,7 @@ const Tiptap = ({ value, onChange }: Props) => {
         code: {
           HTMLAttributes: {
             class:
-              "bg-gray-100 px-1 py-0.5 rounded text-sm font-mono dark:bg-gray-800",
+              "bg-gray-100 px-1 py-0.5 rounded-md text-sm font-mono dark:bg-gray-800",
           },
         },
         codeBlock: {
@@ -470,6 +470,7 @@ const Tiptap = ({ value, onChange }: Props) => {
         class: "prose dark:prose-invert outline-none p-3 min-h-96",
       },
     },
+    immediatelyRender: false,
   });
 
   useEffect(() => {
@@ -481,7 +482,7 @@ const Tiptap = ({ value, onChange }: Props) => {
   };
 
   return (
-    <div className="rounded border">
+    <div className="rounded-md border">
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
     </div>
