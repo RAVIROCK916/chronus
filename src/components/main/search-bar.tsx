@@ -20,6 +20,7 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export default function Searchbar({ className }: { className?: string }) {
   const [open, setOpen] = React.useState(false);
@@ -92,30 +93,36 @@ export default function Searchbar({ className }: { className?: string }) {
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Navigation">
-            <CommandItem>
-              <ArrowUpRightIcon
-                size={16}
-                className="opacity-60"
-                aria-hidden="true"
-              />
-              <span>Go to dashboard</span>
-            </CommandItem>
-            <CommandItem>
-              <ArrowUpRightIcon
-                size={16}
-                className="opacity-60"
-                aria-hidden="true"
-              />
-              <span>Go to apps</span>
-            </CommandItem>
-            <CommandItem>
-              <ArrowUpRightIcon
-                size={16}
-                className="opacity-60"
-                aria-hidden="true"
-              />
-              <span>Go to connections</span>
-            </CommandItem>
+            <Link href="/dashboard" onClick={() => setOpen(false)}>
+              <CommandItem>
+                <ArrowUpRightIcon
+                  size={16}
+                  className="opacity-60"
+                  aria-hidden="true"
+                />
+                <span>Go to dashboard</span>
+              </CommandItem>
+            </Link>
+            <Link href="/projects" onClick={() => setOpen(false)}>
+              <CommandItem>
+                <ArrowUpRightIcon
+                  size={16}
+                  className="opacity-60"
+                  aria-hidden="true"
+                />
+                <span>Go to projects</span>
+              </CommandItem>
+            </Link>
+            <Link href="/calendar" onClick={() => setOpen(false)}>
+              <CommandItem>
+                <ArrowUpRightIcon
+                  size={16}
+                  className="opacity-60"
+                  aria-hidden="true"
+                />
+                <span>Go to calendar</span>
+              </CommandItem>
+            </Link>
           </CommandGroup>
         </CommandList>
       </CommandDialog>

@@ -33,7 +33,7 @@ const chartConfig = {
 export function TasksBarChart() {
   const tasks = useTasksContext();
 
-  const last7Months = Object.values(
+  const last4Months = Object.values(
     tasks.reduce(
       (acc, task) => {
         const createdDate = new Date(task.created_at);
@@ -56,18 +56,39 @@ export function TasksBarChart() {
   );
 
   // Convert to chart format
-  const chartData = last7Months.map((month) => ({
-    month: month.label,
-    todo: month.todo,
-    done: month.done,
-  }));
+  const chartData = last4Months
+    .map((month) => ({
+      month: month.label,
+      todo: month.todo,
+      done: month.done,
+    }))
+    .sort((a, b) => {
+      const monthOrder = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sept",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      console.log("Sorting months:", a.month, b.month);
+      return monthOrder.indexOf(a.month) - monthOrder.indexOf(b.month);
+    });
+
+  console.log("Tasks Bar Chart Data:", chartData);
 
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <ChartColumnBig size={16} />
-          Bar Chart - Multiple
+          Bar Chart - Tasks by Month
         </CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>

@@ -54,17 +54,13 @@ Chronus is a modern project and task management platform designed to help teams 
    bun install
    ```
 
-3. **Set up environment variables:**
-
-   - Copy `.env.example` to `.env` and fill in the required values.
-
-4. **Run the development server:**
+3. **Run the development server:**
 
    ```sh
    bun run dev
    ```
 
-5. **Open [http://localhost:3000](http://localhost:3000) in your browser.**
+4. **Open [http://localhost:3000](http://localhost:3000) in your browser.**
 
 ---
 

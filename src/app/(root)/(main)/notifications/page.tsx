@@ -10,14 +10,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { NotificationList } from "@/components/main/notifications-list";
 import { NotificationDisplay } from "@/components/main/notification-display";
+import Loader from "@/components/shared/loader";
 import { useNotification } from "@/hooks/use-notification";
 import { gql, useQuery } from "@apollo/client";
 import { Notification } from "@/types";
 import { useEffect, useState } from "react";
 
 export default function NotificationsPage() {
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const notification = useNotification();
-  const { data } = useQuery(gql`
+
+  const { data, loading } = useQuery(gql`
     query Notifications {
       notifications {
         id
@@ -29,10 +32,6 @@ export default function NotificationsPage() {
       }
     }
   `);
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  // if (!notifications) {
-  //   return null;
-  // }
 
   useEffect(() => {
     if (data) {
@@ -59,14 +58,22 @@ export default function NotificationsPage() {
             </TabsList>
           </div>
           <Separator />
-          <TabsContent value="all">
-            <NotificationList items={notifications} />
-          </TabsContent>
-          <TabsContent value="unread">
-            <NotificationList
-              items={notifications.filter((val) => !val.is_read)}
-            />
-          </TabsContent>
+          {loading ? (
+            <div className="flex h-screen items-center justify-center">
+              <Loader />
+            </div>
+          ) : (
+            <>
+              <TabsContent value="all">
+                <NotificationList items={notifications} />
+              </TabsContent>
+              <TabsContent value="unread">
+                <NotificationList
+                  items={notifications.filter((val) => !val.is_read)}
+                />
+              </TabsContent>
+            </>
+          )}
         </Tabs>
       </ResizablePanel>
       <ResizableHandle withHandle />

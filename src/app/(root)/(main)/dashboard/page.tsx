@@ -157,14 +157,14 @@ export default function Page() {
     );
 
   return (
-    <PaddingContainer className="space-y-4">
-      <Tabs defaultValue="tab-1" className="items-center">
+    <PaddingContainer className="space-y-4 pt-0">
+      {/* <Tabs defaultValue="tab-1" className="items-center">
         <TabsList className="bg-background-tertiary dark:bg-background-quaternary">
           <TabsTrigger value="tab-1">Last Week</TabsTrigger>
           <TabsTrigger value="tab-2">1 month</TabsTrigger>
           <TabsTrigger value="tab-3">3 months</TabsTrigger>
-        </TabsList>
-        {/* <TabsContent value="tab-1">
+        </TabsList> */}
+      {/* <TabsContent value="tab-1">
           <p className="p-4 text-center text-xs text-muted-foreground">
             Content for Tab 1
           </p>
@@ -179,7 +179,7 @@ export default function Page() {
             Content for Tab 3
           </p>
         </TabsContent> */}
-      </Tabs>
+      {/* </Tabs> */}
       {/* Total Tasks */}
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
         <Card>

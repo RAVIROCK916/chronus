@@ -95,7 +95,7 @@ export default function MainContent({
       >
         {/* //?: Render different content based on the page */}
         <Header>{getHeaderContent()}</Header>
-        <main className="flex-1 overflow-auto">{children}</main>
+        <main className="flex-1 overflow-x-clip">{children}</main>
       </div>
     </div>
   );
