@@ -34,7 +34,7 @@ export default async function Layout({
       <body>
         <Providers>
           {children}
-          {/* <PostHogPageView /> */}
+          <PostHogPageView />
         </Providers>
         <Toaster position="top-right" />
       </body>
