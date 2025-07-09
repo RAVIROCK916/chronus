@@ -7,7 +7,13 @@ import { GeistSans } from "geist/font/sans";
 
 import "./globals.css";
 import "./fonts.css";
-import PostHogPageView from "@/components/shared/posthog-pageview";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+
+const PostHogPageView = dynamic(
+  () => import("@/components/shared/posthog-pageview"),
+  { ssr: false },
+);
 
 export const metadata: Metadata = {
   title: "Chronus",
@@ -34,7 +40,9 @@ export default async function Layout({
       <body>
         <Providers>
           {children}
-          <PostHogPageView />
+          <Suspense fallback={null}>
+            <PostHogPageView />
+          </Suspense>
         </Providers>
         <Toaster position="top-right" />
       </body>
